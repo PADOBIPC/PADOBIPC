@@ -1,109 +1,152 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Профиль | PADOBI PC</title>
+  <meta name="description" content="Личный профиль пользователя PADOBI PC." />
+
   <style>
-    body {
-      margin: 0;
-      font-family: "Arial", sans-serif;
-      background: #000;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    :root{
+      --bg:#000;          
+      --panel:#0b0b0b;    
+      --card:#0f0f0f;     
+      --muted:#a9a9a9;    
+      --text:#fff;        
+      --brand:#0ff;       
+      --accent:#fff;      
+      --radius:20px;
+      --shadow:0 16px 48px rgba(0,0,0,.8);
     }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+      background:var(--bg); color:var(--text); line-height:1.6;
+      display:flex; flex-direction:column;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1200px; margin:0 auto; padding:0 20px}
 
+    /* Header (скопировано с главной) */
+    header{position:sticky; top:0; z-index:50; background:var(--bg); border-bottom:1px solid #1c1c1c; box-shadow:0 0 20px rgba(0,255,255,.06)}
+    .nav{display:flex; align-items:center; justify-content:space-between; height:72px}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:.6px}
+    .brand__logo{width:42px; height:42px; background:url('668811e6-8eb7-4f0c-85a5-6d9ac869eb16.png') center/cover no-repeat; filter:drop-shadow(0 0 10px var(--brand))}
+    .brand__text{font-size:20px; text-transform:uppercase}
+    .actions{display:flex; align-items:center; gap:10px}
+    .icon-btn{position:relative; display:grid; place-items:center; width:42px; height:42px; border-radius:10px; background:var(--panel); border:1px solid #232323; cursor:pointer; transition:.2s}
+    .icon-btn:hover{background:#141414; box-shadow:0 0 12px rgba(0,255,255,.25)}
+
+    /* Profile card */
+    .profile-wrapper{
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:60px 20px;
+    }
     .profile-card {
-      background: #0a0a0a;
-      border: 1px solid #222;
-      border-radius: 20px;
-      padding: 40px;
-      text-align: center;
-      width: 400px;
-      box-shadow: 0 0 20px rgba(0, 200, 255, 0.3);
-      position: relative;
+      background:var(--panel);
+      border:1px solid #1f1f1f;
+      border-radius:var(--radius);
+      padding:40px;
+      text-align:center;
+      width:100%;
+      max-width:420px;
+      box-shadow:0 0 20px rgba(0,255,255,.15);
     }
-
     .avatar {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      border: 3px solid #00c8ff;
-      object-fit: cover;
-      margin-bottom: 20px;
-      box-shadow: 0 0 15px rgba(0, 200, 255, 0.6);
+      width:140px;
+      height:140px;
+      border-radius:50%;
+      border:3px solid var(--brand);
+      object-fit:cover;
+      margin-bottom:20px;
+      box-shadow:0 0 20px rgba(0,255,255,.4);
     }
-
     h2 {
-      margin: 10px 0;
-      font-size: 1.6em;
-      font-weight: bold;
+      margin:10px 0;
+      font-size:1.6em;
+      font-weight:900;
+      letter-spacing:.5px;
     }
-
     p {
-      margin: 8px 0;
-      color: #aaa;
-      font-size: 0.95em;
+      margin:8px 0;
+      color:var(--muted);
+      font-size:0.95em;
     }
-
     input {
-      margin: 10px 0;
-      padding: 10px;
-      border: 1px solid #333;
-      border-radius: 8px;
-      width: 100%;
-      background: #111;
-      color: #fff;
-      text-align: center;
+      margin:10px 0;
+      padding:12px;
+      border:1px solid #232323;
+      border-radius:10px;
+      width:100%;
+      background:#111;
+      color:#fff;
+      text-align:center;
     }
-
     button {
-      margin: 10px 0;
-      padding: 12px;
-      width: 100%;
-      background: transparent;
-      border: 2px solid #00c8ff;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      color: #fff;
-      transition: 0.3s;
+      margin:10px 0;
+      padding:12px;
+      width:100%;
+      background:transparent;
+      border:2px solid var(--brand);
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:800;
+      color:#fff;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+      transition:.3s;
     }
-
     button:hover {
-      background: #00c8ff;
-      color: #000;
-      box-shadow: 0 0 15px #00c8ff;
+      background:var(--brand);
+      color:#000;
+      box-shadow:0 0 15px var(--brand);
     }
-
     .btn-secondary {
-      border-color: #666;
+      border-color:#444;
     }
-
     .btn-secondary:hover {
-      background: #444;
-      box-shadow: none;
+      background:#222;
+      box-shadow:none;
     }
   </style>
 </head>
 <body>
-  <div class="profile-card">
-    <img id="avatar" class="avatar" src="https://via.placeholder.com/140" alt="Аватар">
-    <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
-    <button onclick="document.getElementById('avatarInput').click()">Загрузить фото</button>
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <div class="nav">
+        <div class="brand">
+          <div class="brand__logo"></div>
+          <div class="brand__text">PADOBI PC</div>
+        </div>
+        <div class="actions">
+          <a href="index.html" class="icon-btn">🏠</a>
+        </div>
+      </div>
+    </div>
+  </header>
 
-    <h2 id="username">Загрузка...</h2>
-    <input type="text" id="newName" placeholder="Новое имя">
-    <button onclick="updateName()">Изменить имя</button>
+  <!-- PROFILE -->
+  <div class="profile-wrapper">
+    <div class="profile-card">
+      <img id="avatar" class="avatar" src="https://via.placeholder.com/140" alt="Аватар">
+      <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
+      <button onclick="document.getElementById('avatarInput').click()">Загрузить фото</button>
 
-    <p id="email"></p>
-    <p id="phone"></p>
-    <p id="created"></p>
+      <h2 id="username">Загрузка...</h2>
+      <input type="text" id="newName" placeholder="Новое имя">
+      <button onclick="updateName()">Изменить имя</button>
 
-    <button class="btn-secondary" onclick="logout()">Выйти</button>
+      <p id="email"></p>
+      <p id="phone"></p>
+      <p id="created"></p>
+
+      <button class="btn-secondary" onclick="logout()">Выйти</button>
+    </div>
   </div>
 
   <script src="https://unpkg.com/@supabase/supabase-js"></script>
@@ -112,7 +155,6 @@
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Загружаем данные профиля
     document.addEventListener("DOMContentLoaded", async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -130,45 +172,30 @@
       }
     });
 
-    // Изменение имени
     async function updateName() {
       const newName = document.getElementById("newName").value.trim();
       if (!newName) return alert("Введите имя");
 
-      const { error } = await supabase.auth.updateUser({
-        data: { username: newName }
-      });
-
-      if (error) {
-        alert("Ошибка: " + error.message);
-      } else {
+      const { error } = await supabase.auth.updateUser({ data: { username: newName } });
+      if (error) alert("Ошибка: " + error.message);
+      else {
         document.getElementById("username").textContent = newName;
         alert("Имя обновлено!");
       }
     }
 
-    // Загрузка аватарки
     document.getElementById("avatarInput").addEventListener("change", async (event) => {
       const file = event.target.files[0];
       if (!file) return;
-
       const { data: { user } } = await supabase.auth.getUser();
       const filePath = `avatars/${user.id}.png`;
-
       const { error: uploadError } = await supabase.storage.from("avatars").upload(filePath, file, { upsert: true });
-
-      if (uploadError) {
-        alert("Ошибка загрузки: " + uploadError.message);
-        return;
-      }
-
+      if (uploadError) return alert("Ошибка загрузки: " + uploadError.message);
       const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
       document.getElementById("avatar").src = data.publicUrl;
-
       await supabase.auth.updateUser({ data: { avatar_url: data.publicUrl } });
     });
 
-    // Выход
     async function logout() {
       await supabase.auth.signOut();
       window.location.href = "index.html";
@@ -176,4 +203,5 @@
   </script>
 </body>
 </html>
+
 
