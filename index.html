@@ -633,75 +633,91 @@ function sendMessage() {
       // init
       setLang('ru')
     </script>
+<!-- Кнопка Профиль -->
+<button onclick="goProfile()">Профиль</button>
+
 <!-- модалка регистрации -->
-  <div class="modal" id="authModal">
-    <div class="modal-content">
-      <h2>Регистрация / Вход</h2>
-      <input type="text" id="username" placeholder="Имя пользователя" />
-      <input type="email" id="email" placeholder="Email" />
-      <input type="tel" id="phone" placeholder="Номер телефона" />
-      <input type="password" id="password" placeholder="Пароль" />
-      <button onclick="registerUser()">Зарегистрироваться</button>
-      <button class="close" onclick="closeAuth()">Закрыть</button>
-    </div>
+<div class="modal" id="authModal">
+  <div class="modal-content">
+    <h2>Регистрация / Вход</h2>
+    <input type="text" id="username" placeholder="Имя пользователя" />
+    <input type="email" id="email" placeholder="Email" />
+    <input type="tel" id="phone" placeholder="Номер телефона" />
+    <input type="password" id="password" placeholder="Пароль" />
+    <button onclick="registerUser()">Зарегистрироваться</button>
+    <button class="close" onclick="closeAuth()">Закрыть</button>
   </div>
+</div>
 
-  <!-- Подключаем Supabase и скрипты -->
-  <script src="https://unpkg.com/@supabase/supabase-js"></script>
-  <script>
-    const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  
-    const supabaseKey = "⚡️ТВОЙ anon ключ";  
-    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+<!-- Подключаем Supabase и скрипты -->
+<script src="https://unpkg.com/@supabase/supabase-js"></script>
+<script>
+  const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  
+  const supabaseKey = "⚡️ТВОЙ anon ключ";  
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Проверка сессии при загрузке
-    document.addEventListener("DOMContentLoaded", async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+  // Проверка сессии при загрузке страницы
+  document.addEventListener("DOMContentLoaded", async () => {
+    const { data: { session } } = await supabase.auth.getSession();
 
-      if (session) {
-        window.location.href = "profile.html"; // если юзер уже вошёл
+    if (session) {
+      console.log("Пользователь уже вошёл:", session.user.email);
+    }
+  });
+
+  // открыть / закрыть модалку
+  function openAuth() {
+    document.getElementById("authModal").style.display = "flex";
+  }
+  function closeAuth() {
+    document.getElementById("authModal").style.display = "none";
+  }
+
+  // переход в профиль
+  async function goProfile() {
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (session) {
+      window.location.href = "profile.html"; // если пользователь авторизован
+    } else {
+      openAuth(); // если нет — открыть окно регистрации
+    }
+  }
+
+  // регистрация
+  async function registerUser() {
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!username || !email || !phone || !password) {
+      alert("Заполните все поля!");
+      return;
+    }
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          username,
+          phone_number: phone
+        }
       }
     });
 
-    function openAuth() {
-      document.getElementById("authModal").style.display = "flex";
+    if (error) {
+      alert("Ошибка: " + error.message);
+    } else {
+      alert("Регистрация успешна! Подтвердите email.");
+      window.location.href = "profile.html";
     }
-    function closeAuth() {
-      document.getElementById("authModal").style.display = "none";
-    }
-
-    // Регистрация
-    async function registerUser() {
-      const username = document.getElementById("username").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      if (!username || !email || !phone || !password) {
-        alert("Заполните все поля!");
-        return;
-      }
-
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            username,
-            phone_number: phone
-          }
-        }
-      });
-
-      if (error) {
-        alert("Ошибка: " + error.message);
-      } else {
-        alert("Регистрация успешна! Подтвердите email.");
-        window.location.href = "profile.html";
-      }
-    }
-  </script>
+  }
+</script>
   </body>
 </html>
+
 
 
 
