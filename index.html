@@ -112,10 +112,26 @@
     <!-- Header -->
     <header>
       <div class="container nav">
-        <a class="brand" href="#">
-          <span class="brand__logo"></span>
-          <span class="brand__text">PADOBI PC</span>
-        </a>
+       <a class="brand" href="#">
+  <img src="photo_2025-09-02_11-12-54.jpg" alt="Padobi Logo" class="brand__logo-img">
+  <span class="brand__text">PADOBI PC</span>
+</a>
+
+<style>
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* расстояние между картинкой и текстом */
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand__logo-img {
+  height: 32px;  /* подгони под высоту меню */
+  width: auto;
+  border-radius: 6px; /* закругление углов (по желанию) */
+}
+</style>
         <div class="actions">
           <div class="lang" aria-label="Language">
             <button data-lang="ru" class="active">RU</button>
@@ -515,4 +531,5 @@ function sendMessage() {
     </script>
   </body>
 </html>
+
 
