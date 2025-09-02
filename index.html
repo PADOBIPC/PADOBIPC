@@ -636,16 +636,30 @@ function sendMessage() {
 <!-- Кнопка Профиль -->
 <button onclick="goProfile()">Профиль</button>
 
-<!-- Модальное окно регистрации -->
-<div class="modal" id="authModal">
+<!-- Модальное окно входа -->
+<div class="modal" id="loginModal">
   <div class="modal-content">
-    <h2>Регистрация / Вход</h2>
-    <input type="text" id="username" placeholder="Имя пользователя" />
-    <input type="email" id="email" placeholder="Email" />
-    <input type="tel" id="phone" placeholder="Номер телефона" />
-    <input type="password" id="password" placeholder="Пароль" />
+    <h2>Вход</h2>
+    <input type="email" id="loginEmail" placeholder="Email" />
+    <input type="password" id="loginPassword" placeholder="Пароль" />
+    <button onclick="loginUser()">Войти</button>
+    <button onclick="loginWithGoogle()">Войти через Google</button>
+    <button class="close" onclick="closeLogin()">Закрыть</button>
+    <p>Нет аккаунта? <a href="#" onclick="switchToRegister()">Регистрация</a></p>
+  </div>
+</div>
+
+<!-- Модальное окно регистрации -->
+<div class="modal" id="registerModal">
+  <div class="modal-content">
+    <h2>Регистрация</h2>
+    <input type="text" id="regUsername" placeholder="Имя пользователя" />
+    <input type="email" id="regEmail" placeholder="Email" />
+    <input type="tel" id="regPhone" placeholder="Номер телефона" />
+    <input type="password" id="regPassword" placeholder="Пароль" />
     <button onclick="registerUser()">Зарегистрироваться</button>
-    <button class="close" onclick="closeAuth()">Закрыть</button>
+    <button class="close" onclick="closeRegister()">Закрыть</button>
+    <p>Уже есть аккаунт? <a href="#" onclick="switchToLogin()">Войти</a></p>
   </div>
 </div>
 
@@ -682,9 +696,15 @@ function sendMessage() {
   border: none;
   border-radius: 6px;
   cursor: pointer;
-}
-.modal-content .close {
   background: #444;
+  color: #fff;
+}
+.modal-content button:hover {
+  background: #666;
+}
+.modal-content a {
+  color: #4da3ff;
+  cursor: pointer;
 }
 </style>
 
@@ -694,36 +714,35 @@ function sendMessage() {
 <script>
   // === Настройка Supabase ===
   const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";   
+  const supabaseKey = "ТВОЙ_anon_ключ";   
   const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-  // === Открыть/закрыть модалку ===
-  function openAuth() {
-    document.getElementById("authModal").style.display = "flex";
-  }
-  function closeAuth() {
-    document.getElementById("authModal").style.display = "none";
-  }
+  // === Модалки ===
+  function openLogin() { document.getElementById("loginModal").style.display = "flex"; }
+  function closeLogin() { document.getElementById("loginModal").style.display = "none"; }
+  function openRegister() { document.getElementById("registerModal").style.display = "flex"; }
+  function closeRegister() { document.getElementById("registerModal").style.display = "none"; }
+
+  function switchToRegister() { closeLogin(); openRegister(); }
+  function switchToLogin() { closeRegister(); openLogin(); }
 
   // === Переход в профиль ===
   async function goProfile() {
     const { data: { session } } = await supabase.auth.getSession();
 
     if (session) {
-      // пользователь уже авторизован → перебрасываем
       window.location.href = "profile.html";
     } else {
-      // если не авторизован → открываем форму
-      openAuth();
+      openLogin();
     }
   }
 
-  // === Регистрация пользователя ===
+  // === Регистрация ===
   async function registerUser() {
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const username = document.getElementById("regUsername").value.trim();
+    const email = document.getElementById("regEmail").value.trim();
+    const phone = document.getElementById("regPhone").value.trim();
+    const password = document.getElementById("regPassword").value.trim();
 
     if (!username || !email || !phone || !password) {
       alert("Заполните все поля!");
@@ -739,18 +758,38 @@ function sendMessage() {
     });
 
     if (error) {
-      console.error(error);
       alert("Ошибка: " + error.message);
     } else {
       alert("Регистрация успешна! Подтвердите email.");
-      closeAuth();
+      closeRegister();
       window.location.href = "profile.html";
     }
   }
-</script>
 
+  // === Вход ===
+  async function loginUser() {
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      alert("Ошибка входа: " + error.message);
+    } else {
+      closeLogin();
+      window.location.href = "profile.html";
+    }
+  }
+
+  // === Вход через Google ===
+  async function loginWithGoogle() {
+    const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+    if (error) alert("Ошибка Google входа: " + error.message);
+  }
+</script>
   </body>
 </html>
+
 
 
 
