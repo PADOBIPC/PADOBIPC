@@ -2,105 +2,62 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Профиль | PADOBI PC</title>
+  <title>Личный кабинет | PADOBI PC</title>
   <style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0a0a0a;
+      background: #0d0d0d;
       color: #fff;
-    }
-    header {
-      background: #111;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #222;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 20px;
-      color: #00ffcc; /* фирменный оттенок */
-    }
-    header button {
-      background: #00ffcc;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      color: #000;
-      font-weight: bold;
-    }
-    .container {
-      max-width: 800px;
-      margin: 30px auto;
-      background: #111;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,255,204,0.1);
-    }
-    .container h2 {
-      margin-top: 0;
-      color: #00ffcc;
-    }
-    .user-info {
+      font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
     }
-    .user-info div {
-      background: #222;
-      padding: 10px;
-      border-radius: 8px;
+    #profile-info {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background: #ff6600;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e65c00;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>PADOBI PC</h1>
-    <button onclick="logout()">Выйти</button>
-  </header>
+  <div id="profile-info">Загрузка...</div>
+  <button onclick="logout()">Выйти</button>
 
-  <div class="container">
-    <h2>Личный кабинет</h2>
-    <div class="user-info">
-      <div><strong>Имя:</strong> <span id="username"></span></div>
-      <div><strong>Email:</strong> <span id="email"></span></div>
-      <div><strong>Телефон:</strong> <span id="phone"></span></div>
-      <div><strong>Дата регистрации:</strong> <span id="created"></span></div>
-    </div>
-  </div>
-
-  <!-- Supabase SDK -->
   <script src="https://unpkg.com/@supabase/supabase-js"></script>
   <script>
-    const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
-    const supabaseKey = "YOUR_ANON_KEY"; // ⚡️ замени на свой anon ключ
+    const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  
+    const supabaseKey = "⚡️ТВОЙ anon ключ";  
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Загружаем данные о пользователе
-    async function loadProfile() {
-      const { data: { user } } = await supabase.auth.getUser();
+    document.addEventListener("DOMContentLoaded", async () => {
+      const { data: { session } } = await supabase.auth.getSession();
 
-      if (!user) {
-        alert("Вы не авторизованы!");
-        window.location.href = "index.html"; // редирект на главную
-        return;
+      if (!session) {
+        window.location.href = "index.html"; // если не залогинен — назад
+      } else {
+        document.getElementById("profile-info").innerText =
+          `Добро пожаловать, ${session.user.user_metadata.username}!`;
       }
-
-      document.getElementById("username").textContent = user.user_metadata.username || "—";
-      document.getElementById("email").textContent = user.email;
-      document.getElementById("phone").textContent = user.user_metadata.phone_number || "—";
-      document.getElementById("created").textContent = new Date(user.created_at).toLocaleString();
-    }
+    });
 
     async function logout() {
       await supabase.auth.signOut();
       window.location.href = "index.html";
     }
-
-    loadProfile();
   </script>
 </body>
 </html>
+
