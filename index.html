@@ -1,432 +1,208 @@
-
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title data-i18n="site.title">PADOBI PC — сервис будущего</title>
-    <meta name="description" content="PADOBI PC — сервисный центр: бесплатный курьер по Киеву, мастер на дом, гейм-зона для клиентов, сборка и апгрейд ПК." />
-    <meta name="theme-color" content="#0ff" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,700,900&display=swap">
-    <link rel="icon" href="668811e6-8eb7-4f0c-85a5-6d9ac869eb16.png" />
-    <style>
-      :root{
-        --bg:#000;
-        --panel:#111;
-        --card:#18181b;
-        --muted:#a9a9a9;
-        --text:#fff;
-        --brand:#0ff;
-        --accent:#a855f7;
-        --radius:18px;
-        --shadow:0 8px 32px rgba(0,0,0,.7);
-      }
-      *{box-sizing:border-box}
-      html,body{height:100%}
-      body{
-        margin:0;
-        font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
-        background:var(--bg);
-        color:var(--text);
-        line-height:1.6;
-        min-height:100vh;
-        display:flex;
-        flex-direction:column;
-      }
-      a{color:inherit; text-decoration:none}
-      .container{max-width:1200px; margin:0 auto; padding:0 18px}
-      header{
-        position:sticky;
-        top:0;
-        z-index:100;
-        background:var(--bg);
-        border-bottom:1px solid #232323;
-        box-shadow:0 0 18px rgba(0,255,255,.09)
-      }
-      .nav{
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        height:68px;
-      }
-      .brand{
-        display:flex;
-        align-items:center;
-        gap:12px;
-        font-weight:900;
-        letter-spacing:.6px;
-        font-size:20px;
-        text-transform:uppercase;
-      }
-      .brand__logo{
-        width:36px;
-        height:36px;
-        border-radius:10px;
-        box-shadow:0 0 10px var(--brand);
-        object-fit:cover;
-      }
-      .actions{
-        display:flex;
-        align-items:center;
-        gap:10px;
-      }
-      .icon-btn{
-        position:relative;
-        display:grid;
-        place-items:center;
-        width:38px;
-        height:38px;
-        border-radius:10px;
-        background:var(--panel);
-        border:1px solid #232323;
-        cursor:pointer;
-        transition:.2s;
-      }
-      .icon-btn:hover{
-        background:var(--card);
-        box-shadow:0 0 12px rgba(0,255,255,.23)
-      }
-      .badge{
-        position:absolute;
-        top:-6px;
-        right:-6px;
-        background:var(--brand);
-        color:#000;
-        font-size:11px;
-        font-weight:800;
-        padding:2px 6px;
-        border-radius:999px;
-        border:2px solid var(--panel);
-        box-shadow:0 0 10px var(--brand)
-      }
-      .lang{display:flex; gap:2px; margin-left:8px}
-      .lang button{
-        height:32px;
-        min-width:40px;
-        padding:0 10px;
-        border-radius:8px;
-        border:none;
-        background:#191921;
-        color:#ddd;
-        font-weight:700;
-        letter-spacing:.4px;
-        cursor:pointer;
-        transition:.2s;
-        outline:none;
-      }
-      .lang button.active{
-        background:var(--accent);
-        color:#fff;
-        box-shadow:0 0 8px var(--brand)
-      }
-      .lang button:hover{background:var(--brand); color:#222;}
-      .dropdown{position:relative;}
-      .dropdown-menu{
-        display:none;
-        position:absolute;
-        right:0;
-        top:42px;
-        background:var(--panel);
-        border:1px solid #232323;
-        border-radius:12px;
-        min-width:180px;
-        box-shadow:var(--shadow);
-        overflow:hidden;
-        z-index:999;
-      }
-      .dropdown-menu a{
-        display:block;
-        padding:12px 16px;
-        color:var(--text);
-        font-size:15px;
-        border-bottom:1px solid #222;
-      }
-      .dropdown-menu a:last-child{border-bottom:none;}
-      .dropdown-menu a:hover{background:var(--card); color:var(--brand);}
-      .dropdown.open .dropdown-menu{display:block;}
-      @media (max-width:600px){
-        .nav{height:54px;}
-        .brand{font-size:16px;}
-        .brand__logo{width:28px;height:28px;}
-        .icon-btn{width:32px;height:32px;}
-      }
-      /* Hero */
-      .hero{
-        padding:80px 0 40px;
-        background:linear-gradient(90deg,#0ff1,#000 70%);
-        border-radius:0 0 32px 32px;
-        box-shadow:0 8px 40px rgba(0,255,255,.08);
-      }
-      .hero h1{
-        font-size:clamp(1.8rem,4vw,2.4rem);
-        text-align:center;
-        margin:0 0 14px;
-        font-weight:900;
-        letter-spacing:1px;
-      }
-      .hero .sub{
-        color:var(--muted);
-        text-align:center;
-        max-width:820px;
-        margin:0 auto;
-        font-size:1.2em;
-      }
-      /* Cards */
-      .grid{
-        display:grid;
-        gap:28px;
-        grid-template-columns:repeat(3,1fr);
-      }
-      @media (max-width:960px){ .grid{grid-template-columns:1fr 1fr} }
-      @media (max-width:680px){ .grid{grid-template-columns:1fr} }
-      .card{
-        position:relative;
-        overflow:hidden;
-        border-radius:var(--radius);
-        background-size:cover;
-        background-position:center;
-        height:320px;
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:center;
-        border:1px solid #1f1f1f;
-        box-shadow:var(--shadow);
-        transition:all .35s;
-      }
-      .card::after{
-        content:"";
-        position:absolute; inset:0;
-        background:rgba(0,0,0,.55);
-        transition:.3s;
-      }
-      .card h3{
-        margin:10px 0;
-        font-size:20px;
-        background:rgba(0,0,0,.6);
-        padding:6px 12px;
-        border-radius:8px;
-        z-index:2;
-        text-transform:uppercase;
-        letter-spacing:.8px;
-      }
-      .btn{
-        display:inline-block;
-        margin-top:14px;
-        padding:12px 20px;
-        border-radius:10px;
-        border:none;
-        background:var(--brand);
-        color:#000;
-        font-weight:900;
-        cursor:pointer;
-        transition:.25s;
-        z-index:2;
-        box-shadow:0 0 16px rgba(0,255,255,.42);
-        text-transform:uppercase;
-        letter-spacing:.8px;
-      }
-      .btn:hover{background:var(--accent); color:#fff; box-shadow:0 0 22px var(--brand);}
-      .card:hover{transform:translateY(-8px); box-shadow:0 0 24px rgba(0,255,255,.22);}
-      .card:hover::after{background:rgba(0,0,0,.35);}
-      /* Features */
-      .features{margin-top:50px}
-      .features-grid{display:grid; gap:20px; grid-template-columns:repeat(3,1fr)}
-      @media (max-width:960px){ .features-grid{grid-template-columns:1fr} }
-      .feature{background:var(--panel); padding:28px; border-radius:var(--radius); border:1px solid #202020; box-shadow:var(--shadow); transition:.3s}
-      .feature:hover{box-shadow:0 0 20px rgba(0,255,255,.18)}
-      .feature h3{text-transform:uppercase; margin:0 0 8px; font-size:17px; letter-spacing:.6px}
-      .feature p{color:#cfcfcf; margin:0}
-      /* Services */
-      .services h2{text-align:center}
-      .services-grid{display:grid; gap:16px; grid-template-columns:repeat(3,1fr); margin-top:16px}
-      @media (max-width:960px){ .services-grid{grid-template-columns:1fr} }
-      .service{background:var(--panel); padding:22px; border-radius:16px; border:1px solid #202020; display:flex; gap:12px; align-items:flex-start; transition:all 0.3s; cursor:pointer;}
-      .service svg{flex:0 0 24px}
-      .service .price{margin-left:auto; color:var(--accent); font-weight:800}
-      .services-note{text-align:center; color:var(--muted); margin-top:10px}
-      .service:hover{border-color:var(--accent); box-shadow:0 0 18px var(--brand),0 0 30px var(--accent) inset; transform:translateY(-2px);}
-      /* About / Reviews / FAQ */
-      .about p{color:#d6d6d6; max-width:800px; margin:0 auto}
-      .reviews-grid{display:grid; gap:20px; grid-template-columns:repeat(3,1fr)}
-      @media (max-width:960px){ .reviews-grid{grid-template-columns:1fr} }
-      .review{background:var(--panel); padding:22px; border-radius:16px; border:1px solid #202020}
-      .review .stars{color:#ffd166; letter-spacing:2px; font-size:16px; margin-bottom:6px}
-      .faq-grid{max-width:900px; margin:0 auto; display:grid; gap:12px}
-      .faq-item{background:var(--panel); padding:18px 20px; border-radius:14px; border:1px solid #202020}
-      .faq-item summary{cursor:pointer; font-weight:800}
-      .faq-item p{color:#d6d6d6; margin:8px 0 0}
-      /* Footer */
-      footer{background:var(--panel); border-top:1px solid #232323; margin-top:60px;}
-      footer .container{padding:26px 0; text-align:center; color:var(--muted)}
-      /* Chat */
-      .chat-btn{
-        position:fixed;
-        bottom:20px;
-        right:20px;
-        width:62px;
-        height:62px;
-        border-radius:50%;
-        background:var(--brand);
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        cursor:pointer;
-        box-shadow:0 0 20px var(--brand),0 0 38px rgba(0,255,255,.26);
-        transition:.3s
-      }
-      .chat-btn:hover{transform:scale(1.08);}
-      .chat-btn svg{stroke:#000}
-      .chat-window {
-        position: fixed;
-        bottom: 88px;
-        right: 18px;
-        width: 310px;
-        background: var(--panel);
-        border: 1px solid #232323;
-        border-radius: 16px;
-        box-shadow: var(--shadow);
-        display: none;
-        flex-direction: column;
-        overflow: hidden;
-      }
-      .chat-header {
-        background: var(--brand);
-        color: #000;
-        font-weight: 800;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .chat-close {
-        background: none;
-        border: none;
-        font-size: 18px;
-        cursor: pointer;
-      }
-      .chat-messages {
-        flex: 1;
-        padding: 10px;
-        max-height: 200px;
-        overflow-y: auto;
-        color: var(--text);
-        display: flex;
-        flex-direction: column;
-        font-size:1em;
-      }
-      .msg {
-        margin: 6px 0;
-        padding: 8px 12px;
-        border-radius: 10px;
-        max-width: 80%;
-        word-break: break-word;
-      }
-      .msg.bot {
-        background: #222;
-        align-self: flex-start;
-      }
-      .msg.user {
-        background: var(--brand);
-        color: #000;
-        align-self: flex-end;
-      }
-      .chat-input {
-        display: flex;
-        border-top: 1px solid #232323;
-      }
-      .chat-input input {
-        flex: 1;
-        padding: 10px;
-        border: none;
-        background: #111;
-        color: var(--text);
-        outline: none;
-      }
-      .chat-input button {
-        background: var(--brand);
-        border: none;
-        padding: 0 12px;
-        cursor: pointer;
-        font-weight: bold;
-        font-size:1.2em;
-      }
-      @media (max-width:600px){
-        .chat-window{width:98vw;right:1vw;}
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Header -->
-    <header>
-      <div class="container nav">
-        <a class="brand" href="#">
-          <img src="668811e6-8eb7-4f0c-85a5-6d9ac869eb16.png" alt="Logo" class="brand__logo" />
-          <span class="brand__text">PADOBI PC</span>
-        </a>
-        <div class="actions">
-          <div class="lang" aria-label="Language">
-            <button data-lang="ru">RU</button>
-            <button data-lang="ua">UA</button>
-            <button data-lang="en">EN</button>
-          </div>
-          <button class="icon-btn" title="Профиль" onclick="goProfile()" aria-label="Профиль">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="7" r="4"/>
-              <path d="M6 21a6 6 0 0 1 12 0"/>
-            </svg>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title data-i18n="site.title">PADOBI PC — сервис будущего</title>
+  <meta name="description" content="PADOBI PC — сервисный центр: бесплатный курьер по Киеву, мастер на дом, гейм-зона для клиентов, сборка и апгрейд ПК." />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" href="668811e6-8eb7-4f0c-85a5-6d9ac869eb16.png" />
+  <style>
+    :root{
+      --bg: #000;
+      --panel: #0b0b0b;
+      --card: #161616;
+      --muted: #bdbdbd;
+      --text: #fafafa;
+      --accent: #bdbdbd; /* minimal subtle accent (mostly BW) */
+      --brand: #0ff; /* kept but used sparingly */
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(0,0,0,.7);
+      --container: 1100px;
+    }
+
+    /* Basic reset */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.6;
+      -webkit-tap-highlight-color: transparent;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--container);margin:0 auto;padding:0 20px}
+
+    /* Header */
+    header{
+      position:sticky;top:0;z-index:60;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(4px);
+    }
+    .nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.6px}
+    .brand__logo{width:40px;height:40px;border-radius:8px;overflow:hidden;flex-shrink:0}
+    .brand__logo img{width:40px;height:40px;object-fit:cover;display:block}
+    .brand__text{font-size:18px;text-transform:uppercase}
+    .actions{display:flex;align-items:center;gap:10px}
+    .icon-btn{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:10px;background:var(--panel);border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .12s,box-shadow .12s}
+    .icon-btn:active{transform:translateY(1px)}
+    .icon-btn:focus{outline:2px solid rgba(255,255,255,0.06);outline-offset:2px}
+    .badge{position:absolute;top:-6px;right:-6px;background:var(--accent);color:#000;font-weight:800;padding:2px 6px;border-radius:999px;font-size:11px;border:2px solid var(--panel)}
+    /* Lang */
+    .lang{display:flex;gap:8px;align-items:center}
+    .lang button{appearance:none;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--muted);padding:6px 10px;border-radius:8px;font-weight:700;cursor:pointer;transition:background .12s,color .12s}
+    .lang button.active{background:var(--text);color:#000;box-shadow:0 6px 18px rgba(255,255,255,0.04)}
+    .lang button:focus{outline:2px solid rgba(255,255,255,0.03);outline-offset:2px}
+    /* Dropdown */
+    .dropdown{position:relative}
+    .dropdown-menu{display:none;position:absolute;right:0;top:54px;background:var(--panel);border-radius:12px;border:1px solid rgba(255,255,255,0.03);min-width:200px;padding:6px;box-shadow:var(--shadow)}
+    .dropdown.open .dropdown-menu{display:block}
+    .dropdown-menu a{display:block;padding:10px 12px;color:var(--text);font-size:14px;border-radius:8px}
+    .dropdown-menu a:hover{background:rgba(255,255,255,0.02);color:var(--accent)}
+
+    /* Sections */
+    main{display:block}
+    .section{padding:72px 0}
+    .section .inner{max-width:900px;margin:0 auto;text-align:center;padding:0 12px}
+    h1,h2{margin:0 0 12px 0}
+    h1{font-size:28px;letter-spacing:.6px}
+    h2{font-size:22px;text-transform:uppercase;letter-spacing:1px;color:var(--text)}
+    p.lead{color:var(--muted);margin:0 auto;max-width:70ch}
+
+    /* Layout blocks */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.03);height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;position:relative}
+    .card h3{margin:0 0 8px 0;font-size:18px}
+    .btn{background:var(--text);color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:800;cursor:pointer;transition:transform .12s,box-shadow .12s}
+    .btn:active{transform:translateY(1px)}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text)}
+
+    /* Features / Services */
+    .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+    @media (max-width:960px){.features-grid{grid-template-columns:1fr}}
+    .feature{background:var(--panel);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);text-align:left}
+    .feature h3{font-size:15px;margin-bottom:8px}
+    .feature p{color:var(--muted);margin:0}
+
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+    @media (max-width:960px){.services-grid{grid-template-columns:1fr}}
+    .service{background:var(--panel);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);display:flex;align-items:center;gap:12px}
+    .service .meta{color:var(--muted);font-size:14px}
+    .service .price{margin-left:auto;color:var(--accent);font-weight:800}
+
+    /* Reviews */
+    .reviews-grid{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+    .review{background:var(--panel);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);width:300px}
+    .stars{color:#ffd166;margin-bottom:8px}
+
+    /* FAQ */
+    .faq-grid{max-width:900px;margin:18px auto 0;display:grid;gap:12px}
+    .faq-item{background:var(--panel);padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+    .faq-item summary{cursor:pointer;font-weight:800}
+    .faq-item p{color:var(--muted);margin:8px 0 0}
+
+    /* Footer */
+    footer{border-top:1px solid rgba(255,255,255,0.03);padding:26px 0;margin-top:40px}
+    footer .container{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px}
+
+    /* Chat */
+    .chat-btn{position:fixed;right:18px;bottom:18px;width:56px;height:56px;border-radius:50%;background:var(--text);color:#000;display:grid;place-items:center;box-shadow:0 6px 22px rgba(0,0,0,0.6);cursor:pointer;border:1px solid rgba(0,0,0,0.06);z-index:80}
+    .chat-window{position:fixed;right:18px;bottom:88px;width:320px;background:var(--panel);border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:none;flex-direction:column;overflow:hidden;z-index:80}
+    .chat-header{background:transparent;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:space-between}
+    .chat-messages{padding:12px;max-height:220px;overflow:auto;display:flex;flex-direction:column;gap:8px}
+    .msg{padding:8px 12px;border-radius:10px;max-width:85%}
+    .msg.bot{background:#1a1a1a;align-self:flex-start;color:var(--text)}
+    .msg.user{background:var(--text);color:#000;align-self:flex-end}
+    .chat-input{display:flex;border-top:1px solid rgba(255,255,255,0.02)}
+    .chat-input input{flex:1;border:none;padding:10px;background:transparent;color:var(--text);outline:none}
+    .chat-input button{background:var(--text);border:none;padding:10px 14px;color:#000;cursor:pointer}
+
+    /* Utility */
+    .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav" role="banner">
+      <a class="brand" href="/" aria-label="PADOBI PC — Home">
+        <span class="brand__logo"><img src="668811e6-8eb7-4f0c-85a5-6d9ac869eb16.png" alt="Padobi Logo"></span>
+        <span class="brand__text" data-i18n="site.brand">PADOBI PC</span>
+      </a>
+
+      <div class="actions" role="navigation" aria-label="Header actions">
+        <div class="lang" aria-label="Language switch">
+          <button type="button" data-lang="ru" aria-pressed="false" title="Русский">RU</button>
+          <button type="button" data-lang="ua" aria-pressed="false" title="Українська">UA</button>
+          <button type="button" data-lang="en" aria-pressed="false" title="English">EN</button>
+        </div>
+
+        <button class="icon-btn" title="Профиль" onclick="goProfile()" aria-label="Профиль" id="profileBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="7" r="4"/><path d="M6 21a6 6 0 0 1 12 0"/></svg>
+        </button>
+
+        <button class="icon-btn" title="Корзина" onclick="window.location.href='cart.html'" aria-label="Корзина">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6l-2-3"/><circle cx="9" cy="21" r="1.5"/><circle cx="18" cy="21" r="1.5"/></svg>
+          <span class="badge" id="cartCount">0</span>
+        </button>
+
+        <div class="dropdown" id="menuDropdown">
+          <button class="icon-btn" id="menuBtn" aria-expanded="false" aria-controls="menu" title="Меню">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
           </button>
-          <button class="icon-btn" title="Корзина" onclick="window.location.href='cart.html'" aria-label="Корзина">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M6 6h15l-1.5 9h-12z"/>
-              <path d="M6 6l-2-3"/>
-              <circle cx="9" cy="21" r="1.5"/>
-              <circle cx="18" cy="21" r="1.5"/>
-            </svg>
-            <span class="badge" id="cartCount">0</span>
-          </button>
-          <div class="dropdown" id="menuDropdown">
-            <button class="icon-btn" id="menuBtn" aria-expanded="false" aria-controls="menu" title="Меню">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 6h18M3 12h18M3 18h18"/>
-              </svg>
-            </button>
-            <div class="dropdown-menu" id="menu" role="menu">
-              <a href="profile.html" data-i18n="menu.profile">Профиль</a>
-              <a href="cart.html" data-i18n="menu.cart">Корзина</a>
-              <a href="#" data-i18n="menu.settings">Настройки</a>
-              <a href="status.html" data-i18n="menu.status">Статус заказа</a>
-            </div>
+          <div class="dropdown-menu" id="menu" role="menu" aria-hidden="true">
+            <a href="profile.html" data-i18n="menu.profile">Профиль</a>
+            <a href="cart.html" data-i18n="menu.cart">Корзина</a>
+            <a href="#" data-i18n="menu.settings">Настройки</a>
+            <a href="status.html" data-i18n="menu.status">Статус заказа</a>
           </div>
         </div>
       </div>
-    </header>
-    <!-- Main -->
-    <main>
-      <section class="section container hero">
-        <h1 data-i18n="hero.title">Сервис будущего в Киеве</h1>
-        <p class="sub" data-i18n="hero.tag">Твой ПК в надёжных руках — курьер, мастер на дом, гейм-зона и фирменный стиль.</p>
-      </section>
-      <section class="section container">
-        <div class="grid">
-          <div class="card" style="background-image:url('pc1.png')">
-            <h3 data-i18n="cards.configurator">Конфигуратор</h3>
-            <button class="btn" data-i18n="cta.build">Собрать</button>
-          </div>
-          <div class="card" style="background-image:url('pc2.png')">
-            <h3 data-i18n="cards.ready">Готовые сборки</h3>
-            <button class="btn" data-i18n="cta.view">Смотреть</button>
-          </div>
-          <div class="card" style="background-image:url('pc3.png')">
-            <h3 data-i18n="cards.upgrade">Апгрейд</h3>
-            <button class="btn" data-i18n="cta.start">Начать</button>
-          </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="section hero" aria-labelledby="heroTitle">
+      <div class="inner container">
+        <h1 id="heroTitle" data-i18n="hero.title">Сервис будущего в Киеве</h1>
+        <p class="lead" data-i18n="hero.tag">Твой ПК в надёжных руках — курьер, мастер на дом, гейм-зона и фирменный стиль.</p>
+      </div>
+    </section>
+
+    <!-- Primary actions -->
+    <section class="section container">
+      <div class="grid">
+        <div class="card" style="background-image:url('pc1.png')">
+          <h3 data-i18n="cards.configurator">Конфигуратор</h3>
+          <button class="btn" data-i18n="cta.build">Собрать</button>
         </div>
-      </section>
-      <section class="section container features">
-        <h2 data-i18n="why.title">Почему выбирают нас</h2>
+        <div class="card" style="background-image:url('pc2.png')">
+          <h3 data-i18n="cards.ready">Готовые сборки</h3>
+          <button class="btn" data-i18n="cta.view">Смотреть</button>
+        </div>
+        <div class="card" style="background-image:url('pc3.png')">
+          <h3 data-i18n="cards.upgrade">Апгрейд</h3>
+          <button class="btn" data-i18n="cta.start">Начать</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why us -->
+    <section class="section features container" aria-labelledby="whyTitle">
+      <div class="inner">
+        <h2 id="whyTitle" data-i18n="why.title">Почему выбирают нас</h2>
         <p class="lead" data-i18n="why.lead">Бесплатный курьер по Киеву, мастер на дом и гейм‑зона для клиентов. Минимализм, честность и киберпанк‑атмосфера.</p>
-        <div class="features-grid">
+
+        <div class="features-grid" style="margin-top:24px">
           <div class="feature">
             <h3 data-i18n="why.courier.title">Бесплатный курьер</h3>
             <p data-i18n="why.courier.text">Заберём ваш ПК, привезём обратно. Удобно и безопасно.</p>
@@ -440,42 +216,81 @@
             <p data-i18n="why.honest.text">Прозрачные цены, диагностика и гарантия на все работы 6 месяцев.</p>
           </div>
         </div>
-      </section>
-      <section class="section container services">
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section container services">
+      <div class="inner">
         <h2 data-i18n="services.title">Наши услуги</h2>
-        <div class="services-grid">
-          <!-- ... сервисы, как раньше ... -->
-          <!-- КОПИРУЙ ВАШИ СЕРВИСЫ С ТЕГОВ data-i18n, ТЕКСТ НЕ МЕНЯТЬ! -->
-          <!-- ... -->
+
+        <div class="services-grid" aria-label="Список услуг" style="margin-top:18px">
+          <div class="service">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h18"/><path d="M6 7v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7"/><path d="M10 11h4"/></svg>
+            <div class="meta">
+              <div data-i18n="srv.clean">Чистка</div>
+              <small class="muted" data-i18n="srv.clean.desc">Пыль, профилактика, акустика</small>
+            </div>
+            <div class="price">500 ₴</div>
+          </div>
+
+          <div class="service">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v20"/><path d="M5 7h14"/><path d="M5 17h14"/></svg>
+            <div class="meta">
+              <div data-i18n="srv.paste">Замена термопасты</div>
+              <small class="muted" data-i18n="srv.paste.desc">CPU / GPU, правильная посадка</small>
+            </div>
+            <div class="price">от 200 ₴</div>
+          </div>
+
+          <div class="service">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h12v7H6z"/><path d="M6 14h12v7H6z"/></svg>
+            <div class="meta">
+              <div data-i18n="srv.parts">Замена железа</div>
+              <small class="muted" data-i18n="srv.parts.desc">RAM / SSD / GPU / PSU</small>
+            </div>
+            <div class="price">от 500 ₴</div>
+          </div>
         </div>
-        <div class="services-note" data-i18n="services.note">
-          Цены указаны за работу. Запчасти по согласованию.
-        </div>
-      </section>
-      <section class="section container about">
-        <h2 data-i18n="about.title">О нас</h2>
+
+        <div class="services-note" data-i18n="services.note" style="margin-top:14px;color:var(--muted)">Цены указаны за работу. Запчасти по согласованию.</div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section about" aria-labelledby="aboutTitle">
+      <div class="inner">
+        <h2 id="aboutTitle" data-i18n="about.title">О нас</h2>
         <p class="lead" data-i18n="about.text">PADOBI PC — сервисный центр с характером: уважение к времени клиента. Мы собираем ПК под задачи, апгрейдим по Trade‑In, настраиваем софт и берём ответственность за результат.</p>
-      </section>
-      <section class="section container">
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="section container">
+      <div class="inner">
         <h2 data-i18n="reviews.title">Отзывы клиентов</h2>
-        <div class="reviews-grid">
-          <div class="review">
+        <div class="reviews-grid" role="list" aria-label="Отзывы клиентов" style="margin-top:18px">
+          <div class="review" role="listitem">
             <div class="stars">★★★★★</div>
             <p data-i18n="reviews.r1">«Забрали ПК курьером, через день вернули тихим и быстрым. В гейм‑зоне время пролетело незаметно.»</p>
           </div>
-          <div class="review">
+          <div class="review" role="listitem">
             <div class="stars">★★★★★</div>
             <p data-i18n="reviews.r2">«Прозрачные цены и нормальный диалог. Апгрейд и винда — без воды и лишних наворотов.»</p>
           </div>
-          <div class="review">
+          <div class="review" role="listitem">
             <div class="stars">★★★★★</div>
             <p data-i18n="reviews.r3">«Сервис как в будущем: стиль, порядок и уважение к клиенту. Рекомендую.»</p>
           </div>
         </div>
-      </section>
-      <section class="section container">
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section container">
+      <div class="inner">
         <h2 data-i18n="faq.title">FAQ</h2>
-        <div class="faq-grid">
+        <div class="faq-grid" style="margin-top:18px">
           <details class="faq-item">
             <summary data-i18n="faq.q1">Сколько занимает ремонт?</summary>
             <p data-i18n="faq.a1">В среднем 1–2 дня. Точные сроки зависят от задачи и наличия деталей.</p>
@@ -489,173 +304,251 @@
             <p data-i18n="faq.a3">Да. Приедет мастер или курьер — как удобнее. По Киеву — бесплатно.</p>
           </details>
         </div>
-      </section>
-    </main>
-    <footer>
-      <div class="container">© <span id="year"></span> PADOBI PC — сервис будущего</div>
-    </footer>
-    <div class="chat-btn" onclick="toggleChat()" aria-label="Открыть чат поддержки">
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> <span data-i18n="site.brand">PADOBI PC</span> — <span data-i18n="site.tag">сервис будущего</span>
     </div>
-    <div class="chat-window" id="chatWindow">
-      <div class="chat-header">
-        <span data-i18n="chat.support">Поддержка</span>
-        <button class="chat-close" onclick="toggleChat()">×</button>
-      </div>
-      <div class="chat-messages" id="chatMessages">
-        <div class="msg bot" data-i18n="chat.greet">Здравствуйте! Чем можем помочь?</div>
-      </div>
-      <div class="chat-input">
-        <input type="text" id="chatInput" data-i18n-placeholder="chat.input" placeholder="Введите сообщение..." />
-        <button onclick="sendMessage()">➤</button>
-      </div>
+  </footer>
+
+  <!-- Chat -->
+  <button class="chat-btn" id="chatToggle" aria-label="Открыть чат поддержки">💬</button>
+  <div class="chat-window" id="chatWindow" role="dialog" aria-label="Чат поддержки">
+    <div class="chat-header">
+      <strong data-i18n="chat.support">Поддержка</strong>
+      <button class="chat-close" id="chatClose" aria-label="Закрыть чат">×</button>
     </div>
-    <script>
-      // Год
-      document.getElementById('year').textContent = new Date().getFullYear()
-      // Меню
-      document.getElementById('menuBtn').addEventListener('click', function () {
-        const dropdown = document.getElementById('menuDropdown');
-        dropdown.classList.toggle('open');
-        this.setAttribute('aria-expanded', dropdown.classList.contains('open'));
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg bot" data-i18n="chat.greet">Здравствуйте! Чем можем помочь?</div>
+    </div>
+    <div class="chat-input">
+      <input id="chatInput" type="text" data-i18n-placeholder="chat.input" placeholder="Введите сообщение..." aria-label="Сообщение" />
+      <button id="chatSend" aria-label="Отправить">➤</button>
+    </div>
+  </div>
+
+  <!-- Modals and auth (kept minimal) -->
+  <div id="loginModal" class="visually-hidden" aria-hidden="true"></div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+  <script>
+    // ----------------------------
+    // Translations (all keys used on page)
+    // ----------------------------
+    const translations = {
+      ru: {
+        'site.title':'PADOBI PC — сервис будущего',
+        'site.brand':'PADOBI PC',
+        'site.tag':'сервис будущего',
+        'menu.profile':'Профиль','menu.cart':'Корзина','menu.settings':'Настройки','menu.status':'Статус заказа',
+        'hero.title':'Сервис будущего в Киеве','hero.tag':'Твой ПК в надёжных руках — курьер, мастер на дом, гейм-зона и фирменный стиль.',
+        'cards.configurator':'Конфигуратор','cards.ready':'Готовые сборки','cards.upgrade':'Апгрейд','cta.build':'Собрать','cta.view':'Смотреть','cta.start':'Начать',
+        'why.title':'Почему выбирают нас','why.lead':'Бесплатный курьер по Киеву, мастер на дом и гейм‑зона для клиентов. Минимализм, честность и киберпанк‑атмосфера.',
+        'why.courier.title':'Бесплатный курьер','why.courier.text':'Заберём ваш ПК, привезём обратно. Удобно и безопасно.',
+        'why.game.title':'Гейм‑зона','why.game.text':'Пока идёт ремонт — сыграйте на консолях и топовых ПК.',
+        'why.honest.title':'Честный сервис','why.honest.text':'Прозрачные цены, диагностика и гарантия на все работы 6 месяцев.',
+        'services.title':'Наши услуги','services.note':'Цены указаны за работу. Запчасти по согласованию.',
+        'srv.clean':'Чистка','srv.clean.desc':'Пыль, профилактика, акустика',
+        'srv.paste':'Замена термопасты','srv.paste.desc':'CPU / GPU, правильная посадка',
+        'srv.parts':'Замена железа','srv.parts.desc':'RAM / SSD / GPU / PSU',
+        'about.title':'О нас','about.text':'PADOBI PC — сервисный центр с характером: уважение к времени клиента. Мы собираем ПК под задачи, апгрейдим по Trade‑In, настраиваем софт и берём ответственность за результат.',
+        'reviews.title':'Отзывы клиентов','reviews.r1':'«Забрали ПК курьером, через день вернули тихим и быстрым. В гейм‑зоне время пролетело незаметно.»','reviews.r2':'«Прозрачные цены и нормальный диалог. Апгрейд и винда — без воды и лишних наворотов.»','reviews.r3':'«Сервис как в будущем: стиль, порядок и уважение к клиенту. Рекомендую.»',
+        'faq.title':'FAQ','faq.q1':'Сколько занимает ремонт?','faq.a1':'В среднем 1–2 дня. Точные сроки зависят от задачи и наличия деталей.','faq.q2':'Есть ли гарантия?','faq.a2':'Да. На все работы — 6 месяцев. Условия фиксируем в заказ‑наряде.','faq.q3':'Можно ли вызвать мастера домой?','faq.a3':'Да. Приедет мастер или курьер — как удобнее. По Киеву — бесплатно.',
+        'chat.support':'Поддержка','chat.greet':'Здравствуйте! Чем можем помочь?','chat.input':'Введите сообщение...','chat.thanks':'Спасибо за сообщение! Мы скоро ответим.',
+        'profile.need_auth':'Пожалуйста, авторизуйтесь для доступа к профилю.'
+      },
+      ua: {
+        'site.title':'PADOBI PC — сервіс майбутнього',
+        'site.brand':'PADOBI PC',
+        'site.tag':'сервіс майбутнього',
+        'menu.profile':'Профіль','menu.cart':'Кошик','menu.settings':'Налаштування','menu.status':'Статус замовлення',
+        'hero.title':'Сервіс майбутнього в Києві','hero.tag':'Твій ПК у надійних руках — кур’єр, майстер додому, гейм-зона та фірмовий стиль.',
+        'cards.configurator':'Конфігуратор','cards.ready':'Готові збірки','cards.upgrade':'Апгрейд','cta.build':'Зібрати','cta.view':'Дивитись','cta.start':'Почати',
+        'why.title':'Чому обирають нас','why.lead':'Безкоштовний кур’єр по Києву, майстер додому та гейм-зона для клієнтів. Мінімалізм, чесність і кіберпанк-атмосфера.',
+        'why.courier.title':'Безкоштовний кур’єр','why.courier.text':'Заберемо ваш ПК і повернемо назад. Зручно та безпечно.',
+        'why.game.title':'Гейм-зона','why.game.text':'Поки триває ремонт — зіграйте на консолях і топових ПК.',
+        'why.honest.title':'Чесний сервіс','why.honest.text':'Прозорі ціни, діагностика і гарантія 6 місяців.',
+        'services.title':'Наші послуги','services.note':'Ціни вказані за роботу. Запчастини за погодженням.',
+        'srv.clean':'Чистка','srv.clean.desc':'Пил, профілактика, акустика',
+        'srv.paste':'Заміна термопасти','srv.paste.desc':'CPU / GPU, правильна посадка',
+        'srv.parts':'Заміна заліза','srv.parts.desc':'RAM / SSD / GPU / PSU',
+        'about.title':'Про нас','about.text':'PADOBI PC — сервісний центр з характером: повага до часу клієнта. Збираємо ПК під задачі, апгрейд по Trade-In, налаштовуємо софт і відповідаємо за результат.',
+        'reviews.title':'Відгуки клієнтів','reviews.r1':'«Забрали ПК кур’єром, за день повернули тихим і швидким. У гейм-зоні час пролетів непомітно.»','reviews.r2':'«Прозорі ціни і нормальний діалог. Апгрейд і вінда — без води.»','reviews.r3':'«Сервіс як у майбутньому: стиль і повага до клієнта. Рекомендую.»',
+        'faq.title':'FAQ','faq.q1':'Скільки триває ремонт?','faq.a1':'В середньому 1–2 дні. Залежить від задачі та наявності деталей.','faq.q2':'Чи є гарантія?','faq.a2':'Так. На всі роботи — 6 місяців. Умови фіксуємо в замовленні.','faq.q3':'Чи можна викликати майстра додому?','faq.a3':'Так. Приїде майстер або кур’єр — як зручніше. По Києву — безкоштовно.',
+        'chat.support':'Підтримка','chat.greet':'Вітаємо! Як можемо допомогти?','chat.input':'Введіть повідомлення...','chat.thanks':'Дякуємо за повідомлення! Ми скоро відповімо.',
+        'profile.need_auth':'Будь ласка, авторизуйтесь для доступу до профілю.'
+      },
+      en: {
+        'site.title':'PADOBI PC — Future Service',
+        'site.brand':'PADOBI PC',
+        'site.tag':'future service',
+        'menu.profile':'Profile','menu.cart':'Cart','menu.settings':'Settings','menu.status':'Order Status',
+        'hero.title':'Future‑proof PC Service in Kyiv','hero.tag':'Your PC in safe hands — courier, home service, game zone and signature style.',
+        'cards.configurator':'Configurator','cards.ready':'Prebuilt PCs','cards.upgrade':'Upgrade','cta.build':'Build','cta.view':'Browse','cta.start':'Start',
+        'why.title':'Why choose us','why.lead':'Free courier in Kyiv, on‑site technician and a client‑only game zone. Minimalism, honesty and cyberpunk vibes.',
+        'why.courier.title':'Free courier','why.courier.text':'We pick up and return your PC. Convenient and safe.',
+        'why.game.title':'Game zone','why.game.text':'While we do quick fixes — enjoy consoles or high‑end PCs.',
+        'why.honest.title':'Honest service','why.honest.text':'Transparent pricing, diagnostics and up 6 warranty.',
+        'services.title':'Our services','services.note':'Labour only. Parts by agreement.',
+        'srv.clean':'Cleaning','srv.clean.desc':'Dust, prevention, acoustics',
+        'srv.paste':'Thermal paste','srv.paste.desc':'CPU / GPU, proper mount',
+        'srv.parts':'Hardware replacement','srv.parts.desc':'RAM / SSD / GPU / PSU',
+        'about.title':'About us','about.text':'PADOBI PC — a service center with attitude: respect for client time. We build PCs for tasks, upgrade via Trade‑In, configure software and own the result.',
+        'reviews.title':'Reviews','reviews.r1':'“Courier pickup, next‑day return — quiet and fast. Game zone made the wait fly.”','reviews.r2':'“Transparent pricing and straight talk. Upgrade + Windows done right.”','reviews.r3':'“Feels like the future: style, order and respect. Recommend.”',
+        'faq.title':'FAQ','faq.q1':'How long does repair take?','faq.a1':'Usually 1–2 days depending on task and parts availability.','faq.q2':'Is there a warranty?','faq.a2':'Yes, up 6 on labour. Details in the work order.','faq.q3':'Can a tech come to my place?','faq.a3':'Yes. Technician or courier — your choice. Free in Kyiv.',
+        'chat.support':'Support','chat.greet':'Hello! How can we help you?','chat.input':'Type a message...','chat.thanks':'Thank you! We will reply soon.',
+        'profile.need_auth':'Please log in to access your profile.'
+      }
+    };
+
+    // ----------------------------
+    // i18n runtime
+    // ----------------------------
+    const available = Object.keys(translations);
+    // Determine initial language: localStorage -> navigator -> ru
+    let initial = localStorage.getItem('padobi_lang') || (available.includes((navigator.language||'').slice(0,2)) ? (navigator.language||'').slice(0,2) : 'ru');
+    if (!available.includes(initial)) initial = 'ru';
+    let currentLang = initial;
+
+    // Safe text setter
+    function setText(el, text){
+      if (!el) return;
+      // keep existing HTML tags out
+      el.textContent = text;
+    }
+
+    function setLang(code){
+      if (!translations[code]) return;
+      currentLang = code;
+      localStorage.setItem('padobi_lang', code);
+
+      // translate elements with data-i18n
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if (key && translations[code][key] !== undefined){
+          setText(el, translations[code][key]);
+        }
       });
-      // Чат
-      function toggleChat() {
-        const chat = document.getElementById("chatWindow");
-        chat.style.display = chat.style.display === "flex" ? "none" : "flex"
-      }
-      function sendMessage() {
-        const input = document.getElementById("chatInput");
-        const msgBox = document.getElementById("chatMessages");
-        const text = input.value.trim();
+
+      // translate placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (key && translations[code][key] !== undefined){
+          el.setAttribute('placeholder', translations[code][key]);
+        }
+      });
+
+      // update title
+      if (translations[code]['site.title']) document.title = translations[code]['site.title'];
+
+      // html lang attribute
+      document.documentElement.lang = code;
+
+      // update active button state + aria-pressed
+      document.querySelectorAll('.lang button').forEach(b=>{
+        const bcode = b.getAttribute('data-lang');
+        const active = bcode === code;
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    // helper i18n for JS
+    function i18n(key){
+      return (translations[currentLang] && translations[currentLang][key]) ? translations[currentLang][key] : key;
+    }
+
+    // Ensure buttons clickable and bind handlers after DOM ready
+    window.addEventListener('DOMContentLoaded', () => {
+      // Bind language buttons (use event delegation-safe approach)
+      document.querySelectorAll('.lang button').forEach(btn=>{
+        btn.style.pointerEvents = 'auto';
+        btn.addEventListener('click', ()=> {
+          const code = btn.getAttribute('data-lang');
+          setLang(code);
+        });
+      });
+
+      setLang(currentLang);
+
+      // Dropdown toggle
+      const menuBtn = document.getElementById('menuBtn');
+      const menuDropdown = document.getElementById('menuDropdown');
+      menuBtn && menuBtn.addEventListener('click', ()=> {
+        const open = menuDropdown.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', String(open));
+        document.getElementById('menu').setAttribute('aria-hidden', String(!open));
+      });
+
+      // Chat handlers
+      const chatToggle = document.getElementById('chatToggle');
+      const chatWindow = document.getElementById('chatWindow');
+      const chatClose = document.getElementById('chatClose');
+      const chatSend = document.getElementById('chatSend');
+      const chatInput = document.getElementById('chatInput');
+      const chatMessages = document.getElementById('chatMessages');
+
+      function safeText(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+      chatToggle && chatToggle.addEventListener('click', ()=>{
+        const visible = chatWindow.style.display === 'flex';
+        chatWindow.style.display = visible ? 'none' : 'flex';
+        if (!visible) chatInput.focus();
+      });
+      chatClose && chatClose.addEventListener('click', ()=> chatWindow.style.display = 'none');
+
+      chatSend && chatSend.addEventListener('click', ()=>{
+        const text = chatInput.value.trim();
         if (!text) return;
-        const userMsg = document.createElement("div");
-        userMsg.className = "msg user";
+        const userMsg = document.createElement('div');
+        userMsg.className = 'msg user';
         userMsg.textContent = text;
-        msgBox.appendChild(userMsg);
-        input.value = "";
-        setTimeout(() => {
-          const botMsg = document.createElement("div");
-          botMsg.className = "msg bot";
-          botMsg.textContent = i18n('chat.thanks');
-          msgBox.appendChild(botMsg);
-          msgBox.scrollTop = msgBox.scrollHeight;
+        chatMessages.appendChild(userMsg);
+        chatInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        setTimeout(()=> {
+          const bot = document.createElement('div');
+          bot.className = 'msg bot';
+          bot.textContent = i18n('chat.thanks');
+          chatMessages.appendChild(bot);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
         }, 600);
-        msgBox.scrollTop = msgBox.scrollHeight;
-      }
-      // Безопасность: запретить вставку HTML
-      function escapeHTML(str){
-        return str.replace(/[&<>"']/g,function(m){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])});
-      }
-    </script>
-    <!-- Supabase -->
-    <script src="https://unpkg.com/@supabase/supabase-js"></script>
-    <script>
-      const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
-      const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";
-      const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-      async function goProfile() {
+      });
+
+      chatInput && chatInput.addEventListener('keydown', (e)=>{
+        if (e.key === 'Enter'){ e.preventDefault(); chatSend && chatSend.click(); }
+      });
+
+      // Year
+      const yearEl = document.getElementById('year');
+      yearEl && (yearEl.textContent = new Date().getFullYear());
+    });
+
+    // ----------------------------
+    // Supabase (profile access)
+    // ----------------------------
+    const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";
+    const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
+
+    async function goProfile(){
+      try {
+        if (!supabase) { alert(i18n('profile.need_auth')); return; }
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
-          window.location.href = "profile.html";
+          window.location.href = 'profile.html';
         } else {
+          // minimal fallback
           alert(i18n('profile.need_auth'));
         }
+      } catch (err) {
+        console.error(err);
+        alert(i18n('profile.need_auth'));
       }
-    </script>
-    <!-- i18n -->
-    <script>
-      const translations = {
-        ru: {
-          'site.title':'PADOBI PC — сервис будущего',
-          'menu.lang':'Язык','menu.profile':'Профиль','menu.cart':'Корзина','menu.settings':'Настройки','menu.status':'Статус заказа',
-          'hero.title':'Сервис будущего в Киеве','hero.tag':'Твой ПК в надёжных руках — курьер, мастер на дом, гейм-зона и фирменный стиль.',
-          'cards.configurator':'Конфигуратор','cards.ready':'Готовые сборки','cards.upgrade':'Апгрейд','cta.build':'Собрать','cta.view':'Смотреть','cta.start':'Начать',
-          'why.title':'Почему выбирают нас','why.lead':'Бесплатный курьер по Киеву, мастер на дом и гейм‑зона для клиентов. Минимализм, честность и киберпанк‑атмосфера.',
-          'why.courier.title':'Бесплатный курьер','why.courier.text':'Заберём ваш ПК, привезём обратно. Удобно и безопасно.',
-          'why.game.title':'Гейм‑зона','why.game.text':'Пока идёт ремонт — сыграйте на консолях и топовых ПК.',
-          'why.honest.title':'Честный сервис','why.honest.text':'Прозрачные цены, диагностика и гарантия 6 месяцев.',
-          'services.title':'Наши услуги','services.note':'Цены указаны за работу. Запчасти по согласованию.',
-          'about.title':'О нас','about.text':'PADOBI PC — сервисный центр с характером: уважение к времени клиента. Мы собираем ПК под задачи, апгрейдим по Trade‑In, настраиваем софт и берём ответственность за результат.',
-          'reviews.title':'Отзывы клиентов','reviews.r1':'«Забрали ПК курьером, через день вернули тихим и быстрым. В гейм‑зоне время пролетело незаметно.»','reviews.r2':'«Прозрачные цены и нормальный диалог. Апгрейд и винда — без воды и лишних наворотов.»','reviews.r3':'«Сервис как в будущем: стиль, порядок и уважение к клиенту. Рекомендую.»',
-          'faq.title':'FAQ','faq.q1':'Сколько занимает ремонт?','faq.a1':'В среднем 1–2 дня. Точные сроки зависят от задачи и наличия деталей.','faq.q2':'Есть ли гарантия?','faq.a2':'Да. На все работы — 6 месяцев. Условия фиксируем в заказ‑наряде.','faq.q3':'Можно ли вызвать мастера домой?','faq.a3':'Да. Приедет мастер или курьер — как удобнее. По Киеву — бесплатно.',
-          'chat.support':'Поддержка',
-          'chat.greet':'Здравствуйте! Чем можем помочь?',
-          'chat.input':'Введите сообщение...',
-          'chat.thanks':'Спасибо за сообщение! Мы скоро ответим.',
-          'profile.need_auth':'Пожалуйста, авторизуйтесь для доступа к профилю.'
-        },
-        ua: {
-          'site.title':'PADOBI PC — сервіс майбутнього',
-          'menu.lang':'Мова','menu.profile':'Профіль','menu.cart':'Кошик','menu.settings':'Налаштування','menu.status':'Статус замовлення',
-          'hero.title':'Сервіс майбутнього в Києві','hero.tag':'Твій ПК у надійних руках — кур’єр, майстер додому, гейм-зона та фірмовий стиль.',
-          'cards.configurator':'Конфігуратор','cards.ready':'Готові збірки','cards.upgrade':'Апгрейд','cta.build':'Зібрати','cta.view':'Дивитись','cta.start':'Почати',
-          'why.title':'Чому обирають нас','why.lead':'Безкоштовний кур’єр по Києву, майстер додому та гейм-зона для клієнтів. Мінімалізм, чесність і кіберпанк-атмосфера.',
-          'why.courier.title':'Безкоштовний кур’єр','why.courier.text':'Заберемо ваш ПК і повернемо назад. Зручно та безпечно.',
-          'why.game.title':'Гейм-зона','why.game.text':'Поки триває ремонт — зіграйте на консолях і топових ПК.',
-          'why.honest.title':'Чесний сервіс','why.honest.text':'Прозорі ціни, діагностика і гарантія 6 місяців.',
-          'services.title':'Наші послуги','services.note':'Ціни вказані за роботу. Запчастини за погодженням.',
-          'about.title':'Про нас','about.text':'PADOBI PC — сервісний центр з характером: повага до часу клієнта. Збираємо ПК під задачі, апгрейд по Trade-In, налаштовуємо софт і відповідаємо за результат.',
-          'reviews.title':'Відгуки клієнтів','reviews.r1':'«Забрали ПК кур’єром, за день повернули тихим і швидким. У гейм-зоні час пролетів непомітно.»','reviews.r2':'«Прозорі ціни і нормальний діалог. Апгрейд і вінда — без води.»','reviews.r3':'«Сервіс як у майбутньому: стиль і повага до клієнта. Рекомендую.»',
-          'faq.title':'FAQ','faq.q1':'Скільки триває ремонт?','faq.a1':'В середньому 1–2 дні. Залежить від задачі та наявності деталей.','faq.q2':'Чи є гарантія?','faq.a2':'Так. На всі роботи — 6 місяців. Умови фіксуємо в замовленні.','faq.q3':'Чи можна викликати майстра додому?','faq.a3':'Так. Приїде майстер або кур’єр — як зручніше. По Києву — безкоштовно.',
-          'chat.support':'Підтримка',
-          'chat.greet':'Вітаємо! Як можемо допомогти?',
-          'chat.input':'Введіть повідомлення...',
-          'chat.thanks':'Дякуємо за повідомлення! Ми скоро відповімо.',
-          'profile.need_auth':'Будь ласка, авторизуйтеся для доступу до профілю.'
-        },
-        en: {
-          'site.title':'PADOBI PC — Future Service',
-          'menu.lang':'Language','menu.profile':'Profile','menu.cart':'Cart','menu.settings':'Settings','menu.status':'Order Status',
-          'hero.title':'Future‑proof PC Service in Kyiv','hero.tag':'Your PC in safe hands — courier, home service, game zone and signature style.',
-          'cards.configurator':'Configurator','cards.ready':'Prebuilt PCs','cards.upgrade':'Upgrade','cta.build':'Build','cta.view':'Browse','cta.start':'Start',
-          'why.title':'Why choose us','why.lead':'Free courier in Kyiv, on‑site technician and a client‑only game zone. Minimalism, honesty and cyberpunk vibes.',
-          'why.courier.title':'Free courier','why.courier.text':'We pick up and return your PC. Convenient and safe.',
-          'why.game.title':'Game zone','why.game.text':'While we do quick fixes — enjoy consoles or high‑end PCs.',
-          'why.honest.title':'Honest service','why.honest.text':'Transparent pricing, diagnostics and up 6 warranty.',
-          'services.title':'Our services','services.note':'Labour only. Parts by agreement.',
-          'about.title':'About us','about.text':'PADOBI PC — a service center with attitude: respect for client time. We build PCs for tasks, upgrade via Trade‑In, configure software and own the result.',
-          'reviews.title':'Reviews','reviews.r1':'“Courier pickup, next‑day return — quiet and fast. Game zone made the wait fly.”','reviews.r2':'“Transparent pricing and straight talk. Upgrade + Windows done right.”','reviews.r3':'“Feels like the future: style, order and respect. Recommend.”',
-          'faq.title':'FAQ','faq.q1':'How long does repair take?','faq.a1':'Usually 1–2 days depending on task and parts availability.','faq.q2':'Is there a warranty?','faq.a2':'Yes, up 6 on labour. Details in the work order.','faq.q3':'Can a tech come to my place?','faq.a3':'Yes. Technician or courier — your choice. Free in Kyiv.',
-          'chat.support':'Support',
-          'chat.greet':'Hello! How can we help you?',
-          'chat.input':'Type a message...',
-          'chat.thanks':'Thank you! We will reply soon.',
-          'profile.need_auth':'Please log in to access your profile.'
-        }
-      };
-      // универсальный переводчик
-      let currentLang = localStorage.getItem('padobi_lang') || (['ru','ua','en'].includes((navigator.language||'').substr(0,2)) ? (navigator.language||'').substr(0,2) : 'ru');
-      function i18n(key){
-        return translations[currentLang] && translations[currentLang][key] ? translations[currentLang][key] : key;
-      }
-      function setLang(code){
-        if(!translations[code]) return;
-        currentLang = code;
-        localStorage.setItem('padobi_lang', code);
-        // текстовые элементы
-        document.querySelectorAll('[data-i18n]').forEach(el=>{
-          const key = el.getAttribute('data-i18n');
-          if(key && translations[code][key]!==undefined) el.textContent = translations[code][key];
-        });
-        // плейсхолдеры
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
-          const key = el.getAttribute('data-i18n-placeholder');
-          if(key && translations[code][key]!==undefined) el.setAttribute('placeholder', translations[code][key]);
-        });
-        // кнопки
-        document.querySelectorAll('.lang button').forEach(b=>b.classList.remove('active'));
-        const btn = document.querySelector(`.lang button[data-lang="${code}"]`);
-        if(btn) btn.classList.add('active');
-        // title
-        document.title = translations[code]['site.title'] || 'PADOBI PC';
-        // html lang
-        document.documentElement.setAttribute('lang', code);
-      }
-      document.querySelectorAll('.lang button').forEach(btn=>{
-        btn.addEventListener('click',()=>setLang(btn.getAttribute('data-lang')));
-      });
-      setLang(currentLang);
-    </script>
-  </body>
+    }
+  </script>
+</body>
 </html>
