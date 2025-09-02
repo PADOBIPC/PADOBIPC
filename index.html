@@ -145,13 +145,25 @@
   </svg>
 </button>
           <div class="dropdown">
-            <button class="icon-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-            </button>
-         <button class="icon-btn" title="Корзина" onclick="window.location.href='cart.html'">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6l-2-3"/><circle cx="9" cy="21" r="1.5"/><circle cx="18" cy="21" r="1.5"/></svg>
-            <span class="badge">0</span>
-          </button>
+  <!-- Сначала корзина -->
+  <button class="icon-btn" title="Корзина" onclick="window.location.href='cart.html'">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M6 6h15l-1.5 9h-12z"/>
+      <path d="M6 6l-2-3"/>
+      <circle cx="9" cy="21" r="1.5"/>
+      <circle cx="18" cy="21" r="1.5"/>
+    </svg>
+    <span class="badge">0</span>
+  </button>
+
+  <!-- Потом три полоски (меню) -->
+  <button class="icon-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M3 6h18M3 12h18M3 18h18"/>
+    </svg>
+  </button>
+</div>
+
             <div class="dropdown-menu" id="menu" role="menu">
               <a href="profile.html" data-i18n="menu.profile">Профиль</a>
               <a href="cart.html" data-i18n="menu.cart">Корзина</a>
@@ -614,6 +626,7 @@ function registerUser() {
 
   </body>
 </html>
+
 
 
 
