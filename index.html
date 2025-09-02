@@ -636,7 +636,7 @@ function sendMessage() {
 <!-- Кнопка Профиль -->
 <button onclick="goProfile()">Профиль</button>
 
-<!-- модалка регистрации -->
+<!-- Модальное окно регистрации -->
 <div class="modal" id="authModal">
   <div class="modal-content">
     <h2>Регистрация / Вход</h2>
@@ -649,23 +649,55 @@ function sendMessage() {
   </div>
 </div>
 
-<!-- Подключаем Supabase и скрипты -->
+<style>
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: #111;
+  color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-content input {
+  padding: 8px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #222;
+  color: #fff;
+}
+.modal-content button {
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.modal-content .close {
+  background: #444;
+}
+</style>
+
+<!-- Подключаем supabase SDK -->
 <script src="https://unpkg.com/@supabase/supabase-js"></script>
+
 <script>
+  // === Настройка Supabase ===
   const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  
-  const supabaseKey = "⚡️ТВОЙ anon ключ";  
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";   
   const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-  // Проверка сессии при загрузке страницы
-  document.addEventListener("DOMContentLoaded", async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-
-    if (session) {
-      console.log("Пользователь уже вошёл:", session.user.email);
-    }
-  });
-
-  // открыть / закрыть модалку
+  // === Открыть/закрыть модалку ===
   function openAuth() {
     document.getElementById("authModal").style.display = "flex";
   }
@@ -673,18 +705,20 @@ function sendMessage() {
     document.getElementById("authModal").style.display = "none";
   }
 
-  // переход в профиль
+  // === Переход в профиль ===
   async function goProfile() {
     const { data: { session } } = await supabase.auth.getSession();
 
     if (session) {
-      window.location.href = "profile.html"; // если пользователь авторизован
+      // пользователь уже авторизован → перебрасываем
+      window.location.href = "profile.html";
     } else {
-      openAuth(); // если нет — открыть окно регистрации
+      // если не авторизован → открываем форму
+      openAuth();
     }
   }
 
-  // регистрация
+  // === Регистрация пользователя ===
   async function registerUser() {
     const username = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -700,23 +734,24 @@ function sendMessage() {
       email,
       password,
       options: {
-        data: {
-          username,
-          phone_number: phone
-        }
+        data: { username, phone_number: phone }
       }
     });
 
     if (error) {
+      console.error(error);
       alert("Ошибка: " + error.message);
     } else {
       alert("Регистрация успешна! Подтвердите email.");
+      closeAuth();
       window.location.href = "profile.html";
     }
   }
 </script>
+
   </body>
 </html>
+
 
 
 
