@@ -2,54 +2,38 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Личный кабинет | PADOBI PC</title>
+  <title>Профиль - PADOBI PC</title>
   <style>
-    body {
-      background: #0d0d0d;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
+    body { background: #111; color: #fff; font-family: Arial, sans-serif; padding: 20px; }
+    .profile-card {
+      background: #222; padding: 20px; border-radius: 12px; max-width: 400px;
     }
-    #profile-info {
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      background: #ff6600;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #e65c00;
-    }
+    button { padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+    button:hover { background: #333; }
   </style>
 </head>
 <body>
-  <div id="profile-info">Загрузка...</div>
+  <h1>Ваш профиль</h1>
+  <div class="profile-card" id="profileInfo">Загрузка...</div>
   <button onclick="logout()">Выйти</button>
 
   <script src="https://unpkg.com/@supabase/supabase-js"></script>
   <script>
     const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  
-    const supabaseKey = "⚡️ТВОЙ anon ключ";  
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";  
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
     document.addEventListener("DOMContentLoaded", async () => {
       const { data: { session } } = await supabase.auth.getSession();
-
       if (!session) {
-        window.location.href = "index.html"; // если не залогинен — назад
+        window.location.href = "index.html";
       } else {
-        document.getElementById("profile-info").innerText =
-          `Добро пожаловать, ${session.user.user_metadata.username}!`;
+        const user = session.user;
+        document.getElementById("profileInfo").innerHTML = `
+          <p><b>Email:</b> ${user.email}</p>
+          <p><b>Имя:</b> ${user.user_metadata?.username || "—"}</p>
+          <p><b>Телефон:</b> ${user.user_metadata?.phone_number || "—"}</p>
+        `;
       }
     });
 
@@ -60,4 +44,3 @@
   </script>
 </body>
 </html>
-
