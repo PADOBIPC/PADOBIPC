@@ -684,35 +684,66 @@ function sendMessage() {
 }
 </style>
 
+<script src="https://unpkg.com/@supabase/supabase-js"></script>
 <script>
-function openAuth() {
-  document.getElementById("authModal").style.display = "flex"
-}
+  // === Настройка Supabase ===
+  const supabaseUrl = "https://YOUR-PROJECT-ID.supabase.co";
+  const supabaseKey = "YOUR-ANON-KEY"; // из настроек проекта
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-function closeAuth() {
-  document.getElementById("authModal").style.display = "none"
-}
-
-function registerUser() {
-  const username = document.getElementById("username").value
-  const email = document.getElementById("email").value
-  const password = document.getElementById("password").value
-
-  if (!username || !email || !password) {
-    alert("Заполните все поля!")
-    return
+  // === Открыть/закрыть модалку ===
+  function openAuth() {
+    document.getElementById("authModal").style.display = "flex";
   }
 
-  // ВРЕМЕННО — сохраняем в localStorage вместо базы
-  localStorage.setItem("user", JSON.stringify({ username, email }))
+  function closeAuth() {
+    document.getElementById("authModal").style.display = "none";
+  }
 
-  alert("Регистрация успешна!")
-  closeAuth()
+  // === Регистрация пользователя ===
+  async function registerUser() {
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-  // Переносим в профиль
-  window.location.href = "profile.html"
-}
+    // Проверка заполненности
+    if (!username || !email || !password) {
+      alert("Заполните все поля!");
+      return;
+    }
+
+    // Проверка email (валидный формат)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Введите корректный email (например, user@gmail.com)");
+      return;
+    }
+
+    // Проверка длины пароля
+    if (password.length < 6) {
+      alert("Пароль должен быть не менее 6 символов");
+      return;
+    }
+
+    // === Отправка в Supabase ===
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: { username: username } // сохраняем имя в метаданных
+      }
+    });
+
+    if (error) {
+      alert("Ошибка: " + error.message);
+    } else {
+      alert("Регистрация успешна! Подтвердите email, чтобы войти.");
+      closeAuth();
+      // После подтверждения email можно будет авторизоваться
+    }
+  }
 </script>
+
 <!-- Подключаем supabase SDK -->
 <script src="https://unpkg.com/@supabase/supabase-js"></script>
 
@@ -721,6 +752,7 @@ function registerUser() {
 </script>
   </body>
 </html>
+
 
 
 
