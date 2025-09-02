@@ -759,11 +759,10 @@ function sendMessage() {
 <script src="https://unpkg.com/@supabase/supabase-js"></script>
 
 <!-- Подключаем наши скрипты -->
-<script src="/js/auth.js"></script>
-<script src="/js/services.js"></script>
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 <script>
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
 async function registerUser() {
   const username = document.getElementById("username").value.trim()
   const email = document.getElementById("email").value.trim()
@@ -802,4 +801,5 @@ async function registerUser() {
 </script>
   </body>
 </html>
+
 
