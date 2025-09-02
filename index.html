@@ -639,6 +639,7 @@ function sendMessage() {
     <h2>Регистрация / Вход</h2>
     <input type="text" id="username" placeholder="Имя пользователя" />
     <input type="email" id="email" placeholder="Email" />
+    <input type="tel" id="phone" placeholder="Номер телефона" />
     <input type="password" id="password" placeholder="Пароль" />
     <button onclick="registerUser()">Зарегистрироваться</button>
     <button class="close" onclick="closeAuth()">Закрыть</button>
@@ -684,11 +685,12 @@ function sendMessage() {
 }
 </style>
 
+<!-- Подключаем supabase SDK -->
 <script src="https://unpkg.com/@supabase/supabase-js"></script>
 <script>
   // === Настройка Supabase ===
-  const supabaseUrl = "https://YOUR-PROJECT-ID.supabase.co";
-  const supabaseKey = "YOUR-ANON-KEY"; // из настроек проекта
+  const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  // ⚡ сюда вставь URL проекта
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";                       // ⚡ сюда вставь anon ключ
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
   // === Открыть/закрыть модалку ===
@@ -704,33 +706,44 @@ function sendMessage() {
   async function registerUser() {
     const username = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    // Проверка заполненности
-    if (!username || !email || !password) {
+    // Проверки
+    if (!username || !email || !phone || !password) {
       alert("Заполните все поля!");
       return;
     }
 
-    // Проверка email (валидный формат)
+    // Email проверка
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       alert("Введите корректный email (например, user@gmail.com)");
       return;
     }
 
-    // Проверка длины пароля
+    // Телефон проверка
+    const phoneRegex = /^\+?\d{10,15}$/; // принимает +380..., 380..., 098...
+    if (!phoneRegex.test(phone)) {
+      alert("Введите корректный номер телефона");
+      return;
+    }
+
+    // Пароль проверка
     if (password.length < 6) {
       alert("Пароль должен быть не менее 6 символов");
       return;
     }
 
-    // === Отправка в Supabase ===
+    // === Создание пользователя в Supabase ===
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
       options: {
-        data: { username: username } // сохраняем имя в метаданных
+        data: {
+          username: username,
+          phone_number: phone
+        }
       }
     });
 
@@ -739,11 +752,9 @@ function sendMessage() {
     } else {
       alert("Регистрация успешна! Подтвердите email, чтобы войти.");
       closeAuth();
-      // После подтверждения email можно будет авторизоваться
     }
   }
 </script>
-
 <!-- Подключаем supabase SDK -->
 <script src="https://unpkg.com/@supabase/supabase-js"></script>
 
@@ -752,6 +763,7 @@ function sendMessage() {
 </script>
   </body>
 </html>
+
 
 
 
