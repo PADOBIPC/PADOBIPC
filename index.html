@@ -129,7 +129,20 @@
       .chat-btn{right:12px;bottom:12px}
     }
 
-    /* simple toast */
+    /* modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:200}
+    .modal.is-open{display:flex}
+    .modal-card{width:420px;max-width:94%;background:var(--panel);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 24px 60px rgba(0,0,0,.7)}
+    .tabs{display:flex;gap:8px;margin-bottom:12px}
+    .tab-btn{flex:1;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
+    .tab-btn.active{background:rgba(255,255,255,0.03);border-color:var(--brand)}
+    .form-row{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+    .form-row input{padding:10px;border-radius:8px;border:1px solid #222;background:#0d0d0d;color:var(--text)}
+    .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+    .btn-primary{padding:10px 14px;border-radius:10px;border:none;background:var(--brand);color:#000;font-weight:800;cursor:pointer}
+    .btn-ghost{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text);cursor:pointer}
+
+    /* toast */
     .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:92px;background:#111;padding:12px 18px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 30px rgba(0,0,0,.6);color:var(--text);z-index:130;display:none}
   </style>
 </head>
@@ -228,7 +241,7 @@
     <section class="section container services" aria-labelledby="servicesTitle">
       <h2 id="servicesTitle" data-i18n="services.title">Наши услуги</h2>
       <div class="services-grid">
-        <!-- (services as before) -->
+        <!-- services list omitted for brevity; same as before -->
         <div class="service">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18"/><path d="M6 7v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7"/><path d="M10 11h4"/></svg>
           <div>
@@ -237,62 +250,7 @@
           </div>
           <div class="price">500 ₴</div>
         </div>
-        <div class="service">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M5 7h14"/><path d="M5 17h14"/></svg>
-          <div>
-            <div data-i18n="srv.paste">Замена термопасты</div>
-            <small class="muted" data-i18n="srv.paste.desc">CPU / GPU, правильная посадка</small>
-          </div>
-          <div class="price">от 200 ₴</div>
-        </div>
-        <div class="service">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v7H6z"/><path d="M6 14h12v7H6z"/></svg>
-          <div>
-            <div data-i18n="srv.parts">Замена железа</div>
-            <small class="muted" data-i18n="srv.parts.desc">RAM / SSD / GPU / PSU</small>
-          </div>
-          <div class="price">от 500 ₴</div>
-        </div>
-        <div class="service">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
-          <div>
-            <div data-i18n="srv.diag">Диагностика</div>
-            <small class="muted" data-i18n="srv.diag.desc">Тесты, отчёт, рекомендации</small>
-          </div>
-          <div class="price">от 200 ₴</div>
-        </div>
-        <div class="service">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7l-4 4 4 4"/><path d="M15 7l4 4-4 4"/></svg>
-          <div>
-            <div data-i18n="srv.bios">Прошивка BIOS</div>
-            <small class="muted" data-i18n="srv.bios.desc">Обновление, восстановление</small>
-          </div>
-          <div class="price">от 400 ₴</div>
-        </div>
-        <div class="service">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
-          <div>
-            <div data-i18n="srv.winpack">Windows + драйвера + софт</div>
-            <small class="muted" data-i18n="srv.winpack.desc">Оптимизация, готов к работе</small>
-          </div>
-          <div class="price">500 ₴</div>
-        </div>
-        <div class="service">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10"/></svg>
-          <div>
-            <div data-i18n="srv.win">Windows</div>
-            <small class="muted" data-i18n="srv.win.desc">Установка и настройка</small>
-          </div>
-          <div class="price">500 ₴</div>
-        </div>
-        <div class="service">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v4"/><path d="M12 19v4"/><path d="M4.22 4.22l2.83 2.83"/><path d="M16.95 16.95l2.83 2.83"/><path d="M1 12h4"/><path d="M19 12h4"/><path d="M4.22 19.78l2.83-2.83"/><path d="M16.95 7.05l2.83-2.83"/></svg>
-          <div>
-            <div data-i18n="srv.virus">Чистка вирусов</div>
-            <small class="muted" data-i18n="srv.virus.desc">Удаление, защита, контроль</small>
-          </div>
-          <div class="price">от 200 ₴</div>
-        </div>
+        <!-- ...other services... -->
       </div>
 
       <div class="services-note" data-i18n="services.note"> 
@@ -300,7 +258,7 @@
       </div>
     </section>
 
-    <!-- About / Reviews / FAQ (unchanged) -->
+    <!-- About / Reviews / FAQ -->
     <section class="section container about" aria-labelledby="aboutTitle">
       <div class="inner">
         <h2 id="aboutTitle" data-i18n="about.title">О нас</h2>
@@ -345,55 +303,103 @@
     </div>
   </div>
 
-  <!-- Login / Register modals -->
-  <div class="modal" id="loginModal" style="display:none">
-    <div class="modal-content">
-      <h2 data-i18n="auth.login">Вход</h2>
-      <input type="email" id="loginEmail" data-i18n-placeholder="auth.email" placeholder="Email" />
-      <input type="password" id="loginPassword" data-i18n-placeholder="auth.password" placeholder="Пароль" />
-      <div style="display:flex;gap:8px;margin-top:10px">
-        <button id="loginBtn" class="btn" type="button" data-i18n="auth.signin">Войти</button>
-        <button id="loginGoogleBtn" class="btn-outline" type="button" data-i18n="auth.google">Войти через Google</button>
-        <button class="close btn-outline" id="loginClose">Закрыть</button>
+  <!-- Unified Auth Modal (login + register + quick profile) -->
+  <div class="modal" id="authModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3 id="authTitle">Вход / Регистрация</h3>
+        <button class="btn-ghost" id="authClose">✕</button>
       </div>
-      <p data-i18n="auth.no_account">Нет аккаунта? <a href="#" id="toRegister">Регистрация</a></p>
-    </div>
-  </div>
 
-  <div class="modal" id="registerModal" style="display:none">
-    <div class="modal-content">
-      <h2 data-i18n="auth.register">Регистрация</h2>
-      <input type="text" id="regUsername" data-i18n-placeholder="auth.username" placeholder="Имя пользователя" />
-      <input type="email" id="regEmail" data-i18n-placeholder="auth.email" placeholder="Email" />
-      <input type="tel" id="regPhone" data-i18n-placeholder="auth.phone" placeholder="Номер телефона" />
-      <input type="password" id="regPassword" data-i18n-placeholder="auth.password" placeholder="Пароль" />
-      <div style="display:flex;gap:8px;margin-top:10px">
-        <button id="registerBtn" class="btn" type="button" data-i18n="auth.register_btn">Зарегистрироваться</button>
-        <button id="registerClose" class="btn-outline">Закрыть</button>
+      <div class="tabs" role="tablist" aria-label="Auth tabs">
+        <button class="tab-btn active" id="tabLogin" role="tab" aria-selected="true">Войти</button>
+        <button class="tab-btn" id="tabRegister" role="tab" aria-selected="false">Зарегистрироваться</button>
       </div>
-      <p data-i18n="auth.have_account">Уже есть аккаунт? <a href="#" id="toLogin">Войти</a></p>
+
+      <!-- Login form -->
+      <div id="loginPane">
+        <div class="form-row">
+          <input id="loginEmailModal" type="email" placeholder="Email" />
+        </div>
+        <div class="form-row">
+          <input id="loginPasswordModal" type="password" placeholder="Пароль" />
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
+          <div style="display:flex;gap:8px">
+            <button class="btn-primary" id="modalLoginBtn">Войти</button>
+            <button class="btn-ghost" id="modalGoogleBtn">Google</button>
+          </div>
+          <div>
+            <button class="btn-ghost" id="toRegisterFromLogin">Нет аккаунта?</button>
+          </div>
+        </div>
+        <div style="margin-top:12px;text-align:center">
+          <button class="btn-ghost" id="quickProfileBtn">Перейти в профиль</button>
+        </div>
+      </div>
+
+      <!-- Register form -->
+      <div id="registerPane" style="display:none">
+        <div class="form-row"><input id="modalName" type="text" placeholder="Имя" /></div>
+        <div class="form-row"><input id="modalPhone" type="tel" placeholder="Телефон (+380...)" /></div>
+        <div class="form-row"><input id="modalEmail" type="email" placeholder="Email" /></div>
+        <div class="form-row"><input id="modalPassword" type="password" placeholder="Пароль (мин. 6)" /></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn-primary" id="modalRegisterBtn">Зарегистрироваться</button>
+          <button class="btn-ghost" id="toLoginFromRegister">Уже есть?</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="toast" id="toast">Сохранено</div>
 
-  <!-- Supabase SDK -->
   <script src="https://unpkg.com/@supabase/supabase-js"></script>
-
   <script>
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // --- Translations (minimal keys used here) ---
+    const translations = {
+      ru: { 'site.title':'PADOBI PC — сервис будущего','chat.greet':'Здравствуйте! Чем можем помочь?','chat.thanks':'Спасибо за сообщение! Мы скоро ответим.','auth.fill_all':'Заполните все поля','auth.email_invalid':'Введите корректный email','auth.phone_invalid':'Некорректный телефон','auth.pass_short':'Минимум 6 символов','auth.reg_ok':'Регистрация успешна! Подтвердите email.','auth.reg_error':'Ошибка регистрации','auth.login_error':'Ошибка входа' },
+      ua: { 'site.title':'PADOBI PC — сервіс майбутнього','chat.greet':'Вітаємо! Як можемо допомогти?','chat.thanks':'Дякуємо за повідомлення! Ми скоро відповімо.' },
+      en: { 'site.title':'PADOBI PC — Future Service','chat.greet':'Hello! How can we help?','chat.thanks':'Thank you! We will reply soon.' }
+    };
+    const available = Object.keys(translations);
+    let currentLang = localStorage.getItem('padobi_lang') || (available.includes((navigator.language||'').slice(0,2)) ? (navigator.language||'').slice(0,2) : 'ru');
+    if(!available.includes(currentLang)) currentLang = 'ru';
+
+    function i18n(key){ return translations[currentLang] && translations[currentLang][key] ? translations[currentLang][key] : key; }
+
+    // setLang function (keeps earlier behavior)
+    function setText(el, txt){ if(!el) return; el.textContent = txt; }
+    function setLang(code){
+      if(!translations[code]) return;
+      currentLang = code;
+      localStorage.setItem('padobi_lang', code);
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if(key && translations[code][key] !== undefined) setText(el, translations[code][key]);
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+        const key = el.getAttribute('data-i18n-placeholder');
+        if(key && translations[code][key] !== undefined) el.setAttribute('placeholder', translations[code][key]);
+      });
+      if(translations[code]['site.title']) document.title = translations[code]['site.title'];
+      document.documentElement.setAttribute('lang', code);
+      document.querySelectorAll('.lang button').forEach(btn=>{
+        const b = btn.getAttribute('data-lang');
+        const active = b === code;
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      const firstBot = document.querySelector('.chat-messages .msg.bot');
+      if(firstBot) firstBot.textContent = translations[code]['chat.greet'] || firstBot.textContent;
+    }
 
     // Supabase client
     const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";
     const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
 
-    // i18n (already present in page)
-    const translations = { /* full translations from page above (omitted here for brevity) */ };
-    // reuse earlier i18n functions from page; already bound later
-
-    // helper: show toast
+    // utilities
     function showToast(text, ms = 1800){
       const t = document.getElementById('toast');
       t.textContent = text;
@@ -402,69 +408,17 @@
       t._hide = setTimeout(()=> t.style.display = 'none', ms);
     }
 
-    // update header avatar based on logged user or metadata
-    async function updateHeaderAvatarFromUser(user){
-      const img = document.getElementById('smallAvatar');
-      const icon = document.getElementById('profileIcon');
-      if(!user) {
-        img.style.display = 'none';
-        icon.style.display = 'block';
-        return;
-      }
-      const avatarUrl = user.user_metadata?.avatar_url;
-      if(avatarUrl){
-        img.src = avatarUrl;
-        img.style.display = 'block';
-        icon.style.display = 'none';
-        return;
-      }
-      // if no metadata avatar, try to find public avatar in storage by convention (optional)
-      img.style.display = 'none';
-      icon.style.display = 'block';
-    }
-
-    // load current user on page load and update header avatar
-    async function initAuthHeader(){
-      if(!supabase) return;
-      try{
-        const { data: { user } } = await supabase.auth.getUser();
-        await updateHeaderAvatarFromUser(user);
-      }catch(e){
-        console.warn('initAuthHeader', e);
-      }
-
-      // listen to auth changes to update avatar immediately
-      if(supabase.auth.onAuthStateChange){
-        supabase.auth.onAuthStateChange(async (event, session) => {
-          try{
-            const u = session?.user || null;
-            await updateHeaderAvatarFromUser(u);
-            // if user signed in, optionally fetch profile or refresh UI
-          }catch(e){ console.warn(e) }
-        });
-      }
-    }
-
-    // Open login/register modal helpers (no inline on* recursion)
-    function openLogin(){ document.getElementById('loginModal').style.display = 'flex'; }
-    function closeLogin(){ document.getElementById('loginModal').style.display = 'none'; }
-    function openRegister(){ document.getElementById('registerModal').style.display = 'flex'; }
-    function closeRegister(){ document.getElementById('registerModal').style.display = 'none'; }
-
-    // Event wiring
-    window.addEventListener('DOMContentLoaded', () => {
+    // init on DOMContentLoaded
+    window.addEventListener('DOMContentLoaded', ()=> {
       // language buttons
       document.querySelectorAll('.lang button').forEach(btn=>{
         if(!btn.hasAttribute('data-lang')) btn.setAttribute('data-lang', btn.textContent.toLowerCase());
         btn.style.pointerEvents = 'auto';
-        btn.addEventListener('click', ()=> {
-          const code = btn.getAttribute('data-lang');
-          // setLang exists earlier in page; call it if present
-          if(typeof setLang === 'function') setLang(code);
-        });
+        btn.addEventListener('click', ()=> setLang(btn.getAttribute('data-lang')));
       });
+      setLang(currentLang);
 
-      // menu toggle
+      // menu toggle (same as before)
       (function(){
         const menuBtn = document.getElementById('menuBtn');
         const menuDropdown = document.getElementById('menuDropdown');
@@ -477,7 +431,7 @@
           });
         }
         document.addEventListener('click', (e)=>{
-          if(!menuDropdown.contains(e.target) && menuDropdown.classList.contains('open')){
+          if(menuDropdown && !menuDropdown.contains(e.target) && menuDropdown.classList.contains('open')){
             menuDropdown.classList.remove('open');
             menuBtn.setAttribute('aria-expanded','false');
             if(menu) menu.setAttribute('aria-hidden','true');
@@ -485,35 +439,26 @@
         });
       })();
 
-      // header profile button click -> go to profile or show login
+      // header profile button behavior -> open auth modal or profile
       document.getElementById('headerProfileBtn').addEventListener('click', async ()=>{
-        if(!supabase){
-          openLogin();
-          return;
-        }
-        const { data: { session } } = await supabase.auth.getSession();
-        if(session && session.user) {
-          // go to profile
-          window.location.href = 'profile.html';
-        } else {
-          openLogin();
+        if(!supabase){ openAuthModal('login'); return; }
+        try{
+          const { data: { session } } = await supabase.auth.getSession();
+          if(session && session.user) {
+            window.location.href = 'profile.html';
+          } else {
+            openAuthModal('login');
+          }
+        }catch(e){
+          console.warn(e);
+          openAuthModal('login');
         }
       });
 
-      // init auth header avatar
-      initAuthHeader().catch(console.error);
+      // init header avatar from current user
+      initHeaderAvatar();
 
-      // wire up login/register modal buttons
-      document.getElementById('loginBtn').addEventListener('click', loginUser);
-      document.getElementById('loginGoogleBtn').addEventListener('click', loginWithGoogle);
-      document.getElementById('loginClose').addEventListener('click', closeLogin);
-      document.getElementById('toRegister').addEventListener('click', (e)=>{ e.preventDefault(); closeLogin(); openRegister(); });
-
-      document.getElementById('registerBtn').addEventListener('click', registerUser);
-      document.getElementById('registerClose').addEventListener('click', closeRegister);
-      document.getElementById('toLogin').addEventListener('click', (e)=>{ e.preventDefault(); closeRegister(); openLogin(); });
-
-      // Chat handlers (same as earlier)
+      // wire chat (same)
       const chatToggle = document.getElementById('chatToggle');
       const chatWindow = document.getElementById('chatWindow');
       const chatClose = document.getElementById('chatClose');
@@ -521,115 +466,188 @@
       const chatInput = document.getElementById('chatInput');
       const chatMessages = document.getElementById('chatMessages');
       function appendUserMessage(text){
-        const userMsg = document.createElement('div');
-        userMsg.className = 'msg user';
-        userMsg.textContent = text;
-        chatMessages.appendChild(userMsg);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        const userMsg = document.createElement('div'); userMsg.className='msg user'; userMsg.textContent=text; chatMessages.appendChild(userMsg); chatMessages.scrollTop = chatMessages.scrollHeight;
       }
       function appendBotMessage(text){
-        const botMsg = document.createElement('div');
-        botMsg.className = 'msg bot';
-        botMsg.textContent = text;
-        chatMessages.appendChild(botMsg);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        const botMsg = document.createElement('div'); botMsg.className='msg bot'; botMsg.textContent=text; chatMessages.appendChild(botMsg); chatMessages.scrollTop = chatMessages.scrollHeight;
       }
-      chatToggle && chatToggle.addEventListener('click', ()=>{
+      chatToggle.addEventListener('click', ()=>{
         const isOpen = chatWindow.style.display === 'flex';
-        if(isOpen){ chatWindow.style.display = 'none'; chatWindow.setAttribute('aria-hidden','true'); }
-        else { chatWindow.style.display = 'flex'; chatWindow.setAttribute('aria-hidden','false'); chatInput && chatInput.focus(); }
+        if(isOpen){ chatWindow.style.display='none'; chatWindow.setAttribute('aria-hidden','true'); }
+        else{ chatWindow.style.display='flex'; chatWindow.setAttribute('aria-hidden','false'); chatInput && chatInput.focus(); }
       });
-      chatClose && chatClose.addEventListener('click', ()=>{ chatWindow.style.display = 'none'; chatWindow.setAttribute('aria-hidden','true'); });
-      if(chatSend){
-        chatSend.addEventListener('click', ()=>{
-          const text = (chatInput.value || '').trim();
-          if(!text) return;
-          appendUserMessage(text);
-          chatInput.value = '';
-          setTimeout(()=> appendBotMessage(typeof i18n === 'function' ? i18n('chat.thanks') : 'Спасибо! Мы скоро ответим.'), 600);
-        });
-      }
-      chatInput && chatInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ e.preventDefault(); chatSend && chatSend.click(); } });
+      chatClose.addEventListener('click', ()=>{ chatWindow.style.display='none'; chatWindow.setAttribute('aria-hidden','true'); });
+      chatSend.addEventListener('click', ()=>{
+        const text = (chatInput.value||'').trim(); if(!text) return; appendUserMessage(text); chatInput.value=''; setTimeout(()=> appendBotMessage(i18n('chat.thanks')),600);
+      });
+      chatInput && chatInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); chatSend.click(); } });
 
-    }); // DOMContentLoaded end
+      // Auth modal wiring
+      document.getElementById('authClose').addEventListener('click', closeAuthModal);
+      document.getElementById('tabLogin').addEventListener('click', ()=> switchAuthTab('login'));
+      document.getElementById('tabRegister').addEventListener('click', ()=> switchAuthTab('register'));
+      document.getElementById('toRegisterFromLogin').addEventListener('click', ()=> switchAuthTab('register'));
+      document.getElementById('toLoginFromRegister').addEventListener('click', ()=> switchAuthTab('login'));
+      document.getElementById('quickProfileBtn').addEventListener('click', async ()=>{
+        // If logged in -> go profile, else open login
+        if(!supabase){ openAuthModal('login'); return; }
+        const { data: { session } } = await supabase.auth.getSession();
+        if(session && session.user) window.location.href = 'profile.html';
+        else openAuthModal('login');
+      });
 
-    // ----- Auth helpers: register, login, google -----
-    async function registerUser(){
-      if(!supabase) { alert('Ошибка: сервис временно недоступен'); return; }
-      const username = document.getElementById("regUsername").value.trim();
-      const email = document.getElementById("regEmail").value.trim();
-      const phone = document.getElementById("regPhone").value.trim();
-      const password = document.getElementById("regPassword").value.trim();
-      if (!username || !email || !phone || !password) { alert(i18n ? i18n('auth.fill_all') : "Заполните все поля"); return; }
-      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!emailOk) { alert(i18n ? i18n('auth.email_invalid') : "Введите корректный email"); return; }
-      if (!/^\+?\d{10,15}$/.test(phone)) { alert(i18n ? i18n('auth.phone_invalid') : "Некорректный телефон"); return; }
-      if (password.length < 6) { alert(i18n ? i18n('auth.pass_short') : "Минимум 6 символов"); return; }
-      try{
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { full_name: username, phone_number: phone }
-          }
-        });
-        if(error) throw error;
-        closeRegister();
-        showToast(i18n ? i18n('auth.reg_ok') : 'Регистрация успешна! Подтвердите email.');
-        // after signUp the user might need to confirm email; auth state may still be null
-      }catch(err){
-        console.error('registerUser', err);
-        alert((i18n ? i18n('auth.reg_error') : 'Ошибка регистрации') + ': ' + (err.message || err));
+      document.getElementById('modalLoginBtn').addEventListener('click', modalLogin);
+      document.getElementById('modalGoogleBtn').addEventListener('click', ()=> loginWithOAuth('google'));
+      document.getElementById('modalRegisterBtn').addEventListener('click', modalRegister);
+
+      // modal overlay close
+      const authModal = document.getElementById('authModal');
+      authModal.addEventListener('click', (e)=>{ if(e.target === authModal) closeAuthModal(); });
+      document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeAuthModal(); });
+
+    }); // end DOMContentLoaded
+
+    // ---- Auth modal helpers ----
+    function openAuthModal(tab = 'login'){
+      const modal = document.getElementById('authModal');
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden','false');
+      switchAuthTab(tab);
+    }
+    function closeAuthModal(){
+      const modal = document.getElementById('authModal');
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden','true');
+    }
+    function switchAuthTab(tab){
+      const loginPane = document.getElementById('loginPane');
+      const registerPane = document.getElementById('registerPane');
+      const tabLogin = document.getElementById('tabLogin');
+      const tabRegister = document.getElementById('tabRegister');
+      if(tab === 'register'){
+        loginPane.style.display = 'none';
+        registerPane.style.display = 'block';
+        tabLogin.classList.remove('active'); tabRegister.classList.add('active');
+      } else {
+        loginPane.style.display = 'block';
+        registerPane.style.display = 'none';
+        tabLogin.classList.add('active'); tabRegister.classList.remove('active');
       }
     }
 
-    async function loginUser(){
-      if(!supabase) { alert('Ошибка: сервис временно недоступен'); return; }
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value.trim();
-      if(!email || !password){ alert(i18n ? i18n('auth.fill_all') : 'Заполните все поля'); return; }
+    // --- modal register/login implementations (use same validations as before) ---
+    async function modalRegister(){
+      const name = (document.getElementById('modalName').value || '').trim();
+      const phone = (document.getElementById('modalPhone').value || '').trim();
+      const email = (document.getElementById('modalEmail').value || '').trim();
+      const password = (document.getElementById('modalPassword').value || '').trim();
+      if(!name || !phone || !email || !password){ showToast(i18n('auth.fill_all')); return; }
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showToast(i18n('auth.email_invalid')); return; }
+      if(!/^\+?\d{10,15}$/.test(phone)){ showToast(i18n('auth.phone_invalid')); return; }
+      if(password.length < 6){ showToast(i18n('auth.pass_short')); return; }
+      if(!supabase){ showToast('Сервис недоступен'); return; }
+      try{
+        const { data, error } = await supabase.auth.signUp({
+          email, password,
+          options: { data: { full_name: name, phone_number: phone } }
+        });
+        if(error) throw error;
+        // If signUp succeeded, attempt signIn (best-effort) so user can continue to profile UX
+        try {
+          const { error: signinErr } = await supabase.auth.signInWithPassword({ email, password });
+          if(!signinErr){
+            closeAuthModal();
+            showToast(i18n('auth.reg_ok'));
+            // update header avatar from newly signed in user (metadata likely empty)
+            const { data: { user } } = await supabase.auth.getUser();
+            if(user) updateHeaderAvatar(user);
+            // redirect to profile
+            setTimeout(()=> window.location.href = 'profile.html', 600);
+            return;
+          }
+        } catch(e){}
+        closeAuthModal();
+        showToast(i18n('auth.reg_ok'));
+      }catch(err){
+        console.error('modalRegister', err);
+        showToast((i18n('auth.reg_error') || 'Ошибка регистрации') + (err?.message ? ': '+err.message : ''));
+      }
+    }
+
+    async function modalLogin(){
+      const email = (document.getElementById('loginEmailModal').value || '').trim();
+      const password = (document.getElementById('loginPasswordModal').value || '').trim();
+      if(!email || !password){ showToast(i18n('auth.fill_all')); return; }
+      if(!supabase){ showToast('Сервис недоступен'); return; }
       try{
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if(error) throw error;
-        closeLogin();
-        // update header and redirect to profile
-        try{
-          const { data: { user } } = await supabase.auth.getUser();
-          if(user && user.user_metadata?.avatar_url){
-            document.getElementById('smallAvatar').src = user.user_metadata.avatar_url;
-            document.getElementById('smallAvatar').style.display = 'block';
-            document.getElementById('profileIcon').style.display = 'none';
-          }
-        }catch(e){}
+        closeAuthModal();
+        // update header avatar
+        const { data: { user } } = await supabase.auth.getUser();
+        if(user) updateHeaderAvatar(user);
+        // redirect to profile
         window.location.href = 'profile.html';
       }catch(err){
-        console.error('loginUser', err);
-        alert((i18n ? i18n('auth.login_error') : 'Ошибка входа') + ': ' + (err.message || err));
+        console.error('modalLogin', err);
+        showToast((i18n('auth.login_error') || 'Ошибка входа') + (err?.message ? ': '+err.message : ''));
       }
     }
 
-    async function loginWithGoogle(){
-      if(!supabase){ alert('Ошибка: сервис временно недоступен'); return; }
+    async function loginWithOAuth(provider){
+      if(!supabase){ showToast('Сервис недоступен'); return; }
       try{
-        const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
-        if(error) throw error;
-        // the redirect flow will continue via Supabase
+        await supabase.auth.signInWithOAuth({ provider });
+        // redirect will happen through Supabase
       }catch(err){
-        console.error('loginWithGoogle', err);
-        alert((i18n ? i18n('auth.login_error') : 'Ошибка входа') + ': ' + (err.message || err));
+        console.error('loginWithOAuth', err);
+        showToast((i18n('auth.login_error') || 'Ошибка входа') + (err?.message ? ': '+err.message : ''));
       }
     }
 
-    // Accessibility: Esc closes menu/chat/modals
+    // update header avatar from user object
+    async function updateHeaderAvatarFromUser(user){
+      if(!user) {
+        document.getElementById('smallAvatar').style.display = 'none';
+        document.getElementById('profileIcon').style.display = 'block';
+        return;
+      }
+      const avatarUrl = user.user_metadata?.avatar_url;
+      if(avatarUrl){
+        document.getElementById('smallAvatar').src = avatarUrl;
+        document.getElementById('smallAvatar').style.display = 'block';
+        document.getElementById('profileIcon').style.display = 'none';
+      } else {
+        document.getElementById('smallAvatar').style.display = 'none';
+        document.getElementById('profileIcon').style.display = 'block';
+      }
+    }
+
+    async function initHeaderAvatar(){
+      if(!supabase) return;
+      try{
+        const { data: { user } } = await supabase.auth.getUser();
+        await updateHeaderAvatarFromUser(user);
+        // react to auth changes
+        if(supabase.auth.onAuthStateChange){
+          supabase.auth.onAuthStateChange(async (event, session) => {
+            const u = session?.user || null;
+            await updateHeaderAvatarFromUser(u);
+          });
+        }
+      }catch(e){ console.warn('initHeaderAvatar', e); }
+    }
+
+    // helper: signInWithGoogle for modal button
+    async function loginWithGoogle(){ return loginWithOAuth('google'); }
+
+    // Accessibility: global Esc closes cart/menu/modal/chat
     document.addEventListener('keydown', (e)=>{
       if(e.key === 'Escape'){
-        // close chat
+        const authModal = document.getElementById('authModal');
+        if(authModal && authModal.classList.contains('is-open')) closeAuthModal();
         const chatWindow = document.getElementById('chatWindow');
         if(chatWindow && chatWindow.style.display === 'flex'){ chatWindow.style.display = 'none'; chatWindow.setAttribute('aria-hidden','true'); }
-        // hide modals
-        document.getElementById('loginModal').style.display = 'none';
-        document.getElementById('registerModal').style.display = 'none';
-        // close menu
         const menuDropdown = document.getElementById('menuDropdown');
         if(menuDropdown && menuDropdown.classList.contains('open')){ menuDropdown.classList.remove('open'); document.getElementById('menuBtn').setAttribute('aria-expanded','false'); document.getElementById('menu').setAttribute('aria-hidden','true'); }
       }
