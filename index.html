@@ -633,109 +633,76 @@ function sendMessage() {
       // init
       setLang('ru')
     </script>
-<!-- Модальное окно регистрации -->
-<div class="modal" id="authModal">
-  <div class="modal-content">
-    <h2>Регистрация / Вход</h2>
-    <input type="text" id="username" placeholder="Имя пользователя" />
-    <input type="email" id="email" placeholder="Email" />
-    <input type="tel" id="phone" placeholder="Номер телефона" />
-    <input type="password" id="password" placeholder="Пароль" />
-    <button onclick="registerUser()">Зарегистрироваться</button>
-    <button class="close" onclick="closeAuth()">Закрыть</button>
+<!-- модалка регистрации -->
+  <div class="modal" id="authModal">
+    <div class="modal-content">
+      <h2>Регистрация / Вход</h2>
+      <input type="text" id="username" placeholder="Имя пользователя" />
+      <input type="email" id="email" placeholder="Email" />
+      <input type="tel" id="phone" placeholder="Номер телефона" />
+      <input type="password" id="password" placeholder="Пароль" />
+      <button onclick="registerUser()">Зарегистрироваться</button>
+      <button class="close" onclick="closeAuth()">Закрыть</button>
+    </div>
   </div>
-</div>
 
-<style>
-.modal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-.modal-content {
-  background: #111;
-  color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.modal-content input {
-  padding: 8px;
-  border: 1px solid #333;
-  border-radius: 6px;
-  background: #222;
-  color: #fff;
-}
-.modal-content button {
-  padding: 8px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.modal-content .close {
-  background: #444;
-}
-</style>
+  <!-- Подключаем Supabase и скрипты -->
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+  <script>
+    const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  
+    const supabaseKey = "⚡️ТВОЙ anon ключ";  
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-<!-- Подключаем supabase SDK (всегда первой строкой среди JS) -->
-<script src="https://unpkg.com/@supabase/supabase-js"></script>
+    // Проверка сессии при загрузке
+    document.addEventListener("DOMContentLoaded", async () => {
+      const { data: { session } } = await supabase.auth.getSession();
 
-<script>
-  // === Настройка Supabase ===
-  const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  // ⚡ сюда твой URL
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";   // ⚡ сюда твой anon ключ
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-  // === Открыть/закрыть модалку ===
-  function openAuth() {
-    document.getElementById("authModal").style.display = "flex";
-  }
-
-  function closeAuth() {
-    document.getElementById("authModal").style.display = "none";
-  }
-
-  // === Регистрация пользователя ===
-  async function registerUser() {
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    if (!username || !email || !phone || !password) {
-      alert("Заполните все поля!");
-      return;
-    }
-
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { username, phone_number: phone }
+      if (session) {
+        window.location.href = "profile.html"; // если юзер уже вошёл
       }
     });
 
-    if (error) {
-      console.error(error);
-      alert("Ошибка: " + error.message);
-    } else {
-      alert("Регистрация успешна! Подтвердите email.");
-      closeAuth();
-
-window.location.href = "profile.html"
+    function openAuth() {
+      document.getElementById("authModal").style.display = "flex";
     }
-  }
-</script>
+    function closeAuth() {
+      document.getElementById("authModal").style.display = "none";
+    }
+
+    // Регистрация
+    async function registerUser() {
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!username || !email || !phone || !password) {
+        alert("Заполните все поля!");
+        return;
+      }
+
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            username,
+            phone_number: phone
+          }
+        }
+      });
+
+      if (error) {
+        alert("Ошибка: " + error.message);
+      } else {
+        alert("Регистрация успешна! Подтвердите email.");
+        window.location.href = "profile.html";
+      }
+    }
+  </script>
   </body>
 </html>
+
 
 
 
