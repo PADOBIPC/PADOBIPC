@@ -7,68 +7,91 @@
   <style>
     body {
       margin: 0;
-      font-family: "Orbitron", sans-serif;
-      background: #0a0a0f;
-      color: #e0e0ff;
+      font-family: "Arial", sans-serif;
+      background: #000;
+      color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
+
     .profile-card {
-      background: rgba(20, 20, 40, 0.95);
-      border: 1px solid #2a2a50;
+      background: #0a0a0a;
+      border: 1px solid #222;
       border-radius: 20px;
       padding: 40px;
       text-align: center;
       width: 400px;
-      box-shadow: 0 0 25px rgba(0, 150, 255, 0.4);
+      box-shadow: 0 0 20px rgba(0, 200, 255, 0.3);
+      position: relative;
     }
+
     .avatar {
-      width: 120px;
-      height: 120px;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
-      border: 3px solid #0090ff;
+      border: 3px solid #00c8ff;
       object-fit: cover;
       margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(0, 200, 255, 0.6);
     }
+
     h2 {
       margin: 10px 0;
       font-size: 1.6em;
-      color: #00c8ff;
+      font-weight: bold;
     }
+
     p {
       margin: 8px 0;
-      color: #b0b0d0;
+      color: #aaa;
+      font-size: 0.95em;
     }
+
     input {
       margin: 10px 0;
       padding: 10px;
-      border: none;
+      border: 1px solid #333;
       border-radius: 8px;
       width: 100%;
-      background: #151525;
+      background: #111;
       color: #fff;
+      text-align: center;
     }
+
     button {
-      margin: 8px 0;
-      padding: 10px;
+      margin: 10px 0;
+      padding: 12px;
       width: 100%;
-      background: #00c8ff;
-      border: none;
+      background: transparent;
+      border: 2px solid #00c8ff;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      transition: background 0.2s;
+      color: #fff;
+      transition: 0.3s;
     }
+
     button:hover {
-      background: #0080ff;
+      background: #00c8ff;
+      color: #000;
+      box-shadow: 0 0 15px #00c8ff;
+    }
+
+    .btn-secondary {
+      border-color: #666;
+    }
+
+    .btn-secondary:hover {
+      background: #444;
+      box-shadow: none;
     }
   </style>
 </head>
 <body>
   <div class="profile-card">
-    <img id="avatar" class="avatar" src="https://via.placeholder.com/120" alt="Аватар">
+    <img id="avatar" class="avatar" src="https://via.placeholder.com/140" alt="Аватар">
     <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
     <button onclick="document.getElementById('avatarInput').click()">Загрузить фото</button>
 
@@ -80,7 +103,7 @@
     <p id="phone"></p>
     <p id="created"></p>
 
-    <button onclick="logout()">Выйти</button>
+    <button class="btn-secondary" onclick="logout()">Выйти</button>
   </div>
 
   <script src="https://unpkg.com/@supabase/supabase-js"></script>
@@ -98,9 +121,13 @@
       }
 
       document.getElementById("username").textContent = user.user_metadata.username || "Без имени";
-      document.getElementById("email").textContent = "📧 " + user.email;
-      document.getElementById("phone").textContent = user.user_metadata.phone_number ? "📱 " + user.user_metadata.phone_number : "";
-      document.getElementById("created").textContent = "🕒 Дата регистрации: " + new Date(user.created_at).toLocaleDateString();
+      document.getElementById("email").textContent = "Email: " + user.email;
+      document.getElementById("phone").textContent = user.user_metadata.phone_number ? "Телефон: " + user.user_metadata.phone_number : "";
+      document.getElementById("created").textContent = "Дата регистрации: " + new Date(user.created_at).toLocaleDateString();
+
+      if (user.user_metadata.avatar_url) {
+        document.getElementById("avatar").src = user.user_metadata.avatar_url;
+      }
     });
 
     // Изменение имени
@@ -149,3 +176,4 @@
   </script>
 </body>
 </html>
+
