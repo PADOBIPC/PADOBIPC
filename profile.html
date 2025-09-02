@@ -3,203 +3,138 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Профиль | PADOBI PC</title>
-  <meta name="description" content="Личный профиль пользователя PADOBI PC." />
-
+  <title>Профиль — PADOBI PC</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
   <style>
-    :root{
-      --bg:#000;          
-      --panel:#0b0b0b;    
-      --card:#0f0f0f;     
-      --muted:#a9a9a9;    
-      --text:#fff;        
-      --brand:#0ff;       
-      --accent:#fff;      
+    :root {
+      --bg:#000;
+      --panel:#0b0b0b;
+      --card:#0f0f0f;
+      --muted:#a9a9a9;
+      --text:#fff;
+      --brand:#0ff;
+      --accent:#fff;
       --radius:20px;
       --shadow:0 16px 48px rgba(0,0,0,.8);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
-      background:var(--bg); color:var(--text); line-height:1.6;
-      display:flex; flex-direction:column;
+    body {
+      margin:0;
+      font-family:Inter, sans-serif;
+      background:var(--bg);
+      color:var(--text);
     }
-    a{color:inherit; text-decoration:none}
-    .container{max-width:1200px; margin:0 auto; padding:0 20px}
-
-    /* Header (скопировано с главной) */
-    header{position:sticky; top:0; z-index:50; background:var(--bg); border-bottom:1px solid #1c1c1c; box-shadow:0 0 20px rgba(0,255,255,.06)}
-    .nav{display:flex; align-items:center; justify-content:space-between; height:72px}
-    .brand{display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:.6px}
-    .brand__logo{width:42px; height:42px; background:url('668811e6-8eb7-4f0c-85a5-6d9ac869eb16.png') center/cover no-repeat; filter:drop-shadow(0 0 10px var(--brand))}
-    .brand__text{font-size:20px; text-transform:uppercase}
-    .actions{display:flex; align-items:center; gap:10px}
-    .icon-btn{position:relative; display:grid; place-items:center; width:42px; height:42px; border-radius:10px; background:var(--panel); border:1px solid #232323; cursor:pointer; transition:.2s}
-    .icon-btn:hover{background:#141414; box-shadow:0 0 12px rgba(0,255,255,.25)}
-
-    /* Profile card */
-    .profile-wrapper{
-      flex:1;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:60px 20px;
-    }
-    .profile-card {
-      background:var(--panel);
-      border:1px solid #1f1f1f;
-      border-radius:var(--radius);
-      padding:40px;
-      text-align:center;
-      width:100%;
-      max-width:420px;
-      box-shadow:0 0 20px rgba(0,255,255,.15);
-    }
-    .avatar {
-      width:140px;
-      height:140px;
-      border-radius:50%;
-      border:3px solid var(--brand);
-      object-fit:cover;
-      margin-bottom:20px;
-      box-shadow:0 0 20px rgba(0,255,255,.4);
-    }
-    h2 {
-      margin:10px 0;
-      font-size:1.6em;
-      font-weight:900;
-      letter-spacing:.5px;
-    }
-    p {
-      margin:8px 0;
-      color:var(--muted);
-      font-size:0.95em;
-    }
-    input {
-      margin:10px 0;
-      padding:12px;
-      border:1px solid #232323;
-      border-radius:10px;
-      width:100%;
-      background:#111;
-      color:#fff;
-      text-align:center;
-    }
-    button {
-      margin:10px 0;
-      padding:12px;
-      width:100%;
-      background:transparent;
-      border:2px solid var(--brand);
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:800;
-      color:#fff;
-      text-transform:uppercase;
-      letter-spacing:.5px;
-      transition:.3s;
-    }
-    button:hover {
-      background:var(--brand);
-      color:#000;
-      box-shadow:0 0 15px var(--brand);
-    }
-    .btn-secondary {
-      border-color:#444;
-    }
-    .btn-secondary:hover {
-      background:#222;
-      box-shadow:none;
-    }
+    /* HEADER */
+    header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid #1c1c1c;box-shadow:0 0 20px rgba(0,255,255,.06)}
+    .nav{display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 20px}
+    .brand{display:flex;align-items:center;gap:12px;cursor:pointer;font-weight:900;letter-spacing:.6px}
+    .brand__logo{width:42px;height:42px;background:url('668811e6-8eb7-4f0c-85a5-6d9ac869eb16.png') center/cover no-repeat;filter:drop-shadow(0 0 10px var(--brand))}
+    .brand__text{font-size:20px;text-transform:uppercase}
+    .actions{display:flex;align-items:center;gap:10px}
+    .icon-btn{position:relative;display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:var(--panel);border:1px solid #232323;cursor:pointer;transition:.2s}
+    .icon-btn:hover{background:#141414;box-shadow:0 0 12px rgba(0,255,255,.25)}
+    /* PROFILE */
+    .profile-container{max-width:600px;margin:40px auto;padding:20px;background:var(--panel);border-radius:var(--radius);box-shadow:var(--shadow);text-align:center}
+    .avatar{width:120px;height:120px;border-radius:50%;border:2px solid var(--brand);margin:0 auto 20px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#111}
+    .avatar img{width:100%;height:100%;object-fit:cover}
+    .avatar-placeholder{font-size:60px;color:var(--muted)}
+    h2{margin:0 0 10px}
+    .muted{color:var(--muted);font-size:14px}
+    .btn{margin-top:12px;padding:10px 16px;border-radius:10px;border:1px solid var(--brand);background:transparent;color:var(--text);cursor:pointer;transition:.2s}
+    .btn:hover{background:var(--brand);color:#000;box-shadow:0 0 14px var(--brand)}
+    .hidden{display:none}
+    .lang{display:flex;gap:8px;justify-content:center;margin-top:20px}
+    .lang button{padding:6px 12px;border-radius:8px;border:1px solid #232323;background:#0d0d0d;color:#ddd;cursor:pointer;font-weight:700}
+    .lang button.active{background:#fff;color:#000;box-shadow:0 0 10px var(--brand)}
   </style>
 </head>
 <body>
   <!-- HEADER -->
   <header>
-    <div class="container">
-      <div class="nav">
-        <div class="brand">
-          <div class="brand__logo"></div>
-          <div class="brand__text">PADOBI PC</div>
-        </div>
-        <div class="actions">
-          <a href="index.html" class="icon-btn">🏠</a>
-        </div>
+    <div class="nav">
+      <div class="brand" onclick="window.location.href='index.html'">
+        <div class="brand__logo"></div>
+        <div class="brand__text">PADOBI PC</div>
+      </div>
+      <div class="actions">
+        <div class="icon-btn">🛒</div>
+        <div class="icon-btn">☰</div>
       </div>
     </div>
   </header>
 
   <!-- PROFILE -->
-  <div class="profile-wrapper">
-    <div class="profile-card">
-      <img id="avatar" class="avatar" src="https://via.placeholder.com/140" alt="Аватар">
-      <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
-      <button onclick="document.getElementById('avatarInput').click()">Загрузить фото</button>
+  <div class="profile-container">
+    <div class="avatar" id="avatar">
+      <div class="avatar-placeholder">👤</div>
+    </div>
+    <input type="file" id="uploadAvatar" class="hidden" accept="image/*" onchange="previewAvatar(event)" />
+    <button class="btn" onclick="document.getElementById('uploadAvatar').click()">Загрузить фото</button>
 
-      <h2 id="username">Загрузка...</h2>
-      <input type="text" id="newName" placeholder="Новое имя">
-      <button onclick="updateName()">Изменить имя</button>
+    <h2 id="username">Ваше имя: <span id="user-name">Загрузка...</span></h2>
+    <button class="btn" onclick="toggleNameEdit()">Изменить имя</button>
 
-      <p id="email"></p>
-      <p id="phone"></p>
-      <p id="created"></p>
+    <div id="nameEdit" class="hidden">
+      <input type="text" id="newName" placeholder="Введите новое имя" style="padding:8px;border-radius:6px;border:1px solid #333;background:#111;color:#fff">
+      <button class="btn" onclick="saveName()">Сохранить</button>
+    </div>
 
-      <button class="btn-secondary" onclick="logout()">Выйти</button>
+    <p class="muted" id="email"></p>
+    <p class="muted" id="registered"></p>
+
+    <div class="lang">
+      <button onclick="setLang('ru')" id="btn-ru" class="active">RU</button>
+      <button onclick="setLang('en')" id="btn-en">EN</button>
     </div>
   </div>
 
-  <script src="https://unpkg.com/@supabase/supabase-js"></script>
   <script>
     const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";
+    const supabaseKey = "YOUR_KEY_HERE";
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    document.addEventListener("DOMContentLoaded", async () => {
+    async function loadProfile() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         window.location.href = "index.html";
         return;
       }
-
-      document.getElementById("username").textContent = user.user_metadata.username || "Без имени";
+      document.getElementById("user-name").textContent = user.user_metadata.username || "Без имени";
       document.getElementById("email").textContent = "Email: " + user.email;
-      document.getElementById("phone").textContent = user.user_metadata.phone_number ? "Телефон: " + user.user_metadata.phone_number : "";
-      document.getElementById("created").textContent = "Дата регистрации: " + new Date(user.created_at).toLocaleDateString();
-
-      if (user.user_metadata.avatar_url) {
-        document.getElementById("avatar").src = user.user_metadata.avatar_url;
-      }
-    });
-
-    async function updateName() {
-      const newName = document.getElementById("newName").value.trim();
-      if (!newName) return alert("Введите имя");
-
-      const { error } = await supabase.auth.updateUser({ data: { username: newName } });
-      if (error) alert("Ошибка: " + error.message);
-      else {
-        document.getElementById("username").textContent = newName;
-        alert("Имя обновлено!");
-      }
+      document.getElementById("registered").textContent = "Зарегистрирован: " + new Date(user.created_at).toLocaleDateString();
     }
 
-    document.getElementById("avatarInput").addEventListener("change", async (event) => {
+    function toggleNameEdit() {
+      document.getElementById("nameEdit").classList.toggle("hidden");
+    }
+
+    async function saveName() {
+      const newName = document.getElementById("newName").value.trim();
+      if (!newName) return;
+      const { data, error } = await supabase.auth.updateUser({ data: { username: newName } });
+      if (error) { alert("Ошибка: " + error.message); return; }
+      document.getElementById("user-name").textContent = newName;
+      toggleNameEdit();
+    }
+
+    function previewAvatar(event) {
       const file = event.target.files[0];
       if (!file) return;
-      const { data: { user } } = await supabase.auth.getUser();
-      const filePath = `avatars/${user.id}.png`;
-      const { error: uploadError } = await supabase.storage.from("avatars").upload(filePath, file, { upsert: true });
-      if (uploadError) return alert("Ошибка загрузки: " + uploadError.message);
-      const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
-      document.getElementById("avatar").src = data.publicUrl;
-      await supabase.auth.updateUser({ data: { avatar_url: data.publicUrl } });
-    });
-
-    async function logout() {
-      await supabase.auth.signOut();
-      window.location.href = "index.html";
+      const reader = new FileReader();
+      reader.onload = e => {
+        document.getElementById("avatar").innerHTML = `<img src="${e.target.result}">`;
+      };
+      reader.readAsDataURL(file);
     }
+
+    function setLang(lang) {
+      document.getElementById("btn-ru").classList.remove("active");
+      document.getElementById("btn-en").classList.remove("active");
+      document.getElementById("btn-" + lang).classList.add("active");
+      // тут можно добавить перевод текста
+    }
+
+    loadProfile();
   </script>
 </body>
 </html>
