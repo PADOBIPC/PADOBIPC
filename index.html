@@ -138,9 +138,12 @@
             <button data-lang="ua">UA</button>
             <button data-lang="en">EN</button>
           </div>
-          <button class="icon-btn" title="Профиль" onclick="window.location.href='profile.html'">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M6 21a6 6 0 0 1 12 0"/></svg>
-          </button>
+          <button class="icon-btn" title="Профиль" onclick="openAuth()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="7" r="4"/>
+    <path d="M6 21a6 6 0 0 1 12 0"/>
+  </svg>
+</button>
           <button class="icon-btn" title="Корзина" onclick="window.location.href='cart.html'">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6l-2-3"/><circle cx="9" cy="21" r="1.5"/><circle cx="18" cy="21" r="1.5"/></svg>
             <span class="badge">0</span>
@@ -528,8 +531,90 @@ function sendMessage() {
       // init
       setLang('ru')
     </script>
+<!-- Модальное окно регистрации -->
+<div class="modal" id="authModal">
+  <div class="modal-content">
+    <h2>Регистрация / Вход</h2>
+    <input type="text" id="username" placeholder="Имя пользователя" />
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Пароль" />
+    <button onclick="registerUser()">Зарегистрироваться</button>
+    <button class="close" onclick="closeAuth()">Закрыть</button>
+  </div>
+</div>
+
+<style>
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: #111;
+  color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.modal-content input {
+  padding: 8px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #222;
+  color: #fff;
+}
+.modal-content button {
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.modal-content .close {
+  background: #444;
+}
+</style>
+
+<script>
+function openAuth() {
+  document.getElementById("authModal").style.display = "flex"
+}
+
+function closeAuth() {
+  document.getElementById("authModal").style.display = "none"
+}
+
+function registerUser() {
+  const username = document.getElementById("username").value
+  const email = document.getElementById("email").value
+  const password = document.getElementById("password").value
+
+  if (!username || !email || !password) {
+    alert("Заполните все поля!")
+    return
+  }
+
+  // ВРЕМЕННО — сохраняем в localStorage вместо базы
+  localStorage.setItem("user", JSON.stringify({ username, email }))
+
+  alert("Регистрация успешна!")
+  closeAuth()
+
+  // Переносим в профиль
+  window.location.href = "profile.html"
+}
+</script>
+
   </body>
 </html>
+
 
 
 
