@@ -761,24 +761,45 @@ function sendMessage() {
 <!-- Подключаем наши скрипты -->
 <script src="/js/auth.js"></script>
 <script src="/js/services.js"></script>
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+<script>
+async function registerUser() {
+  const username = document.getElementById("username").value.trim()
+  const email = document.getElementById("email").value.trim()
+  const password = document.getElementById("password").value.trim()
+  const phone_number = document.getElementById("phone_number").value.trim()
+
+  if (!username || !email || !password) {
+    alert("Заполните все обязательные поля!")
+    return
+  }
+
+  if (!email.includes("@") || !email.includes(".")) {
+    alert("Введите корректный email!")
+    return
+  }
+
+  if (password.length < 6) {
+    alert("Пароль должен быть не менее 6 символов")
+    return
+  }
+
+  // Сохраняем в базу Supabase
+  const { data, error } = await supabase
+    .from("users")
+    .insert([{ username, email, password, phone_number }])
+
+  if (error) {
+    console.error(error)
+    alert("Ошибка: " + error.message)
+  } else {
+    alert("Регистрация успешна!")
+    closeAuth()
+    window.location.href = "profile.html"
+  }
+}
+</script>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
