@@ -110,72 +110,116 @@
   </head>
   <body>
     <!-- Header -->
-    <header>
-      <div class="container nav">
-       <a class="brand" href="#">
-  <img src="photo_2025-09-02_11-12-54.jpg" alt="Padobi Logo" class="brand__logo-img">
-  <span class="brand__text">PADOBI PC</span>
-</a>
+  <!-- Header -->
+<header>
+  <div class="container nav">
+    <!-- Логотип -->
+    <a class="brand" href="#">
+      <img src="photo_2025-09-02_11-12-54.jpg" alt="Padobi Logo" class="brand__logo-img">
+      <span class="brand__text">PADOBI PC</span>
+    </a>
 
-<style>
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* расстояние между картинкой и текстом */
-  text-decoration: none;
-  color: inherit;
-}
+    <style>
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* расстояние между картинкой и текстом */
+        text-decoration: none;
+        color: inherit;
+      }
 
-.brand__logo-img {
-  height: 32px;  /* подгони под высоту меню */
-  width: auto;
-  border-radius: 6px; /* закругление углов (по желанию) */
-}
-</style>
-        <div class="actions">
-          <div class="lang" aria-label="Language">
-            <button data-lang="ru" class="active">RU</button>
-            <button data-lang="ua">UA</button>
-            <button data-lang="en">EN</button>
-          </div>
-          <button class="icon-btn" title="Профиль" onclick="openAuth()">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-    <circle cx="12" cy="7" r="4"/>
-    <path d="M6 21a6 6 0 0 1 12 0"/>
-  </svg>
-</button>
-          <div class="dropdown">
-  <!-- Сначала корзина -->
-  <button class="icon-btn" title="Корзина" onclick="window.location.href='cart.html'">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M6 6h15l-1.5 9h-12z"/>
-      <path d="M6 6l-2-3"/>
-      <circle cx="9" cy="21" r="1.5"/>
-      <circle cx="18" cy="21" r="1.5"/>
-    </svg>
-    <span class="badge">0</span>
-  </button>
+      .brand__logo-img {
+        height: 32px;  /* подгони под высоту меню */
+        width: auto;
+        border-radius: 6px; /* закругление углов (по желанию) */
+      }
 
-  <!-- Потом три полоски (меню) -->
-  <button class="icon-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M3 6h18M3 12h18M3 18h18"/>
-    </svg>
-  </button>
-</div>
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* расстояние между кнопками */
+      }
 
-            <div class="dropdown-menu" id="menu" role="menu">
-              <a href="profile.html" data-i18n="menu.profile">Профиль</a>
-              <a href="cart.html" data-i18n="menu.cart">Корзина</a>
-              <a href="#" data-i18n="menu.settings">Настройки</a>
-              <a href="status.html" data-i18n="menu.status">Статус заказа</a>
-            </div>
-          </div>
+      .dropdown { 
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: #111;
+        color: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        flex-direction: column;
+        gap: 8px;
+        z-index: 100;
+      }
+
+      .dropdown[aria-expanded="true"] .dropdown-menu {
+        display: flex;
+      }
+    </style>
+
+    <!-- Кнопки справа -->
+    <div class="actions">
+      <!-- Языки -->
+      <div class="lang" aria-label="Language">
+        <button data-lang="ru" class="active">RU</button>
+        <button data-lang="ua">UA</button>
+        <button data-lang="en">EN</button>
+      </div>
+
+      <!-- Профиль -->
+      <button class="icon-btn" title="Профиль" onclick="openAuth()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="7" r="4"/>
+          <path d="M6 21a6 6 0 0 1 12 0"/>
+        </svg>
+      </button>
+
+      <!-- Корзина -->
+      <button class="icon-btn" title="Корзина" onclick="window.location.href='cart.html'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 6h15l-1.5 9h-12z"/>
+          <path d="M6 6l-2-3"/>
+          <circle cx="9" cy="21" r="1.5"/>
+          <circle cx="18" cy="21" r="1.5"/>
+        </svg>
+        <span class="badge">0</span>
+      </button>
+
+      <!-- Меню (три полоски) -->
+      <div class="dropdown" id="menuDropdown">
+        <button class="icon-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 6h18M3 12h18M3 18h18"/>
+          </svg>
+        </button>
+        <div class="dropdown-menu" id="menu" role="menu">
+          <a href="profile.html" data-i18n="menu.profile">Профиль</a>
+          <a href="cart.html" data-i18n="menu.cart">Корзина</a>
+          <a href="#" data-i18n="menu.settings">Настройки</a>
+          <a href="status.html" data-i18n="menu.status">Статус заказа</a>
         </div>
       </div>
-    </header>
+    </div>
+  </div>
+</header>
 
-    <main>
+<script>
+  // раскрытие меню
+  document.getElementById("menuBtn").addEventListener("click", function () {
+    const dropdown = document.getElementById("menuDropdown")
+    const expanded = this.getAttribute("aria-expanded") === "true"
+    this.setAttribute("aria-expanded", !expanded)
+    dropdown.setAttribute("aria-expanded", !expanded)
+  })
+</script>
       <!-- Hero -->
       <section class="section container hero">
         <h1 data-i18n="hero.title">Сервис будущего в Киеве</h1>
@@ -626,6 +670,7 @@ function registerUser() {
 
   </body>
 </html>
+
 
 
 
