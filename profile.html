@@ -30,11 +30,12 @@
       line-height:1.5;
     }
     a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
     .container{max-width:var(--container);margin:0 auto;padding:0 20px}
 
-    /* Header: same look as main page */
+    /* Header: consistent with main page */
     header{
-      position:sticky;top:0;z-index:80;background:var(--bg);
+      position:sticky;top:0;z-index:120;background:var(--bg);
       border-bottom:1px solid rgba(255,255,255,0.03);
       box-shadow:0 0 20px rgba(0,255,255,.04);
       backdrop-filter: blur(4px);
@@ -45,11 +46,11 @@
     .brand__logo img{width:100%;height:100%;object-fit:cover;display:block}
     .brand__text{font-size:18px;text-transform:uppercase}
     .actions{display:flex;align-items:center;gap:10px}
-    .icon-btn{position:relative;display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:var(--panel);border:1px solid #232323;cursor:pointer;transition:.18s}
+    .icon-btn{position:relative;display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:var(--panel);border:1px solid #232323;cursor:pointer;transition:.18s;overflow:visible}
     .icon-btn:hover{transform:translateY(-2px);box-shadow:0 0 18px rgba(0,255,255,.12)}
     .badge{position:absolute;top:-6px;right:-6px;background:var(--brand);color:#000;font-size:11px;font-weight:800;padding:2px 6px;border-radius:999px;border:2px solid var(--panel);box-shadow:0 0 10px var(--brand)}
     .dropdown{position:relative}
-    .dropdown-menu{display:none;position:absolute;right:0;top:48px;background:var(--panel);border:1px solid #232323;border-radius:10px;min-width:200px;overflow:hidden;box-shadow:var(--shadow)}
+    .dropdown-menu{display:none;position:absolute;right:0;top:48px;background:var(--panel);border:1px solid #232323;border-radius:10px;min-width:200px;overflow:hidden;box-shadow:var(--shadow);z-index:110}
     .dropdown.open .dropdown-menu{display:block}
     .dropdown-menu a{display:block;padding:12px 16px;color:var(--text);font-size:14px}
     .lang{display:flex;gap:8px;align-items:center}
@@ -57,18 +58,19 @@
     .lang button.active{background:#fff;color:#000;box-shadow:0 0 12px rgba(0,255,255,.18)}
     .lang button:focus{outline:2px solid rgba(0,255,255,.06);outline-offset:2px}
 
+    /* small avatar button in header */
+    .profile-btn{
+      width:40px;height:40px;border-radius:10px;padding:0;border:none;background:transparent;display:grid;place-items:center;cursor:pointer;border:1px solid rgba(255,255,255,0.03);overflow:hidden;
+    }
+    .profile-btn img{width:100%;height:100%;object-fit:cover;display:block;border-radius:8px}
+
     /* Profile layout */
     main{padding:40px 0}
     .profile-wrap{max-width:980px;margin:36px auto;padding:28px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.03);box-shadow:var(--shadow);display:grid;grid-template-columns:320px 1fr;gap:28px}
     @media (max-width:920px){ .profile-wrap{grid-template-columns:1fr} .profile-actions{justify-content:center} }
-    .left{
-      display:flex;flex-direction:column;align-items:center;gap:16px;padding:8px;
-    }
-    .avatar{
-      width:160px;height:160px;border-radius:18px;overflow:hidden;border:2px solid rgba(0,255,255,0.12);background:#111;display:flex;align-items:center;justify-content:center;
-      box-shadow:0 10px 30px rgba(0,0,0,.6);
-    }
-    .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+    .left{display:flex;flex-direction:column;align-items:center;gap:16px;padding:8px}
+    .avatar{width:160px;height:160px;border-radius:18px;overflow:hidden;border:2px solid rgba(0,255,255,0.12);background:#111;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+    .avatar img{width:100%;height:100%;object-fit:cover}
     .upload-btn{display:inline-block;padding:10px 14px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text);cursor:pointer}
     .upload-btn:hover{border-color:var(--brand);box-shadow:0 0 12px rgba(0,255,255,.06)}
     .username-large{font-size:20px;font-weight:800;margin-top:6px}
@@ -86,18 +88,32 @@
     .btn-outline{padding:9px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--text)}
     .danger{background:#2b2b2b;color:var(--muted)}
 
-    /* small responsive */
     @media (max-width:480px){
       .avatar{width:120px;height:120px}
       .profile-wrap{padding:18px}
     }
 
-    /* subtle neumorphism for inputs */
+    /* hidden file input */
     input[type="file"]{display:none}
+
+    /* Chat (same as main) */
+    .chat-btn{position:fixed;bottom:20px;right:20px;width:64px;height:64px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 0 26px var(--brand),0 0 38px rgba(0,255,255,.35);transition:.25s;z-index:120}
+    .chat-btn:hover{transform:scale(1.06)}
+    .chat-btn svg{stroke:#000}
+    .chat-window{position:fixed;bottom:96px;right:20px;width:320px;background:var(--panel);border:1px solid #232323;border-radius:16px;box-shadow:0 16px 48px rgba(0,0,0,.7);display:none;flex-direction:column;overflow:hidden;z-index:115;max-height:60vh}
+    .chat-header{background:linear-gradient(90deg,var(--brand),rgba(255,255,255,0.5));color:#000;font-weight:800;padding:10px;display:flex;justify-content:space-between;align-items:center}
+    .chat-close{background:none;border:none;font-size:18px;cursor:pointer}
+    .chat-messages{flex:1;padding:10px;max-height:260px;overflow-y:auto;color:var(--text);display:flex;flex-direction:column;gap:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+    .msg{margin:6px 0;padding:8px 12px;border-radius:10px;max-width:80%;word-break:break-word}
+    .msg.bot{background:#222;align-self:flex-start;color:var(--text)}
+    .msg.user{background:var(--brand);color:#000;align-self:flex-end;font-weight:700}
+    .chat-input{display:flex;border-top:1px solid #232323;padding:10px;gap:8px;background:linear-gradient(180deg, transparent, rgba(255,255,255,0.01))}
+    .chat-input input{flex:1;padding:10px;border:none;background:#111;color:var(--text);outline:none;border-radius:8px}
+    .chat-input button{background:var(--brand);border:none;padding:8px 12px;cursor:pointer;border-radius:8px}
   </style>
 </head>
 <body>
-  <!-- Header (same as main) -->
+  <!-- Header -->
   <header>
     <div class="container nav" role="banner">
       <a class="brand" href="index.html" aria-label="PADOBI PC — Home">
@@ -112,8 +128,11 @@
           <button type="button" data-lang="en" aria-pressed="false">EN</button>
         </div>
 
-        <button class="icon-btn" title="Profile" onclick="goProfile()" aria-label="Profile">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="7" r="4"/><path d="M6 21a6 6 0 0 1 12 0"/></svg>
+        <!-- small avatar/profile button (will be filled with user's avatar if present) -->
+        <button id="profileBtn" class="profile-btn" title="Profile">
+          <!-- fallback icon -->
+          <img id="smallAvatar" src="" alt="profile" style="display:none" />
+          <svg id="profileIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="7" r="4"/><path d="M6 21a6 6 0 0 1 12 0"/></svg>
         </button>
 
         <button class="icon-btn" title="Cart" onclick="window.location.href='cart.html'" aria-label="Cart">
@@ -173,7 +192,8 @@
 
           <div class="panel">
             <h3 data-i18n="profile.settings">Настройки аккаунта</h3>
-            <form id="profileForm" class="form-inline" onsubmit="saveProfile(event)">
+            <!-- removed inline onsubmit to avoid recursion bug -->
+            <form id="profileForm" class="form-inline">
               <input type="text" id="inputName" placeholder="" data-i18n-placeholder="profile.name_placeholder" />
               <input type="tel" id="inputPhone" placeholder="" data-i18n-placeholder="profile.phone_placeholder" />
               <button class="btn-primary" type="submit" data-i18n="profile.save">Сохранить</button>
@@ -185,7 +205,7 @@
             <h3 data-i18n="profile.support_title">Поддержка</h3>
             <div class="muted" data-i18n="profile.support_note">Если возникли вопросы — напишите нам через чат или email.</div>
             <div style="margin-top:12px;display:flex;gap:10px;" class="profile-actions">
-              <button class="btn-primary" onclick="openChat()" data-i18n="profile.open_chat">Открыть чат</button>
+              <!-- removed "Open chat" button; UI uses floating chat identical to main -->
               <a class="btn-outline" href="mailto:support@padobi.example" data-i18n="profile.email">support@padobi.example</a>
             </div>
           </div>
@@ -194,14 +214,30 @@
     </div>
   </main>
 
-  <!-- Simple chat anchor (keeps UI parity with main) -->
-  <div id="chatAnchor" style="display:none"></div>
+  <!-- Floating chat widget (exact same as main page) -->
+  <button class="chat-btn" id="chatToggle" aria-label="Открыть чат поддержки">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </button>
+
+  <div class="chat-window" id="chatWindow" role="dialog" aria-label="Чат поддержки" aria-hidden="true">
+    <div class="chat-header">
+      <span data-i18n="chat.support">Поддержка</span>
+      <button class="chat-close" id="chatClose" aria-label="Закрыть">×</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg bot" data-i18n="chat.greet">Здравствуйте! Чем можем помочь?</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" data-i18n-placeholder="chat.input" placeholder="Введите сообщение..." aria-label="Сообщение" />
+      <button id="chatSend" aria-label="Отправить">➤</button>
+    </div>
+  </div>
 
   <!-- Supabase SDK -->
   <script src="https://unpkg.com/@supabase/supabase-js"></script>
 
   <script>
-    // --- Translations (keys used on profile) ---
+    // -------- translations used on this page (profile + chat) --------
     const translations = {
       ru: {
         'site.brand':'PADOBI PC',
@@ -221,54 +257,26 @@
         'profile.name_placeholder':'Имя (например, Иван)',
         'profile.phone_placeholder':'Телефон (например, +380...)',
         'menu.profile':'Профиль','menu.cart':'Корзина','menu.settings':'Настройки','menu.status':'Статус заказа',
-        'chat.greet':'Здравствуйте! Чем можем помочь?',
-        'chat.thanks':'Спасибо! Мы скоро ответим.'
+        'chat.support':'Поддержка','chat.greet':'Здравствуйте! Чем можем помочь?','chat.input':'Введите сообщение...','chat.thanks':'Спасибо за сообщение! Мы скоро ответим.'
       },
       ua: {
-        'site.brand':'PADOBI PC',
-        'profile.title':'Профіль — PADOBI PC',
-        'profile.title_h':'Профіль',
-        'profile.upload':'Завантажити фото',
-        'profile.orders':'Замовлення',
-        'profile.since':'На сайті з',
-        'profile.phone':'Телефон',
-        'profile.settings':'Налаштування акаунту',
-        'profile.save':'Зберегти',
-        'profile.logout':'Вийти',
-        'profile.support_title':'Підтримка',
-        'profile.support_note':'Якщо є питання — напишіть нам через чат або email.',
-        'profile.open_chat':'Відкрити чат',
-        'profile.email':'support@padobi.example',
-        'profile.name_placeholder':'Ім’я (наприклад, Іван)',
-        'profile.phone_placeholder':'Телефон (наприклад, +380...)',
+        'site.brand':'PADOBI PC','profile.title':'Профіль — PADOBI PC','profile.title_h':'Профіль','profile.upload':'Завантажити фото',
+        'profile.orders':'Замовлення','profile.since':'На сайті з','profile.phone':'Телефон','profile.settings':'Налаштування акаунту',
+        'profile.save':'Зберегти','profile.logout':'Вийти','profile.support_title':'Підтримка','profile.support_note':'Якщо є питання — напишіть нам через чат або email.',
+        'profile.email':'support@padobi.example','profile.name_placeholder':'Ім’я (наприклад, Іван)','profile.phone_placeholder':'Телефон (наприклад, +380...)',
         'menu.profile':'Профіль','menu.cart':'Кошик','menu.settings':'Налаштування','menu.status':'Статус замовлення',
-        'chat.greet':'Вітаємо! Як можемо допомогти?',
-        'chat.thanks':'Дякуємо! Ми скоро відповімо.'
+        'chat.support':'Підтримка','chat.greet':'Вітаємо! Як можемо допомогти?','chat.input':'Введіть повідомлення...','chat.thanks':'Дякуємо за повідомлення! Ми скоро відповімо.'
       },
       en: {
-        'site.brand':'PADOBI PC',
-        'profile.title':'Profile — PADOBI PC',
-        'profile.title_h':'Profile',
-        'profile.upload':'Upload photo',
-        'profile.orders':'Orders',
-        'profile.since':'Member since',
-        'profile.phone':'Phone',
-        'profile.settings':'Account settings',
-        'profile.save':'Save',
-        'profile.logout':'Sign out',
-        'profile.support_title':'Support',
-        'profile.support_note':'If you have questions — contact us via chat or email.',
-        'profile.open_chat':'Open chat',
-        'profile.email':'support@padobi.example',
-        'profile.name_placeholder':'Name (e.g. John)',
-        'profile.phone_placeholder':'Phone (e.g. +380...)',
+        'site.brand':'PADOBI PC','profile.title':'Profile — PADOBI PC','profile.title_h':'Profile','profile.upload':'Upload photo',
+        'profile.orders':'Orders','profile.since':'Member since','profile.phone':'Phone','profile.settings':'Account settings',
+        'profile.save':'Save','profile.logout':'Sign out','profile.support_title':'Support','profile.support_note':'If you have questions — contact us via chat or email.',
+        'profile.email':'support@padobi.example','profile.name_placeholder':'Name (e.g. John)','profile.phone_placeholder':'Phone (e.g. +380...)',
         'menu.profile':'Profile','menu.cart':'Cart','menu.settings':'Settings','menu.status':'Order Status',
-        'chat.greet':'Hello! How can we help you?',
-        'chat.thanks':'Thanks! We will reply soon.'
+        'chat.support':'Support','chat.greet':'Hello! How can we help you?','chat.input':'Type a message...','chat.thanks':'Thank you! We will reply soon.'
       }
     };
 
-    // i18n runtime (keeps parity with main page)
     const available = Object.keys(translations);
     let currentLang = localStorage.getItem('padobi_lang') || (available.includes((navigator.language||'').slice(0,2)) ? (navigator.language||'').slice(0,2) : 'ru');
     if(!available.includes(currentLang)) currentLang = 'ru';
@@ -278,42 +286,280 @@
       if(!translations[code]) return;
       currentLang = code;
       localStorage.setItem('padobi_lang', code);
-      // text
       document.querySelectorAll('[data-i18n]').forEach(el=>{
         const key = el.getAttribute('data-i18n');
         if(key && translations[code][key] !== undefined) setText(el, translations[code][key]);
       });
-      // placeholders
       document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
         const key = el.getAttribute('data-i18n-placeholder');
         if(key && translations[code][key] !== undefined) el.setAttribute('placeholder', translations[code][key]);
       });
-      // title
       if(translations[code]['profile.title']) document.title = translations[code]['profile.title'];
       document.documentElement.setAttribute('lang', code);
-      // active state
       document.querySelectorAll('.lang button').forEach(btn=>{
         const b = btn.getAttribute('data-lang') || btn.textContent.toLowerCase();
         const active = b === code;
         btn.classList.toggle('active', active);
         btn.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
-      // update chat greet (if integrated)
-      const bot = document.querySelector('.msg.bot');
-      if(bot && translations[code]['chat.greet']) bot.textContent = translations[code]['chat.greet'];
+      // update chat greeting bot message
+      const firstBot = document.querySelector('.chat-messages .msg.bot');
+      if(firstBot && translations[code]['chat.greet']) firstBot.textContent = translations[code]['chat.greet'];
     }
 
+    // initialize language buttons early (in case)
     window.addEventListener('DOMContentLoaded', ()=> {
-      // bind language buttons reliably
       document.querySelectorAll('.lang button').forEach(btn=>{
-        // ensure data-lang attributes (in case)
         if(!btn.hasAttribute('data-lang')) btn.setAttribute('data-lang', btn.textContent.toLowerCase());
         btn.style.pointerEvents = 'auto';
         btn.addEventListener('click', ()=> setLang(btn.getAttribute('data-lang')));
       });
       setLang(currentLang);
+    });
 
-      // menu toggle
+    // -------- Supabase client (public anon key included intentionally as earlier) --------
+    const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";
+    const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
+
+    // ---------- UI initialization and handlers ----------
+    async function initProfileUI(){
+      const upload = document.getElementById('uploadAvatar');
+      const avatarEl = document.getElementById('avatar');
+      const smallAvatarImg = document.getElementById('smallAvatar');
+      const profileIcon = document.getElementById('profileIcon');
+      const profileBtn = document.getElementById('profileBtn');
+
+      // helper to set avatar in both places
+      function setAvatarFromUrl(url){
+        if(!url) return;
+        avatarEl.innerHTML = `<img alt="avatar" src="${url}">`;
+        smallAvatarImg.src = url;
+        smallAvatarImg.style.display = 'block';
+        profileIcon.style.display = 'none';
+      }
+
+      // upload handling: read file locally then upload to Supabase Storage and update metadata
+      upload.addEventListener('change', async (e)=>{
+        const file = e.target.files[0];
+        if(!file) return;
+        // show preview immediately
+        const reader = new FileReader();
+        reader.onload = ()=> {
+          avatarEl.innerHTML = `<img alt="avatar" src="${reader.result}">`;
+          // show temporary preview in header
+          smallAvatarImg.src = reader.result;
+          smallAvatarImg.style.display = 'block';
+          profileIcon.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+
+        // if supabase available, upload and persist
+        if(!supabase){
+          // no supabase: keep preview only
+          return;
+        }
+        try {
+          // get current user
+          const { data: { user }, error: userErr } = await supabase.auth.getUser();
+          if(userErr) throw userErr;
+          if(!user) {
+            alert('Сохранение аватара доступно только авторизованным пользователям.');
+            return;
+          }
+          // prepare path (use user id)
+          const fileExt = file.name.split('.').pop();
+          const filePath = `avatars/${user.id}/${Date.now()}.${fileExt}`;
+          // upload to storage (bucket 'avatars' must exist and be public or have a policy)
+          const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file, { upsert: true });
+          if(uploadError){
+            console.error('Upload error', uploadError);
+            alert('Ошибка загрузки аватара: ' + uploadError.message);
+            return;
+          }
+          // get public url
+          const { data: { publicUrl } } = await (async ()=>{
+            // supabase js v2 provides getPublicUrl under storage.from(bucket).getPublicUrl(path) returning { data: { publicUrl } }
+            try {
+              const res = supabase.storage.from('avatars').getPublicUrl(filePath);
+              return { data: { publicUrl: res.data.publicUrl } };
+            } catch(e) {
+              return { data: { publicUrl: '' } };
+            }
+          })();
+          if(!publicUrl){
+            // fallback: create signed URL for display (optional)
+            // try signed URL for 1 hour
+            try {
+              const { data: signed, error: signedErr } = await supabase.storage.from('avatars').createSignedUrl(filePath, 60 * 60);
+              if(signedErr) throw signedErr;
+              publicUrl = signed?.signedUrl || '';
+            } catch(e){
+              console.warn('Could not get public url', e);
+            }
+          }
+          // Update user metadata with avatar_url
+          const { error: updateErr } = await supabase.auth.updateUser({ data: { avatar_url: publicUrl } });
+          if(updateErr){
+            console.warn('Could not update user metadata', updateErr);
+          } else {
+            // ensure UI uses stored url
+            if(publicUrl) setAvatarFromUrl(publicUrl);
+          }
+        } catch(err){
+          console.error('avatar upload flow', err);
+        }
+      });
+
+      // Chat handlers (same behavior as main)
+      const chatToggle = document.getElementById('chatToggle');
+      const chatWindow = document.getElementById('chatWindow');
+      const chatClose = document.getElementById('chatClose');
+      const chatSend = document.getElementById('chatSend');
+      const chatInput = document.getElementById('chatInput');
+      const chatMessages = document.getElementById('chatMessages');
+
+      function appendUserMessage(text){
+        const userMsg = document.createElement('div');
+        userMsg.className = 'msg user';
+        userMsg.textContent = text;
+        chatMessages.appendChild(userMsg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      function appendBotMessage(text){
+        const botMsg = document.createElement('div');
+        botMsg.className = 'msg bot';
+        botMsg.textContent = text;
+        chatMessages.appendChild(botMsg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      chatToggle && chatToggle.addEventListener('click', ()=>{
+        const isOpen = chatWindow.style.display === 'flex';
+        if(isOpen){
+          chatWindow.style.display = 'none';
+          chatWindow.setAttribute('aria-hidden','true');
+        } else {
+          chatWindow.style.display = 'flex';
+          chatWindow.setAttribute('aria-hidden','false');
+          chatInput && chatInput.focus();
+        }
+      });
+      chatClose && chatClose.addEventListener('click', ()=>{
+        chatWindow.style.display = 'none';
+        chatWindow.setAttribute('aria-hidden','true');
+      });
+      if(chatSend){
+        chatSend.addEventListener('click', ()=>{
+          const text = (chatInput.value || '').trim();
+          if(!text) return;
+          appendUserMessage(text);
+          chatInput.value = '';
+          setTimeout(()=> appendBotMessage(translations[currentLang]['chat.thanks'] || 'Спасибо!'), 600);
+        });
+      }
+      chatInput && chatInput.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter'){ e.preventDefault(); chatSend && chatSend.click(); }
+      });
+
+      // Profile form submit: update metadata (name/phone) and display "Saved" once
+      const profileForm = document.getElementById('profileForm');
+      profileForm.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        const name = (document.getElementById('inputName').value || '').trim();
+        const phone = (document.getElementById('inputPhone').value || '').trim();
+
+        // optimistic UI update
+        if(name) document.getElementById('displayName').textContent = name;
+        if(phone) document.getElementById('phoneLine').textContent = phone;
+
+        // attempt to update via Supabase
+        if(!supabase){
+          alert('Сохранено (локально)');
+          return;
+        }
+        try {
+          const updates = {};
+          if(name) updates.full_name = name;
+          if(phone) updates.phone = phone;
+          if(Object.keys(updates).length){
+            const { error } = await supabase.auth.updateUser({ data: updates });
+            if(error) throw error;
+          }
+          // show single confirmation (not recursive)
+          alert('Сохранено');
+        } catch(err){
+          console.error('save profile', err);
+          alert('Ошибка при сохранении: ' + (err.message || err));
+        }
+      });
+
+      // profile button click -> go to profile (already here) or show small menu
+      profileBtn.addEventListener('click', async ()=>{
+        // prefer to open profile page (we're on it), or show quick menu
+        // show a tiny menu (simple): toggle dropdown
+        const dropdown = document.getElementById('menuDropdown');
+        if(dropdown) {
+          const open = dropdown.classList.toggle('open');
+          document.getElementById('menuBtn')?.setAttribute('aria-expanded', String(open));
+        }
+      });
+
+      // Load existing user data
+      async function loadProfile(){
+        if(!supabase) return;
+        try {
+          const { data: { user }, error } = await supabase.auth.getUser();
+          if(error) throw error;
+          if(user){
+            const name = user.user_metadata?.full_name || user.email || 'Гость';
+            document.getElementById('displayName').textContent = name;
+            document.getElementById('emailLine').textContent = user.email || '—';
+            document.getElementById('regDate').textContent = user.created_at ? new Date(user.created_at).toLocaleDateString() : '—';
+            document.getElementById('inputName').value = user.user_metadata?.full_name || '';
+            // try multiple phone metadata fields
+            const phoneVal = user.user_metadata?.phone || user.user_metadata?.phone_number || '';
+            document.getElementById('inputPhone').value = phoneVal;
+            document.getElementById('phoneLine').textContent = phoneVal || '—';
+            document.getElementById('ordersCount').textContent = '0'; // placeholder, integrate with DB if available
+
+            // avatar
+            const avatarUrl = user.user_metadata?.avatar_url;
+            if(avatarUrl){
+              // prefer public URL
+              document.getElementById('avatar').innerHTML = `<img alt="avatar" src="${avatarUrl}">`;
+              document.getElementById('smallAvatar').src = avatarUrl;
+              document.getElementById('smallAvatar').style.display = 'block';
+              document.getElementById('profileIcon').style.display = 'none';
+            }
+          }
+        } catch(err){
+          console.error('loadProfile error', err);
+        }
+      }
+      await loadProfile();
+    } // end initProfileUI
+
+    // Sign out helper
+    async function signOut(){
+      if(!supabase){
+        window.location.href = 'index.html';
+        return;
+      }
+      try{
+        await supabase.auth.signOut();
+        window.location.href = 'index.html';
+      }catch(err){
+        console.error('signOut', err);
+        window.location.href = 'index.html';
+      }
+    }
+
+    // When DOM ready, run init
+    window.addEventListener('DOMContentLoaded', ()=> {
+      initProfileUI().catch(e => console.error(e));
+
+      // menu toggle global
       (function(){
         const menuBtn = document.getElementById('menuBtn');
         const menuDropdown = document.getElementById('menuDropdown');
@@ -324,121 +570,33 @@
             menuBtn.setAttribute('aria-expanded', String(open));
             if(menu) menu.setAttribute('aria-hidden', String(!open));
           });
-          document.addEventListener('click', (e)=> {
+          document.addEventListener('click', (e)=>{
             if(!menuDropdown.contains(e.target) && menuDropdown.classList.contains('open')){
               menuDropdown.classList.remove('open');
-              menuBtn.setAttribute('aria-expanded','false');
+              menuBtn.setAttribute('aria-expanded', 'false');
               if(menu) menu.setAttribute('aria-hidden','true');
             }
           });
         }
       })();
 
-      // initialize UI and handlers
-      initProfileUI();
+      // close chat/menu on Escape
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+          const menuDropdown = document.getElementById('menuDropdown');
+          if(menuDropdown && menuDropdown.classList.contains('open')){
+            menuDropdown.classList.remove('open');
+            document.getElementById('menuBtn').setAttribute('aria-expanded','false');
+            document.getElementById('menu').setAttribute('aria-hidden','true');
+          }
+          const chatWindow = document.getElementById('chatWindow');
+          if(chatWindow && chatWindow.style.display === 'flex'){
+            chatWindow.style.display = 'none';
+            chatWindow.setAttribute('aria-hidden','true');
+          }
+        }
+      });
     });
-
-    // --- Supabase setup (public anon) ---
-    const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";
-    const supabase = window.supabase ? window.supabase.createClient(supabaseUrl, supabaseKey) : null;
-
-    async function initProfileUI(){
-      // avatar upload
-      const upload = document.getElementById('uploadAvatar');
-      upload.addEventListener('change', e=>{
-        const file = e.target.files[0];
-        if(!file) return;
-        const reader = new FileReader();
-        reader.onload = ()=> {
-          const avatar = document.getElementById('avatar');
-          // safe insertion as img src (data URL)
-          avatar.innerHTML = `<img alt="avatar" src="${reader.result}">`;
-        };
-        reader.readAsDataURL(file);
-        // TODO: upload to Supabase storage and set user's avatar URL
-      });
-
-      // open chat placeholder
-      window.openChat = function(){
-        alert(translations[currentLang]['chat.greet'] || 'Здравствуйте! Чем можем помочь?');
-      };
-
-      // sign out
-      window.signOut = async function(){
-        if(!supabase) { alert('Sign out not available'); return; }
-        await supabase.auth.signOut();
-        // redirect to home
-        window.location.href = 'index.html';
-      };
-
-      // save profile (updates display and can push to supabase)
-      document.getElementById('profileForm').addEventListener('submit', async (e)=>{
-        e.preventDefault();
-        const name = document.getElementById('inputName').value.trim();
-        const phone = document.getElementById('inputPhone').value.trim();
-        if(name) document.getElementById('displayName').textContent = name;
-        if(phone) document.getElementById('phoneLine').textContent = phone;
-        // attempt to update metadata in Supabase
-        if(supabase){
-          try{
-            const updates = {};
-            if(name) updates.full_name = name;
-            if(phone) updates.phone = phone;
-            if(Object.keys(updates).length){
-              await supabase.auth.updateUser({ data: updates });
-            }
-            alert('Saved');
-          }catch(err){
-            console.error(err);
-            alert('Save failed');
-          }
-        }else{
-          alert('Saved locally');
-        }
-      });
-
-      // Load user profile if available
-      async function loadProfile(){
-        if(!supabase) return;
-        try{
-          const { data: { user } } = await supabase.auth.getUser();
-          if(user){
-            const name = user.user_metadata?.full_name || user.email || 'Гость';
-            document.getElementById('displayName').textContent = name;
-            document.getElementById('emailLine').textContent = user.email || '—';
-            document.getElementById('regDate').textContent = user.created_at ? new Date(user.created_at).toLocaleDateString() : '—';
-            document.getElementById('inputName').value = user.user_metadata?.full_name || '';
-            document.getElementById('inputPhone').value = user.user_metadata?.phone || user.user_metadata?.phone_number || '';
-            document.getElementById('phoneLine').textContent = document.getElementById('inputPhone').value || '—';
-            // orders count could be fetched from your DB; placeholder 0
-            document.getElementById('ordersCount').textContent = '0';
-          }
-        }catch(err){
-          console.error('loadProfile', err);
-        }
-      }
-      loadProfile();
-    }
-
-    // Save profile helper (used by form submit)
-    async function saveProfile(e){
-      // kept for backwards compatibility with inline onsubmit
-      e.preventDefault();
-      document.getElementById('profileForm').dispatchEvent(new Event('submit', {cancelable:true}));
-    }
-
-    // goProfile (header button)
-    async function goProfile(){
-      // if logged in, stay; else redirect to login or open modal (not included)
-      if(supabase){
-        const { data: { session } } = await supabase.auth.getSession();
-        if(session) window.location.href = 'profile.html';
-        else window.location.href = 'index.html';
-      } else {
-        window.location.href = 'index.html';
-      }
-    }
   </script>
 </body>
 </html>
