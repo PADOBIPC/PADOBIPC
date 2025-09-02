@@ -174,12 +174,13 @@
       </div>
 
       <!-- Профиль -->
-      <button class="icon-btn" title="Профиль" onclick="openAuth()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="7" r="4"/>
-          <path d="M6 21a6 6 0 0 1 12 0"/>
-        </svg>
-      </button>
+      <button class="icon-btn" title="Профиль" onclick="goProfile()">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2">
+    <circle cx="12" cy="7" r="4"/>
+    <path d="M6 21a6 6 0 0 1 12 0"/>
+  </svg>
+</button>
 
       <!-- Корзина -->
       <button class="icon-btn" title="Корзина" onclick="window.location.href='cart.html'">
@@ -431,8 +432,7 @@
     <footer>
       <div class="container">© <span id="year"></span> PADOBI PC — сервис будущего</div>
     </footer>
-
-    <!-- Chat -->
+    
    <!-- Chat -->
 <div class="chat-btn" onclick="toggleChat()" aria-label="Открыть чат поддержки">
   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -636,8 +636,7 @@ function sendMessage() {
 <!-- Кнопка Профиль -->
 <button onclick="goProfile()">Профиль</button>
 
-<!-- Модальное окно входа -->
-<div class="modal" id="loginModal">
+<div class="modal" id="loginModal" style="display:none">
   <div class="modal-content">
     <h2>Вход</h2>
     <input type="email" id="loginEmail" placeholder="Email" />
@@ -650,7 +649,7 @@ function sendMessage() {
 </div>
 
 <!-- Модальное окно регистрации -->
-<div class="modal" id="registerModal">
+<div class="modal" id="registerModal" style="display:none">
   <div class="modal-content">
     <h2>Регистрация</h2>
     <input type="text" id="regUsername" placeholder="Имя пользователя" />
@@ -664,72 +663,51 @@ function sendMessage() {
 </div>
 
 <style>
-.modal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-.modal-content {
-  background: #111;
-  color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.modal-content input {
-  padding: 8px;
-  border: 1px solid #333;
-  border-radius: 6px;
-  background: #222;
-  color: #fff;
-}
-.modal-content button {
-  padding: 8px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: #444;
-  color: #fff;
-}
-.modal-content button:hover {
-  background: #666;
-}
-.modal-content a {
-  color: #4da3ff;
-  cursor: pointer;
-}
+  .modal {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none; align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .modal-content {
+    background: #111; color: #fff; padding: 20px; border-radius: 12px;
+    width: 300px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .modal-content input {
+    padding: 8px; border: 1px solid #333; border-radius: 6px;
+    background: #222; color: #fff;
+  }
+  .modal-content button {
+    padding: 8px; border: none; border-radius: 6px; cursor: pointer;
+    background: #6b46c1; /* фиолетовый */
+    color: #fff; transition: transform .1s ease, filter .2s ease;
+  }
+  .modal-content button:hover { filter: brightness(1.1); }
+  .modal-content button:active { transform: translateY(1px); }
+  .modal-content .close { background: #444; }
+  .modal-content a { color: #8b5cf6; }
 </style>
 
-<!-- Подключаем supabase SDK -->
+<!-- Подключаем Supabase SDK (оставь только ОДНО это подключение на странице) -->
 <script src="https://unpkg.com/@supabase/supabase-js"></script>
 
 <script>
-  // === Настройка Supabase ===
-  const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  
-  const supabaseKey = "ТВОЙ_anon_ключ";   
+  // === Настройка Supabase (замени ключ, если поменяешь в проекте) ===
+  const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";
   const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-  // === Модалки ===
-  function openLogin() { document.getElementById("loginModal").style.display = "flex"; }
-  function closeLogin() { document.getElementById("loginModal").style.display = "none"; }
-  function openRegister() { document.getElementById("registerModal").style.display = "flex"; }
-  function closeRegister() { document.getElementById("registerModal").style.display = "none"; }
+  // === Утилиты модалок ===
+  function openLogin(){ document.getElementById("loginModal").style.display="flex"; }
+  function closeLogin(){ document.getElementById("loginModal").style.display="none"; }
+  function openRegister(){ document.getElementById("registerModal").style.display="flex"; }
+  function closeRegister(){ document.getElementById("registerModal").style.display="none"; }
+  function switchToRegister(){ closeLogin(); openRegister(); }
+  function switchToLogin(){ closeRegister(); openLogin(); }
 
-  function switchToRegister() { closeLogin(); openRegister(); }
-  function switchToLogin() { closeRegister(); openLogin(); }
-
-  // === Переход в профиль ===
+  // === Кнопка Профиль ===
   async function goProfile() {
     const { data: { session } } = await supabase.auth.getSession();
-
     if (session) {
       window.location.href = "profile.html";
     } else {
@@ -749,12 +727,16 @@ function sendMessage() {
       return;
     }
 
-    const { data, error } = await supabase.auth.signUp({
+    // валидации
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailOk) { alert("Введите корректный email"); return; }
+    if (!/^\+?\d{10,15}$/.test(phone)) { alert("Некорректный телефон"); return; }
+    if (password.length < 6) { alert("Минимум 6 символов в пароле"); return; }
+
+    const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: { username, phone_number: phone }
-      }
+      options: { data: { username, phone_number: phone } }
     });
 
     if (error) {
@@ -762,17 +744,16 @@ function sendMessage() {
     } else {
       alert("Регистрация успешна! Подтвердите email.");
       closeRegister();
-      window.location.href = "profile.html";
+      // Можно не редиректить, пока не подтвердит почту
+      // window.location.href = "profile.html";
     }
   }
 
-  // === Вход ===
+  // === Вход по email/паролю ===
   async function loginUser() {
     const email = document.getElementById("loginEmail").value.trim();
     const password = document.getElementById("loginPassword").value.trim();
-
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
       alert("Ошибка входа: " + error.message);
     } else {
@@ -783,12 +764,13 @@ function sendMessage() {
 
   // === Вход через Google ===
   async function loginWithGoogle() {
-    const { data, error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+    const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
     if (error) alert("Ошибка Google входа: " + error.message);
   }
 </script>
   </body>
 </html>
+
 
 
 
