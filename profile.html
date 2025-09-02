@@ -1,90 +1,151 @@
-<div class="profile-container">
-  <div class="avatar" id="avatar">
-    <div class="avatar-placeholder">👤</div>
-  </div>
-  <input type="file" id="uploadAvatar" class="hidden" accept="image/*" onchange="previewAvatar(event)" />
-  <button class="btn" onclick="document.getElementById('uploadAvatar').click()">Загрузить фото</button>
-
-  <h2>Ваше имя: <span id="user-name">Гость</span></h2>
-  <button class="btn" id="editNameBtn" onclick="toggleNameEdit()" style="display:none;">Изменить имя</button>
-
-  <div id="nameEdit" class="hidden">
-    <input type="text" id="newName" placeholder="Введите новое имя">
-    <button class="btn" onclick="saveName()">Сохранить</button>
-  </div>
-
-  <p class="muted" id="email">Email: —</p>
-  <p class="muted" id="registered">Зарегистрирован: —</p>
-
-  <!-- новая кнопка входа/регистрации -->
-  <button class="btn" id="authBtn" onclick="openAuth()">Войти / Зарегистрироваться</button>
-
-  <div class="lang">
-    <button onclick="setLang('ru')" id="btn-ru" class="active">RU</button>
-    <button onclick="setLang('en')" id="btn-en">EN</button>
-  </div>
-</div>
-
-<!-- AUTH MODAL -->
-<div class="modal" id="authModal">
-  <div class="modal-content">
-    <h2>Вход / Регистрация</h2>
-    <input type="email" id="emailInput" placeholder="Email" />
-    <input type="password" id="passwordInput" placeholder="Пароль" />
-    <button class="btn" onclick="loginUser()">Войти</button>
-    <button class="btn" onclick="registerUser()">Зарегистрироваться</button>
-    <button class="btn" onclick="closeAuth()">Закрыть</button>
-  </div>
-</div>
-
-<script>
-  const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
-  const supabaseKey = "YOUR_KEY_HERE";
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-  async function loadProfile() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      document.getElementById("user-name").textContent = "Гость";
-      document.getElementById("email").textContent = "Email: —";
-      document.getElementById("registered").textContent = "Зарегистрирован: —";
-      document.getElementById("editNameBtn").style.display = "none";
-      return;
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Профиль — PADOBI PC</title>
+  <style>
+    :root {
+      --bg:#000;
+      --panel:#0b0b0b;
+      --card:#0f0f0f;
+      --muted:#a9a9a9;
+      --text:#fff;
+      --brand:#0ff;
+      --accent:#fff;
+      --radius:20px;
+      --shadow:0 16px 48px rgba(0,0,0,.8);
     }
-    document.getElementById("user-name").textContent = user.user_metadata.username || "Без имени";
-    document.getElementById("email").textContent = "Email: " + user.email;
-    document.getElementById("registered").textContent = "Зарегистрирован: " + new Date(user.created_at).toLocaleDateString();
-    document.getElementById("editNameBtn").style.display = "inline-block";
-    document.getElementById("authBtn").style.display = "none"; // если вошёл — кнопку входа скрываем
-  }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      background:var(--bg); color:var(--text); line-height:1.6;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:960px; margin:0 auto; padding:0 20px}
 
-  function openAuth() {
-    document.getElementById("authModal").style.display = "flex";
-  }
+    /* Header */
+    header{position:sticky; top:0; z-index:50; background:var(--bg);
+      border-bottom:1px solid #1c1c1c;
+      box-shadow:0 0 20px rgba(0,255,255,.06)}
+    .nav{display:flex; align-items:center; justify-content:space-between; height:72px}
+    .brand{display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:.6px; cursor:pointer}
+    .brand__logo{width:42px; height:42px;
+      background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="%230ff" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-4 4-7 8-7s8 3 8 7"/></svg>') center/cover no-repeat;
+      filter:drop-shadow(0 0 10px var(--brand))}
+    .brand__text{font-size:20px; text-transform:uppercase}
+    .actions{display:flex; align-items:center; gap:10px}
+    .icon-btn{display:grid; place-items:center; width:42px; height:42px; border-radius:10px;
+      background:var(--panel); border:1px solid #232323; cursor:pointer; transition:.2s}
+    .icon-btn:hover{background:#141414; box-shadow:0 0 12px rgba(0,255,255,.25)}
+    .lang{display:flex; gap:8px; margin-left:8px}
+    .lang button{height:32px; padding:0 10px; border-radius:8px;
+      border:1px solid #232323; background:#0d0d0d; color:#ddd;
+      cursor:pointer; transition:.2s; font-weight:700; letter-spacing:.4px}
+    .lang button.active{background:#fff; color:#000; box-shadow:0 0 10px var(--brand)}
+    .lang button:hover{background:#161616}
 
-  function closeAuth() {
-    document.getElementById("authModal").style.display = "none";
-  }
+    /* Profile */
+    .profile{padding:60px 0; text-align:center}
+    .avatar{
+      width:120px; height:120px; border-radius:50%;
+      border:2px solid var(--brand); margin:0 auto 20px;
+      display:flex; align-items:center; justify-content:center;
+      background:#111; overflow:hidden;
+      box-shadow:0 0 20px rgba(0,255,255,.2)
+    }
+    .avatar img{width:100%; height:100%; object-fit:cover}
+    .avatar svg{width:60px; height:60px; fill:var(--muted)}
+    .username{font-size:22px; font-weight:700; margin:10px 0}
+    .muted{color:var(--muted); font-size:14px}
+    .btn{margin-top:14px; padding:10px 18px; border-radius:10px;
+      border:none; background:var(--brand); color:#000; font-weight:900;
+      cursor:pointer; transition:.25s; box-shadow:0 0 16px rgba(0,255,255,.55)}
+    .btn:hover{background:#fff; box-shadow:0 0 22px var(--brand)}
+    .btn-outline{background:transparent; border:1px solid var(--brand); color:var(--brand)}
+    .btn-outline:hover{background:#0d0d0d}
 
-  async function loginUser() {
-    const email = document.getElementById("emailInput").value;
-    const password = document.getElementById("passwordInput").value;
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) { alert("Ошибка: " + error.message); return; }
-    closeAuth();
-    location.reload();
-  }
+    /* Hidden edit form */
+    #editNameForm{display:none; margin-top:15px}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="nav container">
+      <div class="brand" onclick="location.href='index.html'">
+        <div class="brand__logo"></div>
+        <div class="brand__text">PADOBI PC</div>
+      </div>
+      <div class="actions">
+        <button class="icon-btn" title="Корзина">🛒</button>
+        <button class="icon-btn" title="Меню">☰</button>
+        <div class="lang">
+          <button class="active">RU</button>
+          <button>EN</button>
+          <button>UA</button>
+        </div>
+      </div>
+    </div>
+  </header>
 
-  async function registerUser() {
-    const email = document.getElementById("emailInput").value;
-    const password = document.getElementById("passwordInput").value;
-    const { error } = await supabase.auth.signUp({ email, password });
-    if (error) { alert("Ошибка: " + error.message); return; }
-    alert("Проверьте почту для подтверждения");
-    closeAuth();
-  }
+  <!-- Profile section -->
+  <section class="profile container">
+    <div class="avatar" id="avatar">
+      <!-- По умолчанию иконка -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-4 4-7 8-7s8 3 8 7"/></svg>
+    </div>
+    <input type="file" id="uploadAvatar" style="display:none" accept="image/*" />
+    <button class="btn btn-outline" onclick="document.getElementById('uploadAvatar').click()">Загрузить фото</button>
 
-  // остальные функции (toggleNameEdit, saveName, previewAvatar, setLang) оставляем без изменений
+    <div class="username" id="username">Ваше имя: <span id="displayName">Гость</span></div>
+    <button class="btn btn-outline" onclick="document.getElementById('editNameForm').style.display='block'">Изменить имя</button>
 
-  loadProfile();
-</script>
+    <form id="editNameForm" onsubmit="saveName(event)">
+      <input type="text" id="newName" placeholder="Введите новое имя" style="padding:8px; border-radius:8px; border:1px solid #333; background:#111; color:#fff">
+      <button class="btn" type="submit">Сохранить</button>
+    </form>
+
+    <p class="muted">Дата регистрации: <span id="regDate">—</span></p>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabase = window.supabase.createClient(
+      "https://rjqeqffegmejiyakhxza.supabase.co",
+      "public-anon-key"
+    );
+
+    async function loadProfile() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        document.getElementById("displayName").textContent = user.user_metadata.full_name || user.email;
+        document.getElementById("regDate").textContent = new Date(user.created_at).toLocaleDateString();
+      }
+    }
+
+    function saveName(e) {
+      e.preventDefault();
+      const newName = document.getElementById("newName").value;
+      document.getElementById("displayName").textContent = newName;
+      document.getElementById("editNameForm").style.display = "none";
+      // тут можно добавить supabase updateProfile
+    }
+
+    document.getElementById("uploadAvatar").addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          document.getElementById("avatar").innerHTML = `<img src="${reader.result}" alt="avatar">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    loadProfile();
+  </script>
+</body>
+</html>
