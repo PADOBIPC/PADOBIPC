@@ -2,41 +2,146 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Профиль - PADOBI PC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Профиль | PADOBI PC</title>
   <style>
-    body { background: #111; color: #fff; font-family: Arial, sans-serif; padding: 20px; }
-    .profile-card {
-      background: #222; padding: 20px; border-radius: 12px; max-width: 400px;
+    body {
+      margin: 0;
+      font-family: "Orbitron", sans-serif;
+      background: #0a0a0f;
+      color: #e0e0ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
-    button { padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; margin-top: 10px; }
-    button:hover { background: #333; }
+    .profile-card {
+      background: rgba(20, 20, 40, 0.95);
+      border: 1px solid #2a2a50;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      width: 400px;
+      box-shadow: 0 0 25px rgba(0, 150, 255, 0.4);
+    }
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #0090ff;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+    h2 {
+      margin: 10px 0;
+      font-size: 1.6em;
+      color: #00c8ff;
+    }
+    p {
+      margin: 8px 0;
+      color: #b0b0d0;
+    }
+    input {
+      margin: 10px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      background: #151525;
+      color: #fff;
+    }
+    button {
+      margin: 8px 0;
+      padding: 10px;
+      width: 100%;
+      background: #00c8ff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #0080ff;
+    }
   </style>
 </head>
 <body>
-  <h1>Ваш профиль</h1>
-  <div class="profile-card" id="profileInfo">Загрузка...</div>
-  <button onclick="logout()">Выйти</button>
+  <div class="profile-card">
+    <img id="avatar" class="avatar" src="https://via.placeholder.com/120" alt="Аватар">
+    <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
+    <button onclick="document.getElementById('avatarInput').click()">Загрузить фото</button>
+
+    <h2 id="username">Загрузка...</h2>
+    <input type="text" id="newName" placeholder="Новое имя">
+    <button onclick="updateName()">Изменить имя</button>
+
+    <p id="email"></p>
+    <p id="phone"></p>
+    <p id="created"></p>
+
+    <button onclick="logout()">Выйти</button>
+  </div>
 
   <script src="https://unpkg.com/@supabase/supabase-js"></script>
   <script>
-    const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";  
+    const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
+    // Загружаем данные профиля
     document.addEventListener("DOMContentLoaded", async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
         window.location.href = "index.html";
-      } else {
-        const user = session.user;
-        document.getElementById("profileInfo").innerHTML = `
-          <p><b>Email:</b> ${user.email}</p>
-          <p><b>Имя:</b> ${user.user_metadata?.username || "—"}</p>
-          <p><b>Телефон:</b> ${user.user_metadata?.phone_number || "—"}</p>
-        `;
+        return;
       }
+
+      document.getElementById("username").textContent = user.user_metadata.username || "Без имени";
+      document.getElementById("email").textContent = "📧 " + user.email;
+      document.getElementById("phone").textContent = user.user_metadata.phone_number ? "📱 " + user.user_metadata.phone_number : "";
+      document.getElementById("created").textContent = "🕒 Дата регистрации: " + new Date(user.created_at).toLocaleDateString();
     });
 
+    // Изменение имени
+    async function updateName() {
+      const newName = document.getElementById("newName").value.trim();
+      if (!newName) return alert("Введите имя");
+
+      const { error } = await supabase.auth.updateUser({
+        data: { username: newName }
+      });
+
+      if (error) {
+        alert("Ошибка: " + error.message);
+      } else {
+        document.getElementById("username").textContent = newName;
+        alert("Имя обновлено!");
+      }
+    }
+
+    // Загрузка аватарки
+    document.getElementById("avatarInput").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const { data: { user } } = await supabase.auth.getUser();
+      const filePath = `avatars/${user.id}.png`;
+
+      const { error: uploadError } = await supabase.storage.from("avatars").upload(filePath, file, { upsert: true });
+
+      if (uploadError) {
+        alert("Ошибка загрузки: " + uploadError.message);
+        return;
+      }
+
+      const { data } = supabase.storage.from("avatars").getPublicUrl(filePath);
+      document.getElementById("avatar").src = data.publicUrl;
+
+      await supabase.auth.updateUser({ data: { avatar_url: data.publicUrl } });
+    });
+
+    // Выход
     async function logout() {
       await supabase.auth.signOut();
       window.location.href = "index.html";
