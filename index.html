@@ -689,9 +689,9 @@ function sendMessage() {
 <script src="https://unpkg.com/@supabase/supabase-js"></script>
 <script>
   // === Настройка Supabase ===
-  const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  // ⚡ сюда вставь URL проекта
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";                       // ⚡ сюда вставь anon ключ
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  // ⚡ сюда твой URL
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqcWVxZmZlZ21laml5YWtoeHphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY4MTA2MzcsImV4cCI6MjA3MjM4NjYzN30.KuXUp9tCXmnlCMv3go89E8O_oHOvurErUkcst8UUEGc";   // ⚡ сюда твой anon ключ
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
   // === Открыть/закрыть модалку ===
   function openAuth() {
@@ -709,97 +709,31 @@ function sendMessage() {
     const phone = document.getElementById("phone").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    // Проверки
     if (!username || !email || !phone || !password) {
       alert("Заполните все поля!");
       return;
     }
 
-    // Email проверка
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      alert("Введите корректный email (например, user@gmail.com)");
-      return;
-    }
-
-    // Телефон проверка
-    const phoneRegex = /^\+?\d{10,15}$/; // принимает +380..., 380..., 098...
-    if (!phoneRegex.test(phone)) {
-      alert("Введите корректный номер телефона");
-      return;
-    }
-
-    // Пароль проверка
-    if (password.length < 6) {
-      alert("Пароль должен быть не менее 6 символов");
-      return;
-    }
-
-    // === Создание пользователя в Supabase ===
+    // === Регистрация в auth ===
     const { data, error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
+      email,
+      password,
       options: {
-        data: {
-          username: username,
-          phone_number: phone
-        }
+        data: { username, phone_number: phone }
       }
     });
 
     if (error) {
+      console.error(error);
       alert("Ошибка: " + error.message);
     } else {
-      alert("Регистрация успешна! Подтвердите email, чтобы войти.");
+      alert("Регистрация успешна! Подтвердите email.");
       closeAuth();
     }
   }
 </script>
-<!-- Подключаем supabase SDK -->
-<script src="https://unpkg.com/@supabase/supabase-js"></script>
-
-<!-- Подключаем наши скрипты -->
-
-<script>
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-async function registerUser() {
-  const username = document.getElementById("username").value.trim()
-  const email = document.getElementById("email").value.trim()
-  const password = document.getElementById("password").value.trim()
-  const phone_number = document.getElementById("phone_number").value.trim()
-
-  if (!username || !email || !password) {
-    alert("Заполните все обязательные поля!")
-    return
-  }
-
-  if (!email.includes("@") || !email.includes(".")) {
-    alert("Введите корректный email!")
-    return
-  }
-
-  if (password.length < 6) {
-    alert("Пароль должен быть не менее 6 символов")
-    return
-  }
-
-  // Сохраняем в базу Supabase
-  const { data, error } = await supabase
-    .from("users")
-    .insert([{ username, email, password, phone_number }])
-
-  if (error) {
-    console.error(error)
-    alert("Ошибка: " + error.message)
-  } else {
-    alert("Регистрация успешна!")
-    closeAuth()
-    window.location.href = "profile.html"
-  }
-}
-</script>
   </body>
 </html>
+
 
 
