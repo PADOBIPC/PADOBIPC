@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PADOBI PC — сервис будущего</title>
+    <meta name="description" content="PADOBI PC — сервисный центр: бесплатный курьер по Киеву, мастер на дом, гейм-зона для клиентов, сборка и апгрейд ПК." />
+    <style>
+      :root{
+        --bg:#000;          /* основа */
+        --panel:#0b0b0b;    /* панели */
+        --card:#0f0f0f;     /* карточки */
+        --muted:#a9a9a9;    /* вторичный текст */
+        --text:#fff;        /* основной текст */
+        --brand:#0ff;       /* неоновый акцент */
+        --accent:#fff;      /* белые акценты */
+        --radius:20px;
+        --shadow:0 16px 48px rgba(0,0,0,.8);
+      }
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{
+        margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+        background:var(--bg); color:var(--text); line-height:1.6;
+      }
+      a{color:inherit; text-decoration:none}
+      .container{max-width:1200px; margin:0 auto; padding:0 20px}
+      /* Header */
+      header{position:sticky; top:0; z-index:50; background:var(--bg); border-bottom:1px solid #1c1c1c; box-shadow:0 0 20px rgba(0,255,255,.06)}
+      .nav{display:flex; align-items:center; justify-content:space-between; height:72px}
+      .brand{display:flex; align-items:center; gap:12px; font-weight:900; letter-spacing:.6px}
+      .brand__logo{width:42px; height:42px; background:url('668811e6-8eb7-4f0c-85a5-6d9ac869eb16.png') center/cover no-repeat; filter:drop-shadow(0 0 10px var(--brand))}
+      .brand__text{font-size:20px; text-transform:uppercase}
+      .actions{display:flex; align-items:center; gap:10px}
+      .icon-btn{position:relative; display:grid; place-items:center; width:42px; height:42px; border-radius:10px; background:var(--panel); border:1px solid #232323; cursor:pointer; transition:.2s}
+      .icon-btn:hover{background:#141414; box-shadow:0 0 12px rgba(0,255,255,.25)}
+      .badge{position:absolute; top:-6px; right:-6px; background:var(--brand); color:#000; font-size:11px; font-weight:800; padding:2px 6px; border-radius:999px; border:2px solid var(--panel); box-shadow:0 0 10px var(--brand)}
+      .dropdown{position:relative}
+      .dropdown-menu{display:none; position:absolute; right:0; top:48px; background:var(--panel); border:1px solid #232323; border-radius:10px; min-width:180px; overflow:hidden; box-shadow:var(--shadow)}
+      .dropdown-menu a{display:block; padding:12px 16px; color:var(--text); font-size:14px}
+      .dropdown-menu a:hover{background:#141414; color:var(--brand)}
+      .dropdown.open .dropdown-menu{display:block}
+      /* Lang switch */
+      .lang{display:flex; gap:8px; margin-left:8px}
+      .lang button{height:32px; padding:0 10px; border-radius:8px; border:1px solid #232323; background:#0d0d0d; color:#ddd; cursor:pointer; transition:.2s; font-weight:700; letter-spacing:.4px}
+      .lang button.active{background:#fff; color:#000; box-shadow:0 0 10px var(--brand)}
+      .lang button:hover{background:#161616}
+
+      /* Sections */
+      .section{padding:60px 0}
+      .section h2{font-size:28px; text-align:center; margin-bottom:16px; text-transform:uppercase; letter-spacing:1px}
+      .section p.lead{color:var(--muted); text-align:center; max-width:760px; margin:0 auto 28px}
+
+      /* Hero */
+      .hero{padding:80px 0 40px}
+      .hero h1{font-size:34px; text-align:center; margin:0 0 12px; text-transform:none}
+      .hero .sub{color:var(--muted); text-align:center; max-width:840px; margin:0 auto}
+
+      /* Cards */
+      .grid{display:grid; gap:28px; grid-template-columns:repeat(3,1fr)}
+      @media (max-width:960px){ .grid{grid-template-columns:1fr 1fr} }
+      @media (max-width:680px){ .grid{grid-template-columns:1fr} }
+      .card{position:relative; overflow:hidden; border-radius:var(--radius); background-size:cover; background-position:center; height:320px; display:flex; flex-direction:column; justify-content:center; align-items:center; border:1px solid #1f1f1f; box-shadow:var(--shadow); transition:all .35s ease}
+      .card::after{content:""; position:absolute; inset:0; background:rgba(0,0,0,.55); transition:.3s}
+      .card h3{margin:10px 0; font-size:20px; background:rgba(0,0,0,.6); padding:6px 12px; border-radius:8px; z-index:2; text-transform:uppercase; letter-spacing:.8px}
+      .btn{display:inline-block; margin-top:14px; padding:12px 20px; border-radius:10px; border:none; background:var(--brand); color:#000; font-weight:900; cursor:pointer; transition:.25s; z-index:2; box-shadow:0 0 16px rgba(0,255,255,.55); text-transform:uppercase; letter-spacing:.8px}
+      .btn:hover{background:#fff; box-shadow:0 0 22px var(--brand)}
+      .card:hover{transform:translateY(-8px); box-shadow:0 0 24px rgba(0,255,255,.28)}
+      .card:hover::after{background:rgba(0,0,0,.35)}
+
+      /* Features */
+      .features{margin-top:50px}
+      .features-grid{display:grid; gap:20px; grid-template-columns:repeat(3,1fr)}
+      @media (max-width:960px){ .features-grid{grid-template-columns:1fr} }
+      .feature{background:var(--panel); padding:28px; border-radius:var(--radius); border:1px solid #202020; box-shadow:var(--shadow); transition:.3s}
+      .feature:hover{box-shadow:0 0 20px rgba(0,255,255,.25)}
+      .feature h3{text-transform:uppercase; margin:0 0 8px; font-size:16px; letter-spacing:.6px}
+      .feature p{color:#cfcfcf; margin:0}
+
+      /* Services centered */
+      .services h2{text-align:center}
+      .services-grid{display:grid; gap:16px; grid-template-columns:repeat(3,1fr); margin-top:16px}
+      @media (max-width:960px){ .services-grid{grid-template-columns:1fr} }
+      .service{background:var(--panel); padding:22px; border-radius:16px; border:1px solid #202020; display:flex; gap:12px; align-items:flex-start}
+      .service svg{flex:0 0 24px}
+      .service .price{margin-left:auto; color:#eaeaea; font-weight:800}
+      .services-note{text-align:center; color:var(--muted); margin-top:10px}
+
+      /* About / Reviews / FAQ */
+      .about p{color:#d6d6d6; max-width:800px; margin:0 auto}
+      .reviews-grid{display:grid; gap:20px; grid-template-columns:repeat(3,1fr)}
+      @media (max-width:960px){ .reviews-grid{grid-template-columns:1fr} }
+      .review{background:var(--panel); padding:22px; border-radius:16px; border:1px solid #202020}
+      .review .stars{color:#ffd166; letter-spacing:2px; font-size:16px; margin-bottom:6px}
+      .faq-grid{max-width:900px; margin:0 auto; display:grid; gap:12px}
+      .faq-item{background:var(--panel); padding:18px 20px; border-radius:14px; border:1px solid #202020}
+      .faq-item summary{cursor:pointer; font-weight:800}
+      .faq-item p{color:#d6d6d6; margin:8px 0 0}
+
+      /* Footer */
+      footer{background:#0a0a0a; border-top:1px solid #1c1c1c; margin-top:60px; position:relative}
+      footer::before{content:""; position:absolute; top:0; left:50%; transform:translateX(-50%); width:120px; height:3px; background:linear-gradient(90deg,var(--brand),#fff); border-radius:10px; box-shadow:0 0 15px var(--brand)}
+      footer .container{padding:26px 0; text-align:center; color:var(--muted)}
+
+      /* Chat */
+      .chat-btn{position:fixed; bottom:20px; right:20px; width:64px; height:64px; border-radius:50%; background:var(--brand); display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 0 22px var(--brand),0 0 38px rgba(0,255,255,.35); transition:.3s}
+      .chat-btn:hover{transform:scale(1.08)}
+      .chat-btn svg{stroke:#000}
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container nav">
+        <a class="brand" href="#">
+          <span class="brand__logo"></span>
+          <span class="brand__text">PADOBI PC</span>
+        </a>
+        <div class="actions">
+          <div class="lang" aria-label="Language">
+            <button data-lang="ru" class="active">RU</button>
+            <button data-lang="ua">UA</button>
+            <button data-lang="en">EN</button>
+          </div>
+          <button class="icon-btn" title="Профиль" onclick="window.location.href='profile.html'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M6 21a6 6 0 0 1 12 0"/></svg>
+          </button>
+          <button class="icon-btn" title="Корзина" onclick="window.location.href='cart.html'">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6l-2-3"/><circle cx="9" cy="21" r="1.5"/><circle cx="18" cy="21" r="1.5"/></svg>
+            <span class="badge">0</span>
+          </button>
+          <div class="dropdown">
+            <button class="icon-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </button>
+            <div class="dropdown-menu" id="menu" role="menu">
+              <a href="#" data-i18n="menu.lang">Язык</a>
+              <a href="profile.html" data-i18n="menu.profile">Профиль</a>
+              <a href="cart.html" data-i18n="menu.cart">Корзина</a>
+              <a href="#" data-i18n="menu.settings">Настройки</a>
+              <a href="status.html" data-i18n="menu.status">Статус заказа</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="section container hero">
+        <h1 data-i18n="hero.title">Сервис будущего в Киеве</h1>
+        <p class="sub" data-i18n="hero.tag">Твой ПК в надёжных руках — курьер, мастер на дом, гейм-зона и фирменный стиль.</p>
+      </section>
+
+      <!-- Primary actions -->
+      <section class="section container">
+        <div class="grid">
+          <div class="card" style="background-image:url('https://images.unsplash.com/photo-1610465299990-9aebfdc3c9b6?auto=format&fit=crop&w=1200&q=80')">
+            <h3 data-i18n="cards.configurator">Конфигуратор</h3>
+            <button class="btn" data-i18n="cta.build">Собрать</button>
+          </div>
+          <div class="card" style="background-image:url('https://images.unsplash.com/photo-1587202372775-98904f9185da?auto=format&fit=crop&w=1200&q=80')">
+            <h3 data-i18n="cards.ready">Готовые сборки</h3>
+            <button class="btn" data-i18n="cta.view">Смотреть</button>
+          </div>
+          <div class="card" style="background-image:url('https://images.unsplash.com/photo-1606813903179-1ef07d9a39fd?auto=format&fit=crop&w=1200&q=80')">
+            <h3 data-i18n="cards.upgrade">Апгрейд</h3>
+            <button class="btn" data-i18n="cta.start">Начать</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Why us -->
+      <section class="section container features">
+        <h2 data-i18n="why.title">Почему выбирают нас</h2>
+        <p class="lead" data-i18n="why.lead">Бесплатный курьер по Киеву, мастер на дом и гейм‑зона для клиентов. Минимализм, честность и киберпанк‑атмосфера.</p>
+        <div class="features-grid">
+          <div class="feature">
+            <h3 data-i18n="why.courier.title">Бесплатный курьер</h3>
+            <p data-i18n="why.courier.text">Заберём ваш ПК, привезём обратно. Удобно и безопасно.</p>
+          </div>
+          <div class="feature">
+            <h3 data-i18n="why.game.title">Гейм‑зона</h3>
+            <p data-i18n="why.game.text">Пока идёт быстрый ремонт — сыграйте на консолях и топовых ПК.</p>
+          </div>
+          <div class="feature">
+            <h3 data-i18n="why.honest.title">Честный сервис</h3>
+            <p data-i18n="why.honest.text">Прозрачные цены, диагностика и гарантия до 12 месяцев.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services (centered) -->
+      <section class="section container services">
+        <h2 data-i18n="services.title">Наши услуги</h2>
+        <div class="services-grid">
+          <div class="service">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18"/><path d="M6 7v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7"/><path d="M10 11h4"/></svg>
+            <div>
+              <div data-i18n="srv.clean">Чистка</div>
+              <small class="muted" data-i18n="srv.clean.desc">Пыль, профилактика, акустика</small>
+            </div>
+            <div class="price">500 ₴</div>
+          </div>
+          <div class="service">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M5 7h14"/><path d="M5 17h14"/></svg>
+            <div>
+              <div data-i18n="srv.paste">Замена термопасты</div>
+              <small class="muted" data-i18n="srv.paste.desc">CPU / GPU, правильная посадка</small>
+            </div>
+            <div class="price">200 ₴</div>
+          </div>
+          <div class="service">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v7H6z"/><path d="M6 14h12v7H6z"/></svg>
+            <div>
+              <div data-i18n="srv.parts">Замена железа</div>
+              <small class="muted" data-i18n="srv.parts.desc">RAM / SSD / GPU / PSU</small>
+            </div>
+            <div class="price">200–500 ₴</div>
+          </div>
+          <div class="service">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+            <div>
+              <div data-i18n="srv.diag">Диагностика</div>
+              <small class="muted" data-i18n="srv.diag.desc">Тесты, отчёт, рекомендации</small>
+            </div>
+            <div class="price">200 ₴</div>
+          </div>
+          <div class="service">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7l-4 4 4 4"/><path d="M15 7l4 4-4 4"/></svg>
+            <div>
+              <div data-i18n="srv.bios">Прошивка BIOS</div>
+              <small class="muted" data-i18n="srv.bios.desc">Обновление, восстановление</small>
+            </div>
+            <div class="price">400 ₴</div>
+          </div>
+          <div class="service">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+            <div>
+              <div data-i18n="srv.winpack">Windows + драйвера + софт</div>
+              <small class="muted" data-i18n="srv.winpack.desc">Оптимизация, готов к работе</small>
+            </div>
+            <div class="price">500 ₴</div>
+          </div>
+          <div class="service">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10"/></svg>
+            <div>
+              <div data-i18n="srv.win">Windows</div>
+              <small class="muted" data-i18n="srv.win.desc">Установка и настройка</small>
+            </div>
+            <div class="price">200 ₴</div>
+          </div>
+          <div class="service">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v4"/><path d="M12 19v4"/><path d="M4.22 4.22l2.83 2.83"/><path d="M16.95 16.95l2.83 2.83"/><path d="M1 12h4"/><path d="M19 12h4"/><path d="M4.22 19.78l2.83-2.83"/><path d="M16.95 7.05l2.83-2.83"/></svg>
+            <div>
+              <div data-i18n="srv.virus">Чистка вирусов</div>
+              <small class="muted" data-i18n="srv.virus.desc">Удаление, защита, контроль</small>
+            </div>
+            <div class="price">200–500 ₴</div>
+          </div>
+        </div>
+        <div class="services-note" data-i18n="services.note">Цены указаны за работу. Запчасти по согласованию.</div>
+      </section>
+
+      <!-- About -->
+      <section class="section container about">
+        <h2 data-i18n="about.title">О нас</h2>
+        <p data-i18n="about.text">PADOBI PC — сервисный центр с характером: чёрно‑белый минимализм, редкие неоновые акценты и уважение к времени клиента. Мы собираем ПК под задачи, апгрейдим по Trade‑In, настраиваем софт и берём ответственность за результат.</p>
+      </section>
+
+      <!-- Reviews -->
+      <section class="section container">
+        <h2 data-i18n="reviews.title">Отзывы клиентов</h2>
+        <div class="reviews-grid">
+          <div class="review">
+            <div class="stars">★★★★★</div>
+            <p data-i18n="reviews.r1">«Забрали ПК курьером, через день вернули тихим и быстрым. В гейм‑зоне время пролетело незаметно.»</p>
+          </div>
+          <div class="review">
+            <div class="stars">★★★★★</div>
+            <p data-i18n="reviews.r2">«Прозрачные цены и нормальный диалог. Апгрейд и винда — без воды и лишних наворотов.»</p>
+          </div>
+          <div class="review">
+            <div class="stars">★★★★★</div>
+            <p data-i18n="reviews.r3">«Сервис как в будущем: стиль, порядок и уважение к клиенту. Рекомендую.»</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="section container">
+        <h2 data-i18n="faq.title">FAQ</h2>
+        <div class="faq-grid">
+          <details class="faq-item">
+            <summary data-i18n="faq.q1">Сколько занимает ремонт?</summary>
+            <p data-i18n="faq.a1">В среднем 1–2 дня. Точные сроки зависят от задачи и наличия деталей.</p>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="faq.q2">Есть ли гарантия?</summary>
+            <p data-i18n="faq.a2">Да. На все работы — до 12 месяцев. Условия фиксируем в заказ‑наряде.</p>
+          </details>
+          <details class="faq-item">
+            <summary data-i18n="faq.q3">Можно ли вызвать мастера домой?</summary>
+            <p data-i18n="faq.a3">Да. Приедет мастер или курьер — как удобнее. По Киеву — бесплатно.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">© <span id="year"></span> PADOBI PC — сервис будущего</div>
+    </footer>
+
+    <!-- Chat -->
+    <div class="chat-btn" onclick="alert('Чат с поддержкой появится позже')" aria-label="Открыть чат поддержки">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+
+    <script>
+      // Year
+      document.getElementById('year').textContent = new Date().getFullYear()
+
+      // Dropdown
+      const menuBtn = document.getElementById('menuBtn')
+      const menu = document.getElementById('menu')
+      menuBtn.addEventListener('click', ()=>{
+        const p = menu.parentElement
+        p.classList.toggle('open')
+        menuBtn.setAttribute('aria-expanded', p.classList.contains('open'))
+      })
+
+      // i18n
+      const translations = {
+        ru: {
+          'menu.lang':'Язык','menu.profile':'Профиль','menu.cart':'Корзина','menu.settings':'Настройки','menu.status':'Статус заказа',
+          'hero.title':'Сервис будущего в Киеве','hero.tag':'Твой ПК в надёжных руках — курьер, мастер на дом, гейм-зона и фирменный стиль.',
+          'cards.configurator':'Конфигуратор','cards.ready':'Готовые сборки','cards.upgrade':'Апгрейд','cta.build':'Собрать','cta.view':'Смотреть','cta.start':'Начать',
+          'why.title':'Почему выбирают нас','why.lead':'Бесплатный курьер по Киеву, мастер на дом и гейм‑зона для клиентов. Минимализм, честность и киберпанк‑атмосфера.',
+          'why.courier.title':'Бесплатный курьер','why.courier.text':'Заберём ваш ПК, привезём обратно. Удобно и безопасно.',
+          'why.game.title':'Гейм‑зона','why.game.text':'Пока идёт быстрый ремонт — сыграйте на консолях и топовых ПК.',
+          'why.honest.title':'Честный сервис','why.honest.text':'Прозрачные цены, диагностика и гарантия до 12 месяцев.',
+          'services.title':'Наши услуги','srv.clean':'Чистка','srv.clean.desc':'Пыль, профилактика, акустика','srv.paste':'Замена термопасты','srv.paste.desc':'CPU / GPU, правильная посадка','srv.parts':'Замена железа','srv.parts.desc':'RAM / SSD / GPU / PSU','srv.diag':'Диагностика','srv.diag.desc':'Тесты, отчёт, рекомендации','srv.bios':'Прошивка BIOS','srv.bios.desc':'Обновление, восстановление','srv.winpack':'Windows + драйвера + софт','srv.winpack.desc':'Оптимизация, готов к работе','srv.win':'Windows','srv.win.desc':'Установка и настройка','srv.virus':'Чистка вирусов','srv.virus.desc':'Удаление, защита, контроль','services.note':'Цены указаны за работу. Запчасти по согласованию.',
+          'about.title':'О нас','about.text':'PADOBI PC — сервисный центр с характером: чёрно‑белый минимализм, редкие неоновые акценты и уважение к времени клиента. Мы собираем ПК под задачи, апгрейдим по Trade‑In, настраиваем софт и берём ответственность за результат.',
+          'reviews.title':'Отзывы клиентов','reviews.r1':'«Забрали ПК курьером, через день вернули тихим и быстрым. В гейм‑зоне время пролетело незаметно.»','reviews.r2':'«Прозрачные цены и нормальный диалог. Апгрейд и винда — без воды и лишних наворотов.»','reviews.r3':'«Сервис как в будущем: стиль, порядок и уважение к клиенту. Рекомендую.»',
+          'faq.title':'FAQ','faq.q1':'Сколько занимает ремонт?','faq.a1':'В среднем 1–2 дня. Точные сроки зависят от задачи и наличия деталей.','faq.q2':'Есть ли гарантия?','faq.a2':'Да. На все работы — до 12 месяцев. Условия фиксируем в заказ‑наряде.','faq.q3':'Можно ли вызвать мастера домой?','faq.a3':'Да. Приедет мастер или курьер — как удобнее. По Киеву — бесплатно.'
+        },
+        ua: {
+          'menu.lang':'Мова','menu.profile':'Профіль','menu.cart':'Кошик','menu.settings':'Налаштування','menu.status':'Статус замовлення',
+          'hero.title':'Сервіс майбутнього в Києві','hero.tag':'Твій ПК у надійних руках — кур’єр, майстер додому, гейм-зона та фірмовий стиль.',
+          'cards.configurator':'Конфігуратор','cards.ready':'Готові збірки','cards.upgrade':'Апгрейд','cta.build':'Зібрати','cta.view':'Дивитись','cta.start':'Почати',
+          'why.title':'Чому обирають нас','why.lead':'Безкоштовний кур’єр по Києву, майстер додому та гейм-зона для клієнтів. Мінімалізм, чесність і кіберпанк-атмосфера.',
+          'why.courier.title':'Безкоштовний кур’єр','why.courier.text':'Заберемо ваш ПК і повернемо назад. Зручно та безпечно.',
+          'why.game.title':'Гейм-зона','why.game.text':'Поки триває швидкий ремонт — зіграйте на консолях і топових ПК.',
+          'why.honest.title':'Чесний сервіс','why.honest.text':'Прозорі ціни, діагностика і гарантія до 12 місяців.',
+          'services.title':'Наші послуги','srv.clean':'Чистка','srv.clean.desc':'Пил, профілактика, акустика','srv.paste':'Заміна термопасти','srv.paste.desc':'CPU / GPU, правильна посадка','srv.parts':'Заміна заліза','srv.parts.desc':'RAM / SSD / GPU / PSU','srv.diag':'Діагностика','srv.diag.desc':'Тести, звіт, рекомендації','srv.bios':'Прошивка BIOS','srv.bios.desc':'Оновлення, відновлення','srv.winpack':'Windows + драйвери + софт','srv.winpack.desc':'Оптимізація, готовий до роботи','srv.win':'Windows','srv.win.desc':'Встановлення і налаштування','srv.virus':'Чистка вірусів','srv.virus.desc':'Видалення, захист, контроль','services.note':'Ціни вказані за роботу. Запчастини за погодженням.',
+          'about.title':'Про нас','about.text':'PADOBI PC — сервісний центр з характером: чорно-білий мінімалізм, неонові акценти та повага до часу клієнта. Збираємо ПК під задачі, апгрейд по Trade-In, налаштовуємо софт і відповідаємо за результат.',
+          'reviews.title':'Відгуки клієнтів','reviews.r1':'«Забрали ПК кур’єром, за день повернули тихим і швидким. У гейм-зоні час пролетів непомітно.»','reviews.r2':'«Прозорі ціни і нормальний діалог. Апгрейд і вінда — без води.»','reviews.r3':'«Сервіс як у майбутньому: стиль і повага до клієнта. Рекомендую.»',
+          'faq.title':'FAQ','faq.q1':'Скільки триває ремонт?','faq.a1':'В середньому 1–2 дні. Залежить від задачі та наявності деталей.','faq.q2':'Чи є гарантія?','faq.a2':'Так. На всі роботи — до 12 місяців. Умови фіксуємо в замовленні.','faq.q3':'Чи можна викликати майстра додому?','faq.a3':'Так. Приїде майстер або кур’єр — як зручніше. По Києву — безкоштовно.'
+        },
+        en: {
+          'menu.lang':'Language','menu.profile':'Profile','menu.cart':'Cart','menu.settings':'Settings','menu.status':'Order Status',
+          'hero.title':'Future‑proof PC Service in Kyiv','hero.tag':'Your PC in safe hands — courier, home service, game zone and signature style.',
+          'cards.configurator':'Configurator','cards.ready':'Prebuilt PCs','cards.upgrade':'Upgrade','cta.build':'Build','cta.view':'Browse','cta.start':'Start',
+          'why.title':'Why choose us','why.lead':'Free courier in Kyiv, on‑site technician and a client‑only game zone. Minimalism, honesty and cyberpunk vibes.',
+          'why.courier.title':'Free courier','why.courier.text':'We pick up and return your PC. Convenient and safe.',
+          'why.game.title':'Game zone','why.game.text':'While we do quick fixes — enjoy consoles or high‑end PCs.',
+          'why.honest.title':'Honest service','why.honest.text':'Transparent pricing, diagnostics and up to 12‑month warranty.',
+          'services.title':'Our services','srv.clean':'Cleaning','srv.clean.desc':'Dust, prevention, acoustics','srv.paste':'Thermal paste','srv.paste.desc':'CPU / GPU, proper mount','srv.parts':'Hardware replacement','srv.parts.desc':'RAM / SSD / GPU / PSU','srv.diag':'Diagnostics','srv.diag.desc':'Stress tests, report, advice','srv.bios':'BIOS flashing','srv.bios.desc':'Update, recovery','srv.winpack':'Windows + drivers + apps','srv.winpack.desc':'Optimized, ready to work','srv.win':'Windows','srv.win.desc':'Install & setup','srv.virus':'Virus cleanup','srv.virus.desc':'Removal, protection, control','services.note':'Labour only. Parts by agreement.',
+          'about.title':'About us','about.text':'PADOBI PC blends monochrome minimalism with rare neon accents and respect for your time. We build, upgrade via Trade‑In, configure software and own the result.',
+          'reviews.title':'Reviews','reviews.r1':'“Courier pickup, next‑day return — quiet and fast. Game zone made the wait fly.”','reviews.r2':'“Transparent pricing and straight talk. Upgrade + Windows done right.”','reviews.r3':'“Feels like the future: style, order and respect. Recommend.”',
+          'faq.title':'FAQ','faq.q1':'How long does repair take?','faq.a1':'Usually 1–2 days depending on task and parts availability.','faq.q2':'Is there a warranty?','faq.a2':'Yes, up to 12 months on labour. Details in the work order.','faq.q3':'Can a tech come to my place?','faq.a3':'Yes. Technician or courier — your choice. Free in Kyiv.'
+        }
+      }
+
+      const setLang = (code) => {
+        const dict = translations[code]
+        if(!dict) return
+        document.querySelectorAll('[data-i18n]').forEach(el=>{
+          const key = el.getAttribute('data-i18n')
+          if(dict[key] !== undefined) el.textContent = dict[key]
+        })
+        document.querySelectorAll('.lang button').forEach(b=>b.classList.remove('active'))
+        const btn = document.querySelector(`.lang button[data-lang="${code}"]`)
+        if(btn) btn.classList.add('active')
+      }
+
+      document.querySelectorAll('.lang button').forEach(btn=>{
+        btn.addEventListener('click', ()=> setLang(btn.getAttribute('data-lang')))
+      })
+
+      // init
+      setLang('ru')
+    </script>
+  </body>
+</html>
