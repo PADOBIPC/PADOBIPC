@@ -685,8 +685,9 @@ function sendMessage() {
 }
 </style>
 
-<!-- Подключаем supabase SDK -->
+<!-- Подключаем supabase SDK (всегда первой строкой среди JS) -->
 <script src="https://unpkg.com/@supabase/supabase-js"></script>
+
 <script>
   // === Настройка Supabase ===
   const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";  // ⚡ сюда твой URL
@@ -714,7 +715,6 @@ function sendMessage() {
       return;
     }
 
-    // === Регистрация в auth ===
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -734,6 +734,7 @@ function sendMessage() {
 </script>
   </body>
 </html>
+
 
 
 
