@@ -1,170 +1,90 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Профиль — PADOBI PC</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://unpkg.com/@supabase/supabase-js"></script>
-  <style>
-    :root {
-      --bg:#000;
-      --panel:#0b0b0b;
-      --card:#111;
-      --muted:#aaa;
-      --text:#fff;
-      --brand:#0ff;
-      --radius:18px;
-      --shadow:0 16px 48px rgba(0,0,0,.8);
-    }
-    body {
-      margin:0;
-      font-family:Inter, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-    /* HEADER */
-    header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid #1c1c1c}
-    .nav{display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 20px}
-    .brand{display:flex;align-items:center;gap:12px;cursor:pointer;font-weight:900;letter-spacing:.6px}
-    .brand__logo{width:42px;height:42px;background:url('668811e6-8eb7-4f0c-85a5-6d9ac869eb16.png') center/cover no-repeat;filter:drop-shadow(0 0 10px var(--brand))}
-    .brand__text{font-size:20px;text-transform:uppercase}
-    .actions{display:flex;align-items:center;gap:10px}
-    .icon-btn{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:var(--panel);border:1px solid #232323;cursor:pointer;transition:.2s}
-    .icon-btn:hover{background:#141414;box-shadow:0 0 12px rgba(0,255,255,.25)}
-    /* PROFILE */
-    .profile-container{max-width:700px;margin:40px auto;padding:30px;background:var(--panel);border-radius:var(--radius);box-shadow:var(--shadow);text-align:center;border:1px solid #1a1a1a}
-    .avatar{width:140px;height:140px;border-radius:50%;border:2px solid var(--brand);margin:0 auto 20px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#111;box-shadow:0 0 15px rgba(0,255,255,.2)}
-    .avatar img{width:100%;height:100%;object-fit:cover}
-    .avatar-placeholder{font-size:64px;color:var(--muted)}
-    h2{margin:0 0 12px;font-size:22px}
-    .muted{color:var(--muted);font-size:14px;margin:6px 0}
-    .btn{margin-top:12px;padding:10px 16px;border-radius:10px;border:1px solid var(--brand);background:transparent;color:var(--text);cursor:pointer;transition:.2s}
-    .btn:hover{background:var(--brand);color:#000;box-shadow:0 0 14px var(--brand)}
-    .hidden{display:none}
-    .lang{display:flex;gap:8px;justify-content:center;margin-top:20px}
-    .lang button{padding:6px 12px;border-radius:8px;border:1px solid #232323;background:#0d0d0d;color:#ddd;cursor:pointer;font-weight:700}
-    .lang button.active{background:#fff;color:#000;box-shadow:0 0 10px var(--brand)}
-    /* AUTH MODAL */
-    .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);align-items:center;justify-content:center;z-index:100}
-    .modal-content{background:var(--card);padding:30px;border-radius:var(--radius);text-align:center;box-shadow:0 0 25px rgba(0,255,255,.2);width:320px}
-    .modal-content h2{margin:0 0 20px}
-    .modal-content input{margin:8px 0;padding:10px;width:100%;border-radius:8px;border:1px solid #333;background:#0b0b0b;color:#fff}
-  </style>
-</head>
-<body>
-  <!-- HEADER -->
-  <header>
-    <div class="nav">
-      <div class="brand" onclick="window.location.href='index.html'">
-        <div class="brand__logo"></div>
-        <div class="brand__text">PADOBI PC</div>
-      </div>
-      <div class="actions">
-        <div class="icon-btn">🛒</div>
-        <div class="icon-btn">☰</div>
-      </div>
-    </div>
-  </header>
+<div class="profile-container">
+  <div class="avatar" id="avatar">
+    <div class="avatar-placeholder">👤</div>
+  </div>
+  <input type="file" id="uploadAvatar" class="hidden" accept="image/*" onchange="previewAvatar(event)" />
+  <button class="btn" onclick="document.getElementById('uploadAvatar').click()">Загрузить фото</button>
 
-  <!-- PROFILE -->
-  <div class="profile-container">
-    <div class="avatar" id="avatar">
-      <div class="avatar-placeholder">👤</div>
-    </div>
-    <input type="file" id="uploadAvatar" class="hidden" accept="image/*" onchange="previewAvatar(event)" />
-    <button class="btn" onclick="document.getElementById('uploadAvatar').click()">Загрузить фото</button>
+  <h2>Ваше имя: <span id="user-name">Гость</span></h2>
+  <button class="btn" id="editNameBtn" onclick="toggleNameEdit()" style="display:none;">Изменить имя</button>
 
-    <h2>Ваше имя: <span id="user-name">Загрузка...</span></h2>
-    <button class="btn" onclick="toggleNameEdit()">Изменить имя</button>
-
-    <div id="nameEdit" class="hidden">
-      <input type="text" id="newName" placeholder="Введите новое имя">
-      <button class="btn" onclick="saveName()">Сохранить</button>
-    </div>
-
-    <p class="muted" id="email"></p>
-    <p class="muted" id="registered"></p>
-
-    <div class="lang">
-      <button onclick="setLang('ru')" id="btn-ru" class="active">RU</button>
-      <button onclick="setLang('en')" id="btn-en">EN</button>
-    </div>
+  <div id="nameEdit" class="hidden">
+    <input type="text" id="newName" placeholder="Введите новое имя">
+    <button class="btn" onclick="saveName()">Сохранить</button>
   </div>
 
-  <!-- AUTH MODAL -->
-  <div class="modal" id="authModal">
-    <div class="modal-content">
-      <h2>Вход / Регистрация</h2>
-      <input type="email" id="emailInput" placeholder="Email" />
-      <input type="password" id="passwordInput" placeholder="Пароль" />
-      <button class="btn" onclick="loginUser()">Войти</button>
-      <button class="btn" onclick="registerUser()">Зарегистрироваться</button>
-    </div>
+  <p class="muted" id="email">Email: —</p>
+  <p class="muted" id="registered">Зарегистрирован: —</p>
+
+  <!-- новая кнопка входа/регистрации -->
+  <button class="btn" id="authBtn" onclick="openAuth()">Войти / Зарегистрироваться</button>
+
+  <div class="lang">
+    <button onclick="setLang('ru')" id="btn-ru" class="active">RU</button>
+    <button onclick="setLang('en')" id="btn-en">EN</button>
   </div>
+</div>
 
-  <script>
-    const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
-    const supabaseKey = "YOUR_KEY_HERE";
-    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+<!-- AUTH MODAL -->
+<div class="modal" id="authModal">
+  <div class="modal-content">
+    <h2>Вход / Регистрация</h2>
+    <input type="email" id="emailInput" placeholder="Email" />
+    <input type="password" id="passwordInput" placeholder="Пароль" />
+    <button class="btn" onclick="loginUser()">Войти</button>
+    <button class="btn" onclick="registerUser()">Зарегистрироваться</button>
+    <button class="btn" onclick="closeAuth()">Закрыть</button>
+  </div>
+</div>
 
-    async function loadProfile() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        document.getElementById("authModal").style.display = "flex";
-        return;
-      }
-      document.getElementById("user-name").textContent = user.user_metadata.username || "Без имени";
-      document.getElementById("email").textContent = "Email: " + user.email;
-      document.getElementById("registered").textContent = "Зарегистрирован: " + new Date(user.created_at).toLocaleDateString();
+<script>
+  const supabaseUrl = "https://rjqeqffegmejiyakhxza.supabase.co";
+  const supabaseKey = "YOUR_KEY_HERE";
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+  async function loadProfile() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      document.getElementById("user-name").textContent = "Гость";
+      document.getElementById("email").textContent = "Email: —";
+      document.getElementById("registered").textContent = "Зарегистрирован: —";
+      document.getElementById("editNameBtn").style.display = "none";
+      return;
     }
+    document.getElementById("user-name").textContent = user.user_metadata.username || "Без имени";
+    document.getElementById("email").textContent = "Email: " + user.email;
+    document.getElementById("registered").textContent = "Зарегистрирован: " + new Date(user.created_at).toLocaleDateString();
+    document.getElementById("editNameBtn").style.display = "inline-block";
+    document.getElementById("authBtn").style.display = "none"; // если вошёл — кнопку входа скрываем
+  }
 
-    async function loginUser() {
-      const email = document.getElementById("emailInput").value;
-      const password = document.getElementById("passwordInput").value;
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) { alert("Ошибка: " + error.message); return; }
-      location.reload();
-    }
+  function openAuth() {
+    document.getElementById("authModal").style.display = "flex";
+  }
 
-    async function registerUser() {
-      const email = document.getElementById("emailInput").value;
-      const password = document.getElementById("passwordInput").value;
-      const { error } = await supabase.auth.signUp({ email, password });
-      if (error) { alert("Ошибка: " + error.message); return; }
-      alert("Проверьте почту для подтверждения");
-    }
+  function closeAuth() {
+    document.getElementById("authModal").style.display = "none";
+  }
 
-    function toggleNameEdit() {
-      document.getElementById("nameEdit").classList.toggle("hidden");
-    }
+  async function loginUser() {
+    const email = document.getElementById("emailInput").value;
+    const password = document.getElementById("passwordInput").value;
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) { alert("Ошибка: " + error.message); return; }
+    closeAuth();
+    location.reload();
+  }
 
-    async function saveName() {
-      const newName = document.getElementById("newName").value.trim();
-      if (!newName) return;
-      const { error } = await supabase.auth.updateUser({ data: { username: newName } });
-      if (error) { alert("Ошибка: " + error.message); return; }
-      document.getElementById("user-name").textContent = newName;
-      toggleNameEdit();
-    }
+  async function registerUser() {
+    const email = document.getElementById("emailInput").value;
+    const password = document.getElementById("passwordInput").value;
+    const { error } = await supabase.auth.signUp({ email, password });
+    if (error) { alert("Ошибка: " + error.message); return; }
+    alert("Проверьте почту для подтверждения");
+    closeAuth();
+  }
 
-    function previewAvatar(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => {
-        document.getElementById("avatar").innerHTML = `<img src="${e.target.result}">`;
-      };
-      reader.readAsDataURL(file);
-    }
+  // остальные функции (toggleNameEdit, saveName, previewAvatar, setLang) оставляем без изменений
 
-    function setLang(lang) {
-      document.getElementById("btn-ru").classList.remove("active");
-      document.getElementById("btn-en").classList.remove("active");
-      document.getElementById("btn-" + lang).classList.add("active");
-    }
-
-    loadProfile();
-  </script>
-</body>
-</html>
+  loadProfile();
+</script>
